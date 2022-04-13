@@ -1,0 +1,287 @@
+\title{Pilha}
+
+% \lecture{Pilha}{stack}
+
+\frame{\maketitle}
+
+\begin{frame}{\inserttitle}{Definição}
+  
+  A \alert{pilha} é uma estrutura de dados onde o último elemento
+  inserido é o primeiro elemento a ser removido (LIFO--{\it last in first
+    out}). \bigskip
+
+  Uma analogia seria uma pilha de pratos, onde os pratos são inseridos e
+  removidos a partir do topo da pilha.
+
+\end{frame}
+
+\begin{frame}{\inserttitle}{Operações}
+
+  \begin{tikzpicture}[every text node part/.style={align=left},
+    stack/.style={
+      rectangle split, 
+      rectangle split parts = 5, 
+      draw,
+      text width=.5cm,
+      rectangle split horizontal=false,
+      rectangle split part align=base
+    },
+    myarrow/.style={single arrow,
+      draw,
+      right = 3pt,
+      minimum size = 5ex}
+    ]
+    \small
+
+    \node<1-6> [stack] (stack0)  {%
+      \nodepart{five} $25$
+    };
+    \node<1> [above of=stack0,yshift=.25cm] {\tt push(25)};
+    \node<1> [right of=stack0,yshift=-.75cm] {$\leftarrow$ \tt topo};
+
+    \node<2-6> [stack] (stack1) [right of=stack0,xshift=.75cm]  {%
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<2> [above of=stack1,yshift=.25cm] {\tt push(14)};
+    \node<2> [right of=stack1,yshift=-.35cm] {$\leftarrow$ \tt topo};
+
+    \node<3-6> [stack] (stack2) [right of=stack1,xshift=.75cm]  {%
+      \nodepart{three} $53$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<3> [above of=stack2,yshift=.25cm] {\tt push(53)};
+    \node<3> [right of=stack2,yshift=.15cm] {$\leftarrow$ \tt topo};
+
+    \node<4-6> [stack] (stack3) [right of=stack2,xshift=.75cm]  {%
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<4> [above of=stack3,yshift=.25cm] {\tt 53 <= pop()};
+    \node<4> [right of=stack3,yshift=-.35cm] {$\leftarrow$ \tt topo};
+
+    \node<5-6> [stack] (stack4) [right of=stack3,xshift=.75cm]  {%
+      \nodepart{three} $88$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<5> [above of=stack4,yshift=.25cm] {\tt push(88)};
+    \node<5> [right of=stack4,yshift=.15cm] {$\leftarrow$ \tt topo};
+
+    \node<6> [stack] (stack5) [right of=stack4,xshift=.75cm]  {%
+      \nodepart{two} $19$
+      \nodepart{three} $88$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<6> [above of=stack5,yshift=.25cm] {\tt push(19)};
+    \node<6> [right of=stack5,yshift=.55cm] {$\leftarrow$ \tt topo};
+
+    
+    \node<7-9> [stack] (stack6) []  {%
+      \nodepart{one} $64$
+      \nodepart{two} $19$
+      \nodepart{three} $88$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<7> [above of=stack6,yshift=.45cm] {\tt push(64)};
+    \node<7> [right of=stack6,yshift=.9cm] {$\leftarrow$ \tt topo};
+
+    
+    \node<8-9> [stack] (stack7) [right of=stack6,xshift=.75cm]  {%
+      \nodepart{one} $64$
+      \nodepart{two} $19$
+      \nodepart{three} $88$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<8> [above of=stack7,yshift=.45cm] {{\color{red}\tt overflow} $\Leftarrow$ \tt push(79)};
+    \node<8> [right of=stack7,yshift=.9cm] {$\leftarrow$ \tt topo};
+    
+    \node<9-> [stack] (stack8) [right of=stack7,xshift=.75cm]  {%
+      \nodepart{two} $19$
+      \nodepart{three} $88$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<9> [above of=stack8,yshift=.45cm] {$64 \Leftarrow$ \tt pop()};
+    \node<9> [right of=stack8,yshift=.55cm] {$\leftarrow$ \tt topo};
+
+    \node<10-> [stack] (stack9) [right of=stack8,xshift=.75cm]  {%
+      \nodepart{three} $88$
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<10> [above of=stack9,yshift=.25cm] {$19 \Leftarrow$ \tt pop()};
+    \node<10> [right of=stack9,yshift=.15cm] {$\leftarrow$ \tt topo};
+
+    \node<11-> [stack] (stack10) [right of=stack9,xshift=.75cm]  {%
+      \nodepart{four} $14$
+      \nodepart{five} $25$
+    };
+    \node<11> [above of=stack10,yshift=.25cm] {$88 \Leftarrow$  \tt pop()};
+    \node<11> [right of=stack10,yshift=-.35cm] {$\leftarrow$ \tt topo};
+
+
+    \node<12-> [stack] (stack11)  [right of=stack10,xshift=.75cm] {%
+      \nodepart{five} $25$
+    };
+    \node<12> [above of=stack11,yshift=.25cm] {$14 \Leftarrow$      \tt pop()};
+    \node<12> [right of=stack11,yshift=-.75cm] {$\leftarrow$ \tt topo};
+
+    \node<13-> [stack] (stack12)  [right of=stack11,xshift=.75cm] {%
+    };
+    \node<13> [above of=stack12,yshift=.25cm] {$25 \Leftarrow$      \tt pop()};
+    \node<13> [right of=stack12,yshift=-1.2cm] {$\leftarrow$ \tt topo};
+
+    
+    \node<14-> [stack] (stack13)  [right of=stack12,xshift=.75cm] {%
+    };
+    \node<14> [above of=stack13,yshift=.25cm] {{\color{red}\tt underflow}  $\Leftarrow$      \tt pop()};
+    \node<14> [right of=stack13,yshift=-1cm] {$\leftarrow$ \tt topo};
+
+
+  \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{\inserttitle}{Interface}
+  \lstinputlisting{../pilha/pilha.h}
+\end{frame}
+
+\begin{frame}{\inserttitle}{Implementação} 
+  A pilha pode ser implementada usando:
+
+  \begin{itemize}
+  \item Alocação sequencial: vetor;
+  \item Alocação encadeada: lista.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{\inserttitle}{Complexidades ou custos} 
+
+  \begin{itemize}
+  \item Inserção $\Rightarrow$ {\tt pilha\_push()}: $O(1)$;
+  \item Remoção $\Rightarrow$ {\tt pilha\_pop()}: $O(1)$.
+  \end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PILHA usando LISTA ENCADEADA
+% \lecture[Pilha usando lista]{Pilha, implementação usando lista encadeada}{stackList}
+
+\title{Pilha: implementação usando lista encadeada}
+\frame{\maketitle}
+
+\begin{frame}{Referências}
+  
+  O conteúdo dos próximos slides teve como referências:
+
+  \begin{itemize}
+  \item Introdução a Estrutura de Dados, cap.~11. Celes, Cerqueira e Rangel. Editora Campus, 2009.
+  \item Algoritmos em C, cap.~6. Feofiloff. Editora Campus, 2004.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{\only<1-3>{Cria} \only<4-7>{Empilha} \only<8->{Desempilha}}
+  \framesubtitle{\tt \only<1,3>{pilha\_cria()} \only<4-8>{pilha\_push()} \only<9->{pilha\_pop()}}
+
+  \begin{tikzpicture}[code/.style={font=\color{gray!60!black}\tt\footnotesize},
+    topo/.style={fill=green!50!black,minimum size=.5cm},
+    pointer/.style={minimum size=.5cm,fill=red},
+    ->, start chain, very thick]
+
+    \node<1-3>  (FUNC)  {\tt pilha\_cria();};
+
+    \node<2->[topo] (TOPO) [below of=FUNC,yshift=-1.5cm]  {};
+    \node<2-> (topoLabel) [left of=TOPO] {\tt topo};
+    \node<2-> (P) [left of=topoLabel] {\tt p};
+    \draw<2->[->] (P) -- (topoLabel);
+    \node<2>[code] [below of=TOPO]  {Pilha *p = malloc(sizeof(Pilha));};
+
+    \node<3-6>[nullPointer] (NULL) [right of=TOPO,xshift=1cm] {};
+    \draw<3-6>[*->] (TOPO.center) -- (NULL);
+    \node<3>[code] [below of=NULL]  {p->topo = NULL;};
+
+    \node<4-7>  (FUNC)  {\tt pilha\_push(p, 25);};
+    \node<4>[list] (list25Empty) [below of=TOPO,xshift=1cm] {\nodepart{second}};
+    \node<4>[code]  [right of=list25Empty,xshift=2.5cm] {Lista *l = malloc(sizeof(Lista));};
+
+    \node<5,6>[list] (list25) [below of=TOPO,xshift=1cm] {25 \nodepart{second}};
+    \node<5>[code]  [right of=list25,xshift=1cm] {l->chave = 25;};
+
+    \draw<6>[*->] (list25.two) -- (NULL);
+    \node<6>[code]  [right of=list25,xshift=2cm] {l->prox = p->topo->prox;};
+
+    \node<7>[list] (list25) [right of=TOPO,xshift=1cm] {25 \nodepart{second}};
+    \node<7>[nullPointer] (NULL) [right of=list25,xshift=1cm] {};
+    \draw<7>[*->] (TOPO.center) -- (list25);
+    \draw<7>[*->] (list25.two) -- (NULL);
+    \node<7>[code]  [below of=list25] {p->topo = l;};
+
+    \node<8>  (FUNC)  {\tt pilha\_push(p, 99);};
+    \node<8-9>[list] (list99) [right of=TOPO,xshift=1cm] {99 \nodepart{second}};
+    \node<8-9>[list] (list25) [right of=list99,xshift=1cm] {25 \nodepart{second}};
+    \node<8-9>[nullPointer] (NULL) [right of=list25,xshift=1cm] {};
+    \draw<8-9>[*->] (TOPO.center) -- (list99);
+    \draw<8-9>[*->] (list99.two) -- (list25);
+    \draw<8-9>[*->] (list25.two) -- (NULL);
+
+    \node<9->  (FUNC) {\only<13>{$99\Leftarrow$}\tt pilha\_pop();};
+    \node<10-11>[list] (list99) [below of=TOPO,yshift=-1cm] {99 \nodepart{second}};
+    \node<10->[list] (list25) [right of=TOPO,xshift=1cm] {25 \nodepart{second}};
+    \node<10->[nullPointer] (NULL) [right of=list25,xshift=1cm] {};
+    %% l
+    \node<9-12>[pointer] (listL) [below of=list99,xshift=-1cm] {}; 
+    \node<9-12> [left of=listL,xshift=.5cm] {\tt l};
+    %% k
+    \node<11->[draw] (k) [below of=NULL,yshift=-1cm] {99}; 
+    \node<11-> [above of=k,yshift=-0.5cm] {\tt k};
+    % arrows
+    \draw<10->[*->] (TOPO.center) -- (list25);
+    \draw<10-11>[*->] (list99.two) -- (list25);
+    \draw<10->[*->] (list25.two) -- (NULL);
+    \draw<9-12>[*->] (listL.center) -- (list99);
+    \node<9>[code]  [right of=listL,xshift=1cm] {Lista *l = p->topo;};
+    \node<10>[code]  [below of=list25,xshift=2.5cm,yshift=-1cm] {p->topo = p->topo->prox;};
+    \node<11>[code]  [below of=list25,xshift=2.5cm,yshift=-2cm] {int k = l->chave;};
+
+    \node<12>[code]  [below of=list25,xshift=2.5cm,yshift=-2cm] {free(l);};
+    \node<13>[code]  [left of=k,xshift=-1cm] {return k;};
+
+    % \node<6>  (FUNC)  {$99 \Leftarrow$ \tt pilha\_pop();};
+
+  \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Complexidades}
+  \begin{description}
+  \item[\tt pilha\_cria():] $O(1)$;
+  \item[\tt pilha\_push():] $O(1)$;
+  \item[\tt pilha\_pop():] $O(1)$.
+  \end{description}
+\end{frame}
+
+\begin{frame}{Aplicação: parênteses e chaves}
+  
+  Problema: testar se uma sequência de parênteses e chaves é bem formada. Por exemplo, a sequência:
+
+  $$(() \{()\})$$
+
+  \noindent  é bem-formada, enquanto que 
+
+  {\color{red}$$ (\{)\} $$}
+  
+  \noindent é mal-formada.
+\end{frame}
+
+%% Local variables:
+%% mode: latex
+%% TeX-master: main
+%% End: 

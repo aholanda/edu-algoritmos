@@ -1,0 +1,10 @@
+digraph srr {
+{node [ shape = record ] p u};
+{node [ shape = triangle ] T1 T2 T3};
+p [ label ="<f0> | <f1> p | <f2> ", style=filled ];
+u [ label ="<f0> | <f1> u | <f2> "];
+"p":f0 -> "u":f1;
+"p":f2 -> T3;
+"u":f0 -> T1;
+"u":f2 -> T2;
+}

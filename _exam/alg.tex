@@ -1,0 +1,470 @@
+\documentclass[10pt]{../notes}
+
+%\newgeometry{left=1.75cm,right=1.75cm,top=1.75cm,bottom=1.75cm}
+
+\title{Algoritmo I}
+\author{prof. Adriano J. Holanda}
+\date{13 de maio de 2016}
+
+\def\citafarrer{{\tt [Farrer {\it et al.}]}}
+
+\lstset{
+  emph={Algoritmo,declare,então,falso,Algoritmo,fim,interrompa,lógico,numérico,repita,se,senão,verdadeiro},emphstyle=\underbar,
+  literate={:=}{{$\gets$\ }}1 {<=}{{$\leq$\ }}1 {>=}{{$\geq$\ }}1 {<>}{{$\neq$\ }}1 {/and}{{$\land$\ }}1 {/or}{{$\lor$\ }}1 {\#}{{$\ne$\ }}1 {/not}{{$\lor$\ }}1 
+}
+
+\begin{document}
+\small
+
+\maketitle
+
+\section*{Lista de exercícios 4}
+
+\exercise Escreva um algoritmo que armazene o triângulo de Pascal em
+uma matriz $N\times N$, onde N é fornecido pelo usuário. Por exemplo, 
+para $N=7$, o triângulo de Pascal gerado seria
+
+\begin{center}
+\begin{tabular}[h]{c|ccccccc}
+  & \bf 0 & \bf 1 & \bf 2 & \bf 3 &\bf 4 &\bf 5&\bf 6\\\hline
+\bf 0 & 1&  &   &   &  &  & \\
+\bf 1 & 1& 1&   &   &  &  & \\
+\bf 2 & 1& 2&  1&   &  &  & \\
+\bf 3&  1& 3&  3&  1&  &  & \\
+\bf 4& 1&  4&  6&  4&  1&  & \\
+\bf 5& 1&  5& 10& 10&  5&  1& \\
+\bf 6& 1&  6& 15& 20&  15&  6& 1\\
+\end{tabular}
+\end{center}
+
+\exercise Faça um algoritmo que verifique se uma matriz $N\times N$
+fornecida pelo usuário é uma {\bf matriz mágica}. Uma matriz mágica é
+uma matriz em que a soma de cada coluna, de cada linha e das duas
+diagonais são iguais. Por exemplo, a seguinte matriz {\tt M[3][3]} é
+uma matriz mágica:
+
+\begin{center}
+  $$M = \pmatrix{
+    2 & 7 & 6 \cr
+    9 & 5 & 1 \cr
+    4 & 3 & 8 \cr
+}. $$
+\end{center}
+
+\exercise Escreva um algoritmo que dada uma matriz $A\rightarrow N\times M$ 
+({\tt A[N][M]}), fornecida pelo usuário, gere sua transposta 
+$T \rightarrow M\times N$ ({T[M][N]}). Por exemplo, a transposta da matriz 
+
+\begin{center}
+ $$A = \pmatrix{   
+   1 & 3\cr
+    2 & 5 \cr
+    8 & -1 \cr
+}$$
+\end{center}
+
+\noindent é a matriz
+
+\begin{center}
+$$T = \pmatrix{
+    1 & 2 & 8 \cr
+    3 & 5 & -1 \cr
+}. $$
+\end{center}
+
+\exercise Uma matriz $A\rightarrow N\times N$ é de permutação se em cada 
+linha e em cada coluna houver $N-1$ elementos iguais a zero e apenas um 
+único elemento igual a $1$. Por exemplo, a matriz 
+
+\begin{center}
+  $$A = \pmatrix{
+    0 & 1 & 0 \cr
+    1 & 0 & 0 \cr
+    0 & 0 & 1 \cr
+  }$$
+\end{center}
+
+\noindent é de permutação. Faça um algoritmo que fornecida uma matriz $N\times N$ 
+pelo usuário, verifique se ela é de permutação.
+
+\subsection*{Solução}
+
+\noindent {\bf Triângulo de Pascal} 
+
+\begin{lstlisting}
+  Algoritmo
+  declare PAS[N][N], N, I, J numérico
+  I := 0
+  J := 0
+  LEIA(N)
+  repita
+        se I >= N
+            então interrompa
+        fim se
+        repita
+            se J >= N
+                então interrompa
+            fim se
+            se I >= J
+                se J == 0
+                    então PAS[I][J] := 1
+                    senão PAS[I][J] := PAS[I-1][J] + PAS[I-1][J-1]
+                fim se
+            fim se
+            J := J + 1
+        fim repita        
+        I := I + 1
+  fim repita
+
+  fim Algoritmo
+\end{lstlisting}
+
+\pagebreak
+\noindent {\bf Matriz mágica} 
+
+\begin{lstlisting}
+  Algoritmo
+  declare MAT[N][N], SOM[N+N+2], N, I, J numérico
+          MAGICA                         lógico
+  MAG := VERDADEIRO 
+  I := 0
+  J := 0
+  LEIA(N)
+  LEIA(MAT[0][0],...,MAT[N-1][N-1])
+  repita
+        se I >= N
+            então interrompa
+        fim se
+        repita
+            se J >= N
+                então interrompa
+            fim se
+            SOM[I] := MAT[I][J] {soma da linha}
+            SOM[N+J] := MAT[I][J] {soma da coluna}
+            se I == J
+                    então SOM[N+N] := MAT[I][J] {soma da diagonal principal}
+            fim se
+            se I == J
+                    então SOM[N+N+1] := MAT[I][J] {soma da diagonal secundaria}
+            fim se
+            J := J + 1
+        fim repita        
+        I := I + 1
+  fim repita
+
+  I := 1
+  repita
+        se I >= N
+            então interrompa
+        fim se
+        se SOM[I] # SOM[I-1]
+            então MAGICA = FALSO
+                  interrompa
+        fim se
+  fim repita
+
+  se MAGICA = VERDADEIRO
+      entao ESCREVE('A matriz é magica')
+      senão ESCREVE('A matriz não é magica')
+  fim se 
+fim Algoritmo
+\end{lstlisting}
+
+\pagebreak
+\noindent {\bf Matriz tranposta} 
+
+\begin{lstlisting}
+  Algoritmo
+  declare A[N][M], T[M][N], N, M, I, J numérico
+  I := 0
+  J := 0
+  LEIA(N)
+  LEIA(A[0][0],...,A[N-1][M-1])
+  repita
+        se I >= M
+            então interrompa
+        fim se
+        repita
+            se J >= N
+                então interrompa
+            fim se
+            T[I][J] := A[J][I] 
+            J := J + 1
+        fim repita        
+        I := I + 1
+  fim repita
+  
+  ESCREVA(T[0][0],...,T[M-1][N-1])
+fim Algoritmo
+\end{lstlisting}
+
+\pagebreak
+\noindent {\bf Matriz de permutação} 
+
+\begin{lstlisting}
+  Algoritmo
+  declare MAT[N][N], SOM[N+N], N, I, J numérico
+          PERM                           lógico
+  PERM := VERDADEIRO 
+  I := 0
+  J := 0
+  LEIA(N)
+  LEIA(MAT[0][0],...,MAT[N-1][N-1])
+  repita
+        se I >= N
+            então interrompa
+        fim se
+        repita
+            se J >= N
+                então interrompa
+            fim se
+            SOM[I] := MAT[I][J] {soma da linha}
+            SOM[N+J] := MAT[I][J] {soma da coluna}
+
+            J := J + 1
+        fim repita        
+        I := I + 1
+  fim repita
+
+  I := 1
+  repita
+        se I >= N+N
+            então interrompa
+        fim se
+        se SOM[I] # 1
+            então PERM = FALSO
+                  interrompa
+        fim se
+  fim repita
+
+  se MAG = VERDADEIRO
+      entao ESCREVE('A matriz é de permutação')
+      senão ESCREVE('A matriz não é permutação')
+  fim se 
+fim Algoritmo
+\end{lstlisting}
+
+
+\end{document}
+
+\section*{Lista de exercícios 3}
+
+\exercise Escreva um algoritmo que leia $20$ valores numéricos do
+usuário em um vetor chamado {\tt VET[20]} e imprima-os em ordem
+inversa.
+
+\exercise Escreva uma algoritmo que leia $132$ valores de salário da
+entrada-padrão (usuário) em um vetor chamado {\tt SAL[132]} e imprima
+o maior, o menor e a média de salário.
+
+\exercise Faça um algoritmo que leia 32 valores de 2 vetores de
+componentes {\tt A[32]} e {\tt B[32]} e calcule o produto escalar
+$A. B$. O produto escalar é calculado usando a fórmula
+
+$$ A.B = \sum_{i=1}^n a_ib_i = (a_1b_1 + a_2b_2 + \ldots + a_n b_n).$$
+
+\exercise Faça um algoritmo que gere uma tabela com $N$ termos da
+sequência de Fibonacci em um vetor chamado {\tt FIBO[N]}. O valor de
+$N$ deve ser entrado pelo usuário. Cada termo da sequência de
+Fibonacci é a soma dos dois anteriores conforme mostrado a seguir:
+
+$$1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots$$
+
+\exercise Faça uma algoritmo que leia $N$ valores de despesas e 
+atribua-as a um vetor chamado {\tt DESPESAS[N]}, leia $M$ valores 
+de receitas em um vetor chamado {\tt RECEITAS[M]} e escreva:
+
+\begin{enumerate}[a)]
+\item Valor total das despesas;
+\item Valor total das receitas;
+\item Saldo.
+\end{enumerate}
+
+\end{document}
+%{\footnotesize\noindent Entrega: {\bf 6/4/2016}.}
+
+\paragraph{Exercício 1.} \citafarrer~Fazer um algoritmo que calcule e escreva o valor de $S$ onde:
+
+$$ S = {1\over 1} - {2\over 4} + {3\over 9} - {4\over 16} + {5\over 25} 
+- {6\over 36} + \ldots -{10\over 100}.$$
+
+\paragraph{Exercício 2.} \citafarrer~Fazer um algoritmo que calcule e escreva a soma dos 50 
+primeiros termos da série:
+
+$$ {1000\over 1} - {997\over 2} + {994\over 3} - {991\over 4} + \ldots$$
+
+\paragraph{Exercício 3.} \citafarrer~Fazer um algoritmo que
+\begin{enumerate}
+\item Leia o valor de $x$ da entrada-padrão;
+\item Calcule e escreva o valor do seguinte somatório:
+\end{enumerate}
+
+$$ {x^{25}\over 1} - {x^{24}\over 2} + {x^{23}\over 3} - {x^{22}\over 4} + \ldots + {x\over 25}.$$
+
+\paragraph{Exercício 4.} \citafarrer~Fazer um algoritmo que calcule o
+volume de uma esfera em função do raio $R$. O raio deverá variar de 0
+a 20~cm de 0,5 em 0,5~cm,
+
+$$ V = {4\over 3}\pi R^3.$$
+
+\paragraph{Exercício 5.} \citafarrer~Fazer um algoritmo que leia a
+altura e sexo (``MASCULINO'' ou ``FEMININO'') de 50 pessoas. Faça 
+um algoritmo que calcule e escreva:
+\begin{enumerate}[a)]
+\item A maior e a menor altura do grupo;
+\item A média de altura das mulheres;
+\item O número de homens.
+\end{enumerate}
+
+\paragraph{Exercício 6.} \citafarrer~Uma empresa decidiu fazer um
+levantamento em relação aos candidatos que se apresentarem para
+preenchimento de vagas no seu quadro de funcionários, utilizando
+processamento eletrônico. Supondo que você seja o desenvolvedor
+encarregado desse levantamento, fazer um algoritmo que:
+
+\begin{itemize}
+\item Leia um conjunto de dados para $100$ candidatos contendo:
+  \begin{enumerate}[a)]
+  \item Número de inscrição do candidato;
+  \item Idade;
+  \item Sexo (``MASCULINO'' ou ``FEMININO'');
+  \item Experiência no serviço (``SIM'' ou ``NÃO'').
+  \end{enumerate}
+\item Calcule e escreva:
+  \begin{enumerate}[a)]
+  \item O número de candidatos do sexo feminino;
+  \item O número de candidatos do sexo masculino;
+  \item Idade média dos homens que já têm experiência no serviço;
+  \item Porcentagem de homens com mais de 45 anos entre o total de homens;
+  \item Número de mulheres que têm idade inferior a 35 anos e com experiência 
+    no serviço;
+  \item A menor idade entre mulheres que já têm experiência no serviço.
+  \end{enumerate}
+\end{itemize}
+
+\end{document}
+
+\section*{Lista de exercícios 1}
+
+\paragraph{Exercício 1.} [Farrer {\it et al.}]~Assinale com um X os
+identificadores válidos:
+
+\begin{tabular}[h]{lll}
+  (\ ) VALOR & (\ ) SALÁRIO-LÍQUIDO & (\ ) B248 \\
+  (\ ) X2 & (\ ) SALÁRIO-LÍQUIDO & (\ ) A1B2C3 \\
+  (\ ) XYZ & (\ ) NOTA*ALUNO & (\ ) M[A] \\
+  (\ ) ``MEDIA'' & (\ ) AHH! & (\ ) N{A} \\
+  (\ ) SALA12 & (\ ) 3A & (\ ) KM/H \\
+\end{tabular}
+
+\paragraph{Exercício 2.} Faça a tabela-verdade para as expressões lógicas:
+
+\begin{enumerate}[a)]
+\item $P \land Q \land R$
+\item $P \land Q \lor R$
+\item $P \lor Q \land R$
+\item $P \lor Q \lor R$
+\item $P \lor Q \lor \neg R$
+\end{enumerate}
+
+\paragraph{Exercício 3.} Faça um algoritmo que leia três valores e escreva-os 
+em ordem decrescente.
+
+\paragraph{Exercício 4.} Faça um algoritmo que leia três notas de um
+aluno e escreva se ele foi aprovado ou reprovado. Para ser aprovado a
+média das notas deve ser maior ou igual a cinco.
+
+\paragraph{Exercício 5.} Faça um algoritmo que leia três valores e escreva o maior
+valor.
+
+\paragraph{Exercício 6.} [{Farrer\it et al.}] Após a execução do trecho a seguir de um algoritmo,
+
+\begin{lstlisting}
+  Algoritmo
+  .
+  .
+  se A2 <= B3
+  então T := verdadeiro
+  senão T := falso
+  fim se
+  .   C := T
+  .
+  fim Algoritmo
+\end{lstlisting}
+
+\noindent em C estará armazenado o valor false se:
+
+\begin{enumerate}[a)]
+\item A2 $<$ B3
+\item A2 $\leq$ B3
+\item A2 $\geq$ B3
+\item A2 $>$ B3
+\item A2 $=$ B3
+\end{enumerate}
+
+
+\paragraph{Exercício 7.} Dado o algoritmo a seguir:
+
+\begin{lstlisting}
+  Algoritmo
+  declare A,B,C,I,J,K numérico
+  A := 36
+  C := 2
+  I := 5
+  B := SQRT(A)
+  J := C * 3/4
+  se B > J
+  então K := 8 * I / (POW(6, 2)/C)
+  senão K := A + I/A - I
+  fim se
+  ESCREVA(B, J, K)
+  fim Algoritmo
+\end{lstlisting}
+
+\noindent quais valores serão escritos?
+
+\paragraph{Exercício 8.} [Farrer {\it et al.}] Dado o algoritmo a seguir:
+
+\begin{lstlisting}
+  Algoritmo
+  declare A, B, I, M numérico
+  LEIA(M)
+  se M <> 0
+  então I := TRUNCA(M/12)
+  A := M/12
+  B := ARREDONDA(M/12)
+  se RESTO(M, 12) >= 6
+  então I := I + 1
+  fim se
+  ESCREVA(A, B, I)
+  fim se
+  fim Algoritmo
+\end{lstlisting}
+
+\noindent Que valores seriam escritos se, em sucessivas execuções, fossem lidos 
+os valores 30, 19, 27, 60, 0?
+
+\paragraph{Exercício 9.} [Farrer {\it et al.}] Quais os valores escritos pelo algoritmo a seguir:
+
+\begin{lstlisting}
+  Algoritmo
+  declare A,B,C,MAT,X,XX,Y,YY numérico
+  X := 0
+  XX := 0
+  Y := 0
+  YY := 0
+  A := 2
+  B := 5
+  C := 4
+  MAT := {o último algarismo do dia em que você nasceu}
+  se MAT >= 5
+  então X := SQRT(A + B) + C/2 * A
+  Y := RESTO(B, A)/A - QUOCIENTE(C, POW(B, 2))
+  senão XX := QUOCIENTE(B, A)/POW(A, 2) + RESTO(POW(B, 2), C)
+  YY := A/2 * C + POW(3 + A, 2)/A
+  fim se
+  ESCREVA(X, Y, XX, YY)
+  fim Algoritmo
+\end{lstlisting}
+
+\end{document}

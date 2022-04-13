@@ -1,0 +1,744 @@
+
+Listas Circulares e Ordenadas
+=============================
+
+\def\sequentialqueuehead{
+  \lstinputlisting[firstline=1,lastline=4]{\srcdir/01list_array.c}
+}
+
+
+\frame{\maketitle}
+
+\section{Listas Ordenadas}
+
+\begin{frame}
+\frametitle{Listas Ordenadas}
+\small
+
+\begin{definition}
+\begin{tabbing}
+Conjunto $\{\ell[0], \ell[1],...,\ell[n-1]\} :$\= $\forall k \in
+\{0, 1,..., n-1\} \Rightarrow$\\
+ \> o nó $\ell[k]$ é precedido por $\ell[k-1]$\\
+ \> $\land \ell[k-1] \leq \ell[k]$, se a lista for {\bf crescente}\\
+ \> $\lor \ell[k-1] \geq \ell[k]$, se a lista for {\bf decrescente}\\
+\end{tabbing}
+\end{definition}
+
+\end{frame}
+
+
+\subsection{Lista Circular Encadeada}
+
+\begin{frame}[fragile]{Lista Circular Encadeada}
+
+
+\begin{block}{Modelo}
+
+\bigskip
+\begin{tikzpicture}
+\tikzset{cel/.style={minimum width=1cm,minimum height=1cm,draw},
+key/.style={cel,minimum width=2cm},
+}
+
+\node[key,fill=gray] (head) [] {};
+\node[draw] (headlabel) [left of=head, xshift=-1.5cm, yshift=1cm] {\scriptsize\tt cabeça};
+\node[cel] (headcel) [right of=head,xshift=.5cm] {{\LARGE .}};
+
+\node[key] (key0) [right of=headcel,xshift=1.5cm] {99};
+\node[] [below of=key0] {chave};
+\node[cel] (link0) [right of=key0,xshift=.5cm] {{\LARGE .}};
+\node[] [below of=link0] {{\tt *prox}};
+
+\node (prox) [right of=link0,xshift=.5cm] {};
+
+%PATHS
+\path[->,>=latex,draw] (headlabel) -- (head.north west);
+\path[->,>=latex,draw] (headcel.center) -- (key0.west);
+\path[->,>=latex,draw] (link0.center) -- (prox.center) -- +(0,-1.5cm)
+-- +(-9cm,-1.5cm) -- +(-9,0cm) -- (head.west);
+
+\end{tikzpicture}
+
+\end{block}
+
+\bigskip
+\begin{block}{Definição do Tipo de Dados}
+%\lstinputlisting[firstline=4,lastline=7,frame=single,frameround=tttt]{\srcdir/instruct.h}
+code
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Lista Encadeada: Busca}{Ideia}
+%   \animategraphics[step]{1}{../fig/01list-linked-search-found}{}{}     
+\end{frame}
+
+\begin{frame}[fragile]{Busca em Lista Circular Encadeada}{Implementação}
+
+%\lstinputlisting[frame=single,frameround=tttt,firstline=4,lastline=27]{\srcdir/02lcsort.c}
+  code
+  
+%%TODO QUAL O TEMPO MEDIO?
+Análise: pior caso, $\mathcal{O}(N)$; melhor caso, $\mathcal{O}(1)$.
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Lista Encadeada: Inserção e Remoção}{Ideia}
+%   \animategraphics[step]{1}{../fig/01list-linked-add-remove}{}{}     
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Inserção em Lista Encadeada Circular Ordenada}{Implementação}
+
+%\lstinputlisting[frame=single,frameround=tttt,firstline=21,lastline=36]{\srcdir/02lcsort.c}
+  code
+  
+Análise: pior caso, $\mathcal{O}(N)$; melhor caso, $\mathcal{O}(1)$.
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Remoção em Lista Encadeada Circular}{Implementação}
+
+%\lstinputlisting[frame=single,frameround=tttt,firstline=37,lastline=52]{\srcdir/02lcsort.c}
+code
+Análise: pior caso, $\mathcal{O}(N)$; melhor caso, $\mathcal{O}(1)$.
+
+\end{frame}
+
+
+
+
+\section{Listas}
+
+\subsection{Introdução}
+
+\begin{frame}{Lista linear}
+\begin{block}{Definição}
+\begin{itemize}
+\item Uma {\em lista linear} é uma lista de $n \geq 0 $ nós {\tt X[1],
+X[2], ..., X[n]} cujas propiedades estruturais essenciais envolvem
+somente as posições relativas entre os itens linearmente dispostos.
+\item Atenção especial é dada, se $n > 0$, ao primeiro nó {\tt
+X[1]} e ao último nó {\tt X[n]}, e para $1 < k < n$, o $k$-ésimo nó
+$X[k]$ e precedido por $X[k-1]$ e seguido por {\tt X[k+1]}.
+\end{itemize}
+\end{block}
+\end{frame}
+
+Linear lists in which insertions, deletions and accesses to values
+occur almost always at first or the last node are very frequently
+encountered, and we give them special names:
+
+\begin{frame}{Categorias de listas lineares}
+
+\begin{itemize}
+\item Uma {\bf pilha} ({\em stack}) é uma lista linear a partir da qual todas as
+inserções, remoções são efetuadas na mesma extremidade da lista.
+\item Uma {\bf fila} ({\em queue}) é uma lista linear a partir da qual
+todas inserções são efetuadas de uma extremidade e remoções da
+extremidade oposta.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Alocação Sequencial}
+
+\begin{frame}{Alocação sequencial}
+\def\width{2}
+\def\height{1}
+\begin{tikzpicture}[]
+\foreach \i in {0, 1, 2, 3} {
+     \node[anchor=west] at (\i*\width, \height+0.25) {{\footnotesize $\ell +\i c$}};
+     \draw (\width, 0) node[anchor=base] {$n_\i$} rectangle
+      (\i*\width, \height);
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{Especificação}
+\def\tcolor{gray}
+
+\begin{block}{Endereçamento consecutivo}
+\begin{minipage}[t]{0.55\textwidth}
+{\tt LOC(X[j+1]) = LOC(X[j]) + c},
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+\textcolor{\tcolor}{
+ {\footnotesize c -- quantidade de {\em bytes} por nó}.}
+ \end{minipage}
+ 
+\vskip 2cm
+
+\begin{minipage}[t]{0.55\textwidth}
+{\tt LOC(X[j]) = $L_0$ + $j$ * c},
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth} 
+\textcolor{\tcolor}{
+{\footnotesize $L_0$ -- Endereço do
+primeiro nó chamado artificialmente de {\tt X[0]} a partir do qual é
+realizada a contagem}.}
+\end{minipage}
+
+\end{block}
+
+\end{frame}
+
+\subsubsection{Pilhas e filas}
+
+\begin{frame}{Pilha -- Operações básicas}
+
+\begin{block}{{\tt Empilhar ({\em push})}}
+Inserir elemento {\tt Y} \alert{no topo} da pilha {\tt X} cuja capacidade é \tt{M}:\\
+
+\[
+ X \Leftarrow Y :  
+\left\{
+\begin{array}{l}
+ T \leftarrow T + 1;\\
+ T > M \Rightarrow {\tt OVERFLOW};\\
+ X[T] \leftarrow Y.
+\end{array}
+ \right.
+\]
+
+\end{block}
+
+
+\begin{block}{{\tt Desempilhar ({\em pop})}}
+Remover elemento {\tt Y} \alert{do topo} da pilha {\tt X}:\\
+
+\[
+ Y \Leftarrow X :  
+\left\{
+\begin{array}{l}
+ T = 0 \Rightarrow {\tt UNDERFLOW};\\ 
+ Y \leftarrow X[T];\\
+ T \leftarrow T - 1.
+\end{array}
+ \right.
+\]
+
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Pilha -- Operações básicas}
+
+\begin{block}{{\tt Inserir ({\em push})}}
+Inserir elemento {\tt Y} \alert{no fim} da fila {\tt X}:\\
+
+\[
+ X \Leftarrow Y :  
+\left\{
+\begin{array}{l}
+ R = M \Rightarrow R \leftarrow 1,\ {\tt caso\ contr\acute{a}rio}\ R
+ \leftarrow R + 1;\\
+ R = F \Rightarrow {\tt OVERFLOW};\\
+ X[R] \leftarrow Y.
+\end{array}
+ \right.
+\]
+
+\end{block}
+
+\begin{block}{{\tt Retirar ({\em pop})}}
+Retirar elemento {\tt Y} \alert{da frente} da fila:\\
+
+\[
+ Y \Leftarrow X :  
+\left\{
+\begin{array}{l}
+ F = R \Rightarrow {\tt UNDERFLOW};\\ 
+ F = M \Rightarrow F \leftarrow 1, {\tt caso\ contr\acute{a}rio}\ F \leftarrow F
+ + 1;\\
+ Y \leftarrow X[F].
+\end{array}
+ \right.
+\]
+
+\end{block}
+
+
+\end{frame}
+
+%\subsection{Alocação encadeada}
+
+\begin{frame}{Alocação encadeada}
+
+Esquema mais flexível que a alocação sequencial em que cada nó possui
+um {\bf ponteiro} para o {\bf endereço} próximo elemento da lista.
+
+\bigskip
+
+\begin{columns}
+\begin{column}{.5\textwidth}
+\begin{color}{gray}
+\begin{itemize}
+\item  Alocação sequencial
+\end{itemize}
+\begin{tabular}{c|c|}\cline{2-2}
+Endereço & Conteúdo  \\\cline{2-2}
+L$_0$ & Item 1  \\\cline{2-2}
+L$_0$ + c & Item 2 \\\cline{2-2}
+L$_0$ + 2c & Item 3  \\\cline{2-2}
+L$_0$ + 3c & Item 4  \\\cline{2-2}
+L$_0$ + 4c & Item 5 \\\cline{2-2}
+\end{tabular}
+\end{color}
+\end{column}
+
+\begin{column}{.5\textwidth}
+\begin{itemize}
+\item {\bf Alocação encadeada}
+\end{itemize}
+\begin{tabular}{c|c|c|}\cline{2-3}
+Endereço & \multicolumn{2}{c|}{Conteúdo}   \\\cline{2-3}
+A: & Item 1 & B \\\cline{2-3}
+B: & Item 2 & C \\\cline{2-3}
+C: & Item 3 & D \\\cline{2-3}
+D: & Item 4 & E \\\cline{2-3}
+E: & Item 5 & $\Lambda$ \\\cline{2-3}
+\end{tabular}
+\end{column}
+\end{columns}
+
+Esquema
+
+\begin{tikzpicture}
+
+\node[rectangle,draw] {info};
+
+\end{tikzpicture}
+
+\end{frame}
+
+\subsubsection{Listas simplesmente encadeadas}
+
+\subsubsection{Pilhas e filas}
+
+\subsubsection{Listas circulares}
+
+\subsubsection{Listas duplamente encadeadas}
+
+
+\lecture{Estruturas multiencadeadas}{multi}
+
+\section{\insertlecture}
+
+\frame{
+\title{\insertlecture}
+\author{Adriano J. Holanda}
+\maketitle}
+
+The COBOL programmer could write\\
+\begin{center}
+{\tt ``DIA {\bf OF} VENDAS''}
+\end{center}
+as also\\
+\begin{center}
+{\tt ``DIA {\bf OF} DATA {\bf OF} VENDAS''}
+\end{center}
+but in general, there is no need to give more qualification than
+necessary to avoid ambiguity. Thus,
+\begin{center}
+{\tt ``NOME {\bf OF} REMETENTE {\bf OF} TRANSACAO {\bf OF} COMPRAS''}
+\end{center}
+may be abbreviated to\\
+\begin{center}
+{\tt ``NOME {\bf OF} REMETENTE''}
+\end{center}
+
+\begin{frame}{Problema}
+Escrever compilador COBOL
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{tabbing}
+1 V\=ENDAS\\
+  \>2 D\=ATA \\
+    \>\>3 MES \\
+    \>\>3 DIA \\
+    \>\>3 ANO \\
+  \>2 TRANSACAO \\  
+    \>\>3 ITEM \\
+    \>\>3 QUANTIDADE \\
+    \>\>3 PRECO\\
+    \>\>3 IMPOSTO\\
+    \>\>3 C\=OMPRADOR\\
+    \>\>\>4 NOME \\
+    \>\>\>4 ENDERECO \\
+\end{tabbing}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\textcolor{red}{
+\begin{tabbing}
+1 C\=OMPRAS\\
+  \>2 D\=ATA \\
+    \>\>3 MES \\
+    \>\>3 DIA \\
+    \>\>3 ANO \\
+  \>2 TRANSACAO \\  
+    \>\>3 ITEM \\
+    \>\>3 QUANTIDADE \\
+    \>\>3 PRECO\\
+    \>\>3 IMPOSTO\\
+    \>\>3 R\=EMETENTE\\
+    \>\>\>4 NOME \\
+    \>\>\>4 ENDERECO \\
+\end{tabbing}
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Regras}
+\begin{enumerate}
+\item<1-> Cada nome é imediatamente precedido por um positivo inteiro
+associado chamado {\em número do nível}. Um nome refere-se a um
+{\em item elementar} ou grupo de um ou mais itens seguidos por
+nomes que devem ter o mesmo número de nível, o qual deve ser maior que
+o número do nível do grupo;
+\item<2-> Para se referir a um item elementar ou grupo de itens chamado
+$A_0$, a forma geral é\\
+\hfil $A_0$ {\tt OF} $A_1$ {\tt OF} $\dots$ $A_n$,\hfil\\
+\noindent onde $n \geq 0$ e onde, para $0 \leq j < n$, $A_j$ é o
+nome de algum item contido direta ou indiretamente dentro do grupo
+chamado $A_{j+1}$. Deve haver exatamente um item $A_0$ satisfazendo
+esta condição;
+\item<3> Se o mesmo nome $A_0$ aparece em vários lugares, deve haver um
+modo de se referir a cada uso do nome pelo uso da qualificação.\label{disambiguation}
+\end{enumerate}
+\end{frame}
+
+Configuration example that violates the rule~\ref{disambiguation}\\
+\begin{center}
+\begin{tabbing}
+1 \=AA\\
+  \>2\= BB\\
+  \>\> 3 \=CC\\
+  \>\>\>4 DD\\
+  2\>\> CC\\
+\end{tabbing}
+\end{center}
+
+there is NO unambigous way to refer to the second appearance of {\bf CC}.
+
+\begin{frame}{Representação multiencadeada}
+\footnotesize
+\begin{columns}
+\begin{column}{0.3666\textwidth}
+Estruturas de dados\\
+\vspace{0.133cm}
+\begin{minipage}{0.4\linewidth}
+\begin{tabbing}
+1 \=A\\
+  \>3\= B\\
+  \>\>7 C\\
+  \>\>7 D\\
+  \>3 E\\
+  \>3 F\\
+  \>\>4 G\\
+\end{tabbing}
+\end{minipage}
+\hspace{0.1\linewidth}
+\begin{minipage}{0.4\linewidth}
+\begin{tabbing}
+1 \=H\\
+  \>5\=F\\
+  \>\>8 G\\
+  \>5 B\\
+  \>5 C\\
+  \>\>9 E\\
+  \>\>9 E\\
+  \>\>9 G\\
+\end{tabbing}
+\end{minipage}
+\only<2>{
+\begin{block}{Tabela de símbolos}
+\vspace{0.333cm}
+\begin{tabular}{c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{}& \multicolumn{1}{c}{\tt PONTEIRO} \\\cline{2-3}
+A: & \hspace{0.5cm} & A1 \\\cline{2-3}
+B: &  & B5 \\\cline{2-3}
+C: &  & C5 \\\cline{2-3}
+D: &  & D9 \\\cline{2-3}
+E: &  & E9 \\\cline{2-3}
+F: &  & F5 \\\cline{2-3}
+G: &  & G9 \\\cline{2-3}
+H: &  & H1 \\\cline{2-3}
+\end{tabular}
+\end{block}
+}
+\end{column}
+\begin{column}{0.65\textwidth}
+\footnotesize
+\only<2>{
+\begin{block}{Tabela de dados}
+\vspace{0.333cm}
+\begin{tabular}{c|c|c|c|c|c|c|}
+\multicolumn{1}{c}{} &\multicolumn{1}{c}{\tt PREV}&\multicolumn{1}{c}{\tt PAI}&\multicolumn{1}{c}{\tt NOME} & \multicolumn{1}{c}{\tt FILHO} & \multicolumn{1}{c}{\tt IRMÃO} & \multicolumn{1}{c}{\hspace{0.5cm}}\\\cline{2-7}
+A1: & \null & \null & A      & B3     & H1    &  \hspace{0.5cm} \\\cline{2-7}
+B3: & \null & A1    & B      & C7     & E3    &   \\\cline{2-7}
+C7: & \null & B3    & C      & \null  & D7    &   \\\cline{2-7}
+D7: & \null & B3    & D      & \null  & \null &   \\\cline{2-7}
+E3: & \null & A1    & E      & \null  & F3    &   \\\cline{2-7}
+F3: & \null & A1    & F      & G4     & \null &   \\\cline{2-7}
+G4: & \null & F3    & G      & \null  & \null &   \\\cline{2-7}
+H1: & \null & \null & H      & F5     & \null &   \\\cline{2-7}
+F5: & F3    & H1    & F      & G8     & B5    &    \\\cline{2-7}
+G8: & G4    & F5    & G      & \null  & \null &     \\\cline{2-7}
+B5: & B3    & H1    & B      & \null  & C5    &  \\\cline{2-7}
+C5: & C7    & H1    & C      & E9     & \null &  \\\cline{2-7}
+E9: & E3    & C5    & E      & \null  & D9    &  \\\cline{2-7}
+D9: & D7    & C5    & D      & \null  & G9    & \\\cline{2-7}
+G9: & G8    & C5    & G      & \null  & \null &  \\\cline{2-7}
+\end{tabular}
+\end{block}
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+\subsection{Algoritmo A}
+
+\noindent {\bf A1.} [Initialize] Set the stack contents to the single
+entry {\bf (0,$\Lambda$)}. (The stack entries throughout this
+algorithms are pais (L,P) where L is an integer and P is a pointer; as
+this algorithm proceeds, the stack contains the level number and
+pointers to the most recent data entries on all levels higher in the
+tree than the current level. For example, just before encountering the
+pair ``3 F'' in the example above, the stack would contain
+
+\begin{center}
+(0,$\Lambda$) (1,A1) (3,E3)
+\end{center}
+from bottom to top.)
+
+\noindent {\bf A2.} [Next item.] Let (L,P) be the next data item from
+the input. If the input is exhausted, however, the algorithm
+terminates. Set $Q $Leftarrow$ AVAIL$ (that is, let $Q$ be the
+location of a new node in which we can put the next Data Table entry).
+
+\noindent {\bf A3} [Set name links.] Set
+\begin{center}
+{\tt PREV(Q) $\leftarrow$ LINK(P), LINK(P) $\leftarrow$ Q, NAME(Q)
+$\leftarrow$ P}
+\end{center}
+(This properly sets two of the five links in {\tt NODE(Q)}. We now
+want to set {\tt PARENT, CHILD} and {\tt SIB} appropriately.)
+
+\noindent {\bf A4} [Compare links.] Let the top entry of the stack be
+(L1,P1). If {\tt L1 $<$ L}, set
+\begin{center}
+{\tt CHILD(P1) $\leftarrow$ Q} and go to {\bf A6}.
+\end{center}
+
+\noindent {\bf A5} [Remove the top level.] If {\tt L1 $>$ L}, remove
+the top stack entry, let (L1,P1) be the new entry that has just come
+to the top of the stack, and repeat step {\bf A5}. Otherwise, namely
+{\tt L1 = L}, set
+\begin{center}
+{\tt SIB(P1) $\leftarrow$ Q},
+\end{center}
+remove the top stack entry, and let (L1,P1) be the pair that has just
+come to the top of the stack.
+
+{\bf A6.} [Set the family links] Set
+\begin{center}
+{\tt PARENT(Q) $\leftarrow$ P1, CHILD(Q) $\leftarrow \Lambda$, SIB(Q)
+$\leftarrow \Lambda$.}
+
+{\bf A7} [Add to stack.] Place (L,Q) on top of the stack, and return
+to step {\bf A2}.
+
+\end{center}
+
+\begin{frame}[fragile]
+\frametitle{Algoritmo para a geração da tabela de dados}
+\only<1>{\framesubtitle{{\bf A1.} Inicialização.}}
+\only<2,9>{\framesubtitle{{\bf A2.} Próximo item.}}
+\only<3-5,10>{\framesubtitle{{\bf A3.} Atribuir nome aos ponteiros.}}
+\only<6,11>{\framesubtitle{{\bf A4.} Comparar os níveis.}}
+%\only<7>{\framesubtitle{{\bf A3.} Remover o nível superior.}}
+\only<7,12>{\framesubtitle{{\bf A6.} Ajustar os ponteiros da família.}}
+\only<8,13>{\framesubtitle{{\bf A7.} Empilhar ({\tt L,Q}) e inserir o
+próximo item.}}
+
+\only<2,9>{Alocar espaço {\bf \tt Q} e inserir}
+\only<2>{{\bf (1,A)}}
+\only<9>{{\bf (3,B)}}
+\only<3-5,10>{\footnotesize \tt PREV(Q) $\leftarrow$ PONTEIRO(P)}
+\only<4-5,10>{,\footnotesize \tt PONTEIRO(P) $\leftarrow$ Q}
+\only<5,10>{, \footnotesize \tt NAME(Q) $\leftarrow$ P}
+
+\only<6,11>{\footnotesize \tt IF L1 $<$ L $\Rightarrow$ FILHO(P1)
+$\leftarrow$ Q}
+
+\only<7,12>{\footnotesize \tt PAI(Q) $\leftarrow$ P1, FILHO(Q)
+$\leftarrow$ \null, IRMAO(Q) $\leftarrow$ \null}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+\begin{block}{\small Pilha: estrutura auxiliar}
+\bigskip
+\begin{tikzpicture}[hstack/.style={rectangle,minimum width=0.75cm,minimum height=0.66cm,draw}]
+  \node[hstack] (0) at (0,0) {0};
+  \node[hstack] (NULL) [right=0 of 0] {$\Lambda$};
+  \node[] (P) [below=0.1cm of NULL] {P};
+  \node[] (L) [left=0cm of P] {L};
+
+\uncover<8->{
+  \node[hstack] (A1) [above=0.1cm of NULL] {A1};
+  \node[hstack] (1) [left=0 of A1] {1};
+}
+ \uncover<13>{
+   \node[hstack] (B) [above=0.1cm of A1] {B3};
+   \node[hstack] (3) [left=0 of B] {3};
+ }
+
+\uncover<6->{
+  \node[] (P1) [above=0.1cm of B] {P1};
+  \node[] (L1) [left=0cm of P1] {L1};
+}
+
+\end{tikzpicture}
+\end{block}
+
+\begin{block}{Tabela de símbolos}
+\bigskip
+\begin{tikzpicture}[symbol/.style={rectangle,minimum
+height=0.66cm,minimum width=0.75cm,draw}]
+  \node[] (P) {\scriptsize \tt PONTEIRO};
+  \node[] (L) [left=0cm of P] {};
+\only<1-3>{
+  \node[symbol] (NULL) [above= of P] {$\Lambda$};
+  \node[symbol] (EMPTY) [left=0 of NULL] {};
+}
+
+\only<4->{
+  \node[symbol] (A1) [above=0.1cm of P] {A1};
+  \node[symbol,minimum width=0.5cm] (1) [left=0 of A1] {};
+  \node[] (AS) [left=0 of 1] {A:};
+}
+
+\only<10->{
+  \node[symbol] (B3) [above=0.1cm of A1] {B3};
+  \node[symbol,minimum width=0.5cm] (EB) [left=0 of B3] {};
+  \node[] (BS) [left=0.1cm of EB] {B:};
+}
+
+\end{tikzpicture}
+\end{block}
+
+\end{column}
+
+\begin{column}{0.65\textwidth}
+\only<2-6>{\bf (1,A)}
+\only<9-12>{\bf (3,B)}
+\begin{block}{Estrutura multiencadeada {\tt \bf Q}}
+\includegraphics<2-3>[scale=0.5]{img/multi05}
+\includegraphics<4>[scale=0.5]{img/multi01}
+\includegraphics<5>[scale=0.5]{img/multi02}
+\includegraphics<6>[scale=0.5]{img/multi03}
+\includegraphics<7,8>[scale=0.5]{img/multi04}
+\includegraphics<9>[scale=0.5]{img/multi05}
+\includegraphics<10>[scale=0.5]{img/multi06}
+\includegraphics<11>[scale=0.5]{img/multi08}
+\includegraphics<12->[scale=0.5]{img/multi09}
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Saída do algoritmo de geração da tabela de dados}
+\begin{flushright}
+\begin{tikzpicture}[f/.style={rectangle,minimum width=0.66cm, minimum height=0.475cm,fill=lightgray,draw}]
+\tiny
+\node[f] (label) {rótulo};
+\node[f] (prev)  [right=0 of label] {prévio};
+\node[f] (parent) [right=0 of prev] {pai};
+\node[f] (nome) [right=0 of parent] {nome};
+\node[f] (child) [right=0 of nome] {filho};
+\node[f] (sib) [right=0 of child] {irmão};
+\end{tikzpicture}
+\end{flushright}
+\includegraphics[scale=0.3]{img/multilinked}
+\end{frame}
+
+\begin{frame}{Matriz esparsa}
+
+\begin{columns}
+\begin{column}{.4\textwidth}
+\begin{block}{Representação matricial}
+\[
+\left(
+\begin{matrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+\end{matrix}
+\right)
+\]
+\end{block}
+\end{column}
+\begin{column}{.6\textwidth}
+\begin{block}<2>{Representação multiencadeada}
+\includegraphics[scale=0.5]{img/sparse}
+\end{block}
+\end{column}
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}{Referência}
+\begin{thebibliography}{4}
+
+\bibitem{taocp1}[Knuth1, 1997]
+Donald Erwin Knuth
+\newblock The Art of Computer Programming, v. 1, 3$^a$ ed.
+\newblock Addison-Wesley, 1997.
+\end{thebibliography}
+\end{frame}
+
+
+\title{Listas duplamente encadeadas}
+
+
+\frame{\maketitle}
+
+\begin{frame}{Representação}{Listas duplamente encadeadas}
+
+\begin{itemize}
+\item Maior flexibilidade na manipulação de listas lineares.
+\end{itemize}
+
+\begin{center}
+%\input{../fig/04doublyll-rightleft}
+code
+\end{center}
+
+\begin{center}
+%\input{../fig/04doublyll}
+code
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Inserção}
+\end{frame}
+
+
+\begin{frame}{Remoção}
+\end{frame}
+

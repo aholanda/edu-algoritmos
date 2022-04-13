@@ -1,0 +1,767 @@
+
+\def\thebib {
+\bibitem[Feofiloff, 2010]{feofiloff2009}
+        Paulo Feofiloff.
+        \newblock {\it Algorítmos em Linguagem C\/}.
+        \newblock Editora Campus, 2009.
+
+\bibitem[Tenenbaum, 2005]{tenenbaum2005}
+        Aaron M.\ Tenenbaum, Yedidyah Langsam e Moshe J.\ Augenstein.
+        \newblock {\it Estrutura de Dados usando C\/}.
+        \newblock Editora Pearson, 2005.
+
+\bibitem[Swarcffiter, 2010]{szwar2010}
+        Jaime Luis Szwarcfiter e Lilian Markenzon.
+        \newblock {\it Estruturas de Dados e seus Algorítmos\/}.
+        \newblock Editora LTC, 2010.
+
+} % end DEF
+
+
+\title{Algoritmos de Ordenação}
+
+%\includeonlylecture{Q}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MERGESORT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%% BIBLIOGRAPHY
+\begin{frame}
+\frametitle{Leitura Adicional}
+
+\begin{thebibliography}{8}
+\thebib
+\end{thebibliography}
+
+\end{frame}
+
+
+
+\begin{frame}{\insertlecture}
+
+\begin{itemize}
+\item Combinação de 2 ou mais conjuntos de elementos ordenado em um
+único conjunto de elementos ordenados.
+\end{itemize}
+\hspace{2cm}
+
+\def\mergearrow{
+\node[single arrow,draw,shape border rotate=180,minimum height=2cm] at
+(-0.75,-0.25) {\tiny seleciona menor};
+}
+\only<1>{
+\begin{center}
+\begin{tikzpicture}
+\mergearrow
+\mergearray{1.25/503/20/87/10,2.5/703/50/512/30,3.75/765/60/677/40}
+\end{tikzpicture}
+\end{center}
+}
+
+\only<2>{
+\begin{center}
+\begin{tikzpicture}
+\mergedarray{-3/87/10}
+\mergearrow
+\mergearray{1.25/503/20/512/30,2.5/703/50/677/40,3.75/765/60/ /0}
+\end{tikzpicture}
+\end{center}
+}
+
+\only<3>{
+\begin{center}
+\begin{tikzpicture}
+\mergedarray{-4.5/87/10,-3/503/20}
+\mergearrow
+\mergearray{1.25/703/50/512/30,2.5/765/60/677/40}
+\end{tikzpicture}
+\end{center}
+}
+
+\only<4>{
+\begin{center}
+\begin{tikzpicture}
+\mergedarray{-5.5/87/10,-4/503/20,-2.5/512/30}
+\mergearrow
+\mergearray{1.25/703/50/677/40,2.5/765/60/ /0}
+\end{tikzpicture}
+\end{center}
+}
+
+\only<5>{
+\begin{center}
+\begin{tikzpicture}
+
+\mergedarray{-5/87/10,-3.5/503/20,-2/512/30,-0.5/677/40,1/703/50,2.5/765/60}
+\end{tikzpicture}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}{Ordenação por intercalação ({\em mergesort}) em 2 vias}
+\scriptsize
+
+\begin{tikzpicture}
+\only<1>{
+\twowaymergearray{1}{0/503/white,1/087/white,
+                     2/512/white,3/061/white,
+                     4/908/white,5/170/white,
+                     6/897/white,7/295/white,
+                     8/653/white,9/426/white,
+                     10/154/white,11/509/white,
+                     12/612/white,13/677/white,
+                     14/675/white,15/703/white}
+}
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=0.95]
+\only<2->{
+\twowaymergearray{1}{0/503/yellow,1/087/blue!30,
+                     2/512/green,3/061/red!50,
+                     4/908/brown,5/170/gray,
+                     6/897/gray!30,7/295/white,8/ /black,
+                     9/653/gray!30,10/426/white,
+                     11/154/gray,12/509/brown,
+                     13/612/red!50,14/677/green,
+                     15/675/blue!30,16/703/yellow}
+}
+\end{tikzpicture}
+
+\bigskip
+\begin{tikzpicture}
+\only<3>{
+\twowaymergearray{2}{0/503 703/yellow,2/512 677/green,
+                     4/509 908/brown,6/426 897/white,7/ /black,
+                     8/653 275/gray!30,10/170 154/gray,
+                     12/612 061/red!50,14/765 087/blue!30}
+}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\only<4->{
+\twowaymergearray{2}{0/503 703/yellow,2/512 677/blue!30,
+                     4/509 908/green,6/426 897/red!50,7/ /black,
+                     8/653 275/red!50,10/170 154/green,
+                     12/612 061/blue!30,14/765 087/yellow}
+}
+\end{tikzpicture}
+
+\bigskip
+\begin{tikzpicture}
+\only<5>{
+\twowaymergearray{3}{0/087 503 703 765/yellow,4/154 170 509 908/green,6/ /black,
+                     8/897 653 426 275/red!50, 12/677 612 512 061/blue!30}
+}
+\end{tikzpicture}
+
+\bigskip
+\begin{tikzpicture}
+\only<6->{
+\twowaymergearray{3}{0/087 503 703 765/yellow,4/154 170 509 908/blue!30,6/ /black,
+                     8/897 653 426 275/blue!30, 12/677 612 512 061/yellow}
+}
+\end{tikzpicture}
+
+\bigskip
+\begin{tikzpicture}
+\only<7>{
+\twowaymergearray{4}{0/061 087 503 512 612 677 703 765/yellow,4/ /black,
+                     8/908 897 653 509 426 275 170 154/blue!30}
+}
+\end{tikzpicture}
+
+\bigskip
+\begin{tikzpicture}
+\only<8->{
+\twowaymergearray{4}{0/061 087 503 512 612 677 703 765/blue!30,4/ /black,
+                     8/908 897 653 509 426 275 170 154/blue!30}
+}
+\end{tikzpicture}
+
+\bigskip\bigskip
+\begin{tikzpicture}
+\only<9->{
+\twowaymergearray{5}{1/061 087 154 170 275 426 503 509
+                     512 612 653 677 703 765 897 908/blue!15}
+}
+\end{tikzpicture}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% end MERGESORT
+
+
+% setting for Swarcfiter pseudo code
+\szwarlstsettings
+
+% draw array boxes
+% change color to gray on specified overlays
+\newcommand{\mygray}{\only{\color{gray}}}
+
+\def\noncut{1}
+
+\ifnum\noncut=0
+
+\begin{frame}{Estrutura de dados}
+\tikzset{box/.style={rectangle,draw, minimum width=0.75cm,%
+minimum height=0.5cm},pointer/.style={->,>=latex}}
+\def\records{
+\node[box] (D) {D};
+\node[box] (R) [above=0 of D] {R};
+\node[box] (EN) [above=0 of R] {89};
+\node[] (R1) [above=0 of EN] {$R_1$};
+\node[box] (T) [right=of D] {T};
+\node[box] (S) [above=0 of T] {S};
+\node[box] (TS) [above=0 of S] {37};
+\node[] (R2) [above=0 of TS] {$R_2$};
+\node[box] (E) [right=of T] {E};
+\node[box] (O) [above=0 of E] {O};
+\node[box] (FO) [above=0 of O] {41};
+\node[] (R3) [above=0 of FO] {$R_3$};
+\node[] (KEY) [right=0 of FO] {\small Chave};
+\node[minimum height=1.2cm, minimum width=0, left delimiter=\}, right=0.5cm
+of E.north east] {\footnotesize Informação adicional};
+}
+\begin{columns}
+\hspace{1cm}
+\begin{column}{0.4\textwidth}
+\begin{block}<1,2>{Tabela de ponteiros}
+\begin{tikzpicture}
+\records
+\node[] (REC) [left=0 of R] {\small Registros};
+
+\node[box] (M) [below= of T] {};
+\node[box] (L) [left=0 of M] {};
+\node[box] (Ri) [right=0 of M] {};
+
+\only<1>{
+\draw[pointer, dotted] (M.center) -- (T);
+\draw[pointer, dotted] (L.center) -- (D);
+\draw[pointer, dotted] (Ri.center) -- (E);
+}
+\node[] (TAB) [left=0 of L] {\footnotesize Tabela auxiliar};
+
+\only<2>{
+\draw[pointer] (M.center) -- (E);
+\draw[pointer] (L.center) -- (T);
+\draw[pointer] (Ri.center) -- (D);
+}
+
+\end{tikzpicture}
+\end{block}
+\end{column}
+
+\begin{column}{\textwidth}
+\begin{block}<3>{Lista encadeada ordenada}
+\begin{tikzpicture}
+\records
+\node[box] (M) [below=0 of T] {};
+\node[box] (L) [below=0 of D] {$\Lambda$};
+\node[box] (Ri) [below=0 of E] {};
+\node[] (LINKLABEL) [right=0 of Ri] {\footnotesize Ponteiro (depois da
+ordenação)} ;
+
+\draw[pointer] (M.center) -- (Ri);
+\draw[pointer] (Ri.center) .. controls +(down:5mm) and +(down:7mm) .. (L.south east);
+
+\node[box] (HEAD) [below= of E.south east] {} ;
+\node[] (HEADLABEL) [right=0 of HEAD] {\footnotesize Topo da lista} ;
+\draw[pointer] (HEAD.center) .. controls +(left:15mm) .. (M.south);
+\end{tikzpicture}
+\end{block}
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\section{Ordenação em tempo linear}
+
+\lecture{Ordenação por contagem}{counting}
+
+\begin{frame}[plain]
+\title{\insertlecture}
+\maketitle
+\end{frame}
+
+\subsection{\insertlecture}
+
+The basic idea of counting sorting algorithm is to determine how many
+elements are less than an element $x$. If there are 17 elements in
+this condition, $x$ is placed after 17th element. This idea is
+modified when there are repeated elements, to NOT put two elements in
+the same place.
+
+\begin{frame}{Ordenação por contagem}
+
+\begin{block}{Idéia básica}
+\begin{itemize}
+\item Determinar para cada elemento, o número de elementos menores que
+ele.
+\end{itemize}
+\end{block}
+
+\begin{block}{Propriedades}
+\begin{itemize}
+\item Entrada: $\{ x \in [chave \rightarrow \mathbb{N}]\}$, onde $\{chave
+\in \mathbb{N}\}$, k em intervalo pequeno
+\item Saída: $\{x \in [chave \rightarrow \mathbb{N}] : \forall\ i,j \in chave\ : i < j \Rightarrow x[i] \leq x[j] \}$
+\item Complexidade: $O(n)$
+\end{itemize}
+\end{block}
+\end{frame}
+
+\subsubsection{Algoritmo}
+
+\begin{frame}[fragile]{Algoritmo de ordenação por comparação}
+
+\footnotesize
+\begin{columns}
+\begin{column}{.5\textwidth}
+
+{\mygray<1->
+\begin{lstlisting}
+para i <- 0,1,...,k
+     C[i] <- 0
+\end{lstlisting}
+}
+
+{\mygray<1,3->
+\begin{lstlisting}
+para j <- 1,2,...,N
+     C[A[j]] <- C[A[j]] + 1
+\end{lstlisting}
+}
+
+{\mygray<1-2,4->
+\begin{lstlisting}
+para i <- 2,3,...,k
+     C[i] <- C[i] + C[i-1]
+\end{lstlisting}
+}
+
+{\mygray<1-3,5>
+\begin{lstlisting}
+para j <- N,N-1,...,1
+     B[C[A[j]]] <- A[j]
+     C[A[j]] <- C[A[j]] - 1
+\end{lstlisting}
+}
+
+\end{column}
+
+\begin{column}{.5\textwidth}
+
+% Aa - the first A is the label, the second the item in the Cormen
+% book page 136
+\begin{block}<1-3>{Arranjo a ordenar}
+\begin{tikzpicture}
+\myarray{A}{1/2,2/5,3/3,4/0,5/2,6/3,7/0,8/3}
+\end{tikzpicture}
+\end{block}
+
+
+\begin{block}<2,3>{\mygray<3> C $\leftarrow$ chaves iguais a $i$}
+{\mygray<3>
+\begin{tikzpicture}
+\myarray{C}{0/1,1/0,2/2,3/3,4/0,5/1}
+\end{tikzpicture}
+}
+\end{block}
+
+\begin{block}<3>{Acumula a contagem}
+\begin{tikzpicture}
+\myarray{C}{0/2,1/2,2/4,3/6,4/7,5/8}
+\end{tikzpicture}
+\end{block}
+
+\vspace{-4cm}
+\begin{block}<4>{Ordena de acordo com a contagem}
+\begin{tikzpicture}
+\myarray{B}{1/ ,2/ ,3/ ,4/ ,5/ ,6/ ,7/3,8/ }
+\end{tikzpicture}
+\end{block}
+\begin{block}<4>{Decrementa o contador}
+\begin{tikzpicture}
+\myarray{C}{0/2,1/2,2/4,3/\alert{6},4/7,5/8}
+\end{tikzpicture}
+\end{block}
+
+\vspace{-4cm}
+\begin{block}<5>{Elementos ordenados}
+\begin{tikzpicture}
+\myarray{B}{1/0,2/0,3/2,4/2,5/3,6/3,7/3,8/5}
+\end{tikzpicture}
+\end{block}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Exercício}
+
+\begin{enumerate}
+\item Ordenar o arranjo $A$ utilizando o algoritmo de ordenação por contagem.
+\end{enumerate}
+
+\begin{tikzpicture}
+\myarray{B}{1/6,2/0,3/2,4/0,5/1,6/3,7/4,8/6,9/1,10/3,11/2}
+\end{tikzpicture}
+
+\end{frame}
+
+\lecture{{\em Radix-sort}}{radix}
+
+\subsection{\insertlecture}
+
+\begin{frame}[plain]
+\title{\insertlecture}
+\maketitle
+\end{frame}
+
+\begin{frame}{\insertlecture}
+
+\begin{block}{Idéia básica}
+\begin{itemize}
+\item Ordenar os elementos de acordo com o exame de cada coluna, como
+eram feitas as leituras nos cartões perfurados.
+\end{itemize}
+\end{block}
+
+\begin{figure}[hf]
+\caption{Cartão perfurado}
+\label{puchcard}
+\includegraphics[scale=0.125]{img/punchcard}\\
+{\tiny Fonte: \url{http://en.wikipedia.org/wiki/Punched_card}}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo {\em radix-sort}}
+\begin{lstlisting}
+para i := 1,2,...,C
+     <ordenar o arranjo A baseado na coluna i>
+\end{lstlisting}
+
+\def\dheight{0.5cm}
+\def\dwidth{0.35cm}
+\def\queue#1#2#3#4{
+  \node[rectangle,draw] at (0,0.5*\dheight) {\tiny 3};
+  \node[rectangle,draw] at (\dwidth,0.5*\dheight) {\tiny 2};
+  \node[rectangle,draw] at (2*\dwidth,0.5*\dheight) {\tiny 1};
+  \foreach \i/\ddd/\dd/\d in {#4} {
+      \node[fill=red!#1] at (0,-\dheight*\i) {\ddd};
+      \node[fill=red!#2] at (\dwidth,-\dheight*\i) {\dd};
+      \node[fill=red!#3] at (2*\dwidth,-\dheight*\i) {\d};
+  }
+}
+\begin{columns}
+\begin{column}{.2\textwidth}
+\begin{tikzpicture}
+\queue{0}{0}{0}{1/3/2/9,2/4/5/7,3/6/5/7,4/8/3/9,5/4/3/6,6/7/2/0,7/3/5/5}
+\end{tikzpicture}
+\end{column}
+
+\begin{column}{.2\textwidth}
+\begin{tikzpicture}
+\queue{0}{0}{100}{1/7/2/0,2/3/5/5,3/4/3/6,4/4/5/7,5/6/5/7,6/3/2/9,7/8/3/9}
+\end{tikzpicture}
+\end{column}
+
+
+\begin{column}{.2\textwidth}
+\begin{tikzpicture}
+\queue{0}{100}{0}{1/7/2/0,2/3/2/9,3/4/3/6,4/8/3/9,5/3/5/5,6/4/5/7,7/6/5/7}
+\end{tikzpicture}
+\end{column}
+
+
+\begin{column}{.2\textwidth}
+\begin{tikzpicture}
+\queue{100}{0}{0}{1/3/2/9,2/3/5/5,3/4/3/6,4/4/5/7,5/6/5/7,6/7/2/0,7/8/3/9}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Análise}
+
+\begin{lema}
+O tempo de execução de {\em radix-sort} é \alert{$O(d(n+k))$} para $n$ números
+de $d$ dígitos, onde cada dígito pode assumir k valores possíveis, e
+\alert{$O(n)$} se d for constante e $k = O(n)$.
+\end{lema}
+
+\begin{lema}
+Dados $n$ números de bits e qualquer inteiro positivo e qualquer
+inteiro positivo $r \leq b$, então {\em radix-sort} ordena
+corretamente estes números no tempo \alert{O(($b\slash r)(n + 2^r))$}
+\end{lema}
+
+\end{frame}
+
+\begin{frame}{Comparação com outros algoritmos}
+
+\end{frame}
+
+
+
+\lecture{\em Bucket-sort}
+
+\frame{\title{\insertlecture}\maketitle}
+
+\subsection{\insertlecture}
+
+\begin{frame}{\insertlecture}
+
+\begin{block}{Propriedades e restrições}
+
+\begin{enumerate}
+\item Entrada: $\{A \in [i \rightarrow \mathbb{R}] : \forall x \in A
+\Rightarrow 0\leq x < 1\}$, assumindo que $i \in \mathbb{N}$.
+\end{enumerate}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo {\em bucket-sort}}
+\footnotesize
+\begin{lstlisting}
+n := tamanho(A)
+for i := 1,2,...,n
+    inserir A[i] na lista B[lfloorn*A[i]rfloor]
+for i := 0,1,...,n-1
+    ordenar lista B[i] com ordenacc~ao por insercc~ao
+concatenar as listas B[0],B[1],...,B[n-1]
+\end{lstlisting}
+
+\def\dheight{0.5cm}
+\def\dwidth{0.35cm}
+\def\radixqueue#1#2{
+  \tikzset{rbox/.style={box,minimum height=0.5cm,fill=green!20}}
+  \node[] at (0,\dheight) {\small #1};
+  \foreach \i/\num in {#2} {
+    \node[] at (-1, -\dheight*\i) {\tiny \i};
+      \node[rbox] (#1\i) at (0,-\dheight*\i) {\num};
+  }
+}
+
+\begin{columns}
+\begin{column}{.2\textwidth}
+\begin{tikzpicture}
+\radixqueue{A}{1/{0,78},2/{0,17},3/{0,39},4/{0,26},5/{0,72},
+               6/{0,94},7/{0,21},8/{0,12},9/{0,23},10/{0,68}}
+\end{tikzpicture}
+\end{column}
+
+\begin{column}{.6\textwidth}
+\begin{tikzpicture}[link/.style={->,>=latex}]
+\radixqueue{B}{0/{\null},1/ ,2/ ,3/ ,4/{\null},
+               5/{\null},6/ ,7/ ,8/{\null},9/}
+
+\node[rbox] (B10) [right= of B1] {0,\alert{1}2};
+\node[rbox] (LB10) [right=0 of B10] {};
+\draw[link] (B1.center) -- (B10);
+\node[rbox] (B11) [right= of B10] {0,\alert{1}7};
+\node[rbox] (LB11) [right=0 of B11] {};
+\draw[link] (LB10.center) -- (B11);
+%% 2
+\node[rbox] (B21) [right= of B2] {0,\alert{2}1};
+\node[rbox] (LB21) [right=0 of B21] {};
+\draw[link] (B2.center) -- (B21);
+\node[rbox] (B23) [right= of B21] {0,\alert{2}3};
+\node[rbox] (LB23) [right=0 of B23] {};
+\draw[link] (LB21.center) -- (B23);
+\node[rbox] (B26) [right= of B23] {0,\alert{2}6};
+\node[rbox] (LB26) [right=0 of B26] {\null};
+\draw[link] (LB23.center) -- (B26);
+% 3
+\node[rbox] (B39) [right= of B3] {0,\alert{3}9};
+\node[rbox] (LB39) [right=0 of B39] {\null};
+\draw[link] (B3.center) -- (B39);
+% 6
+\node[rbox] (B68) [right= of B6] {0,\alert{6}8};
+\node[rbox] (LB68) [right=0 of B68] {\null};
+\draw[link] (B6.center) -- (B68);
+% 7
+\node[rbox] (B72) [right= of B7] {0,\alert{7}2};
+\node[rbox] (LB72) [right=0 of B72] {};
+\draw[link] (B7.center) -- (B72);
+\node[rbox] (B78) [right= of B72] {0,\alert{7}8};
+\node[rbox] (LB78) [right=0 of B78] {\null};
+\draw[link] (LB72.center) -- (B78);
+% 9
+\node[rbox] (B94) [right= of B9] {0,\alert{9}4};
+\node[rbox] (LB94) [right=0 of B94] {\null};
+\draw[link] (B9.center) -- (B94);
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\section{Ordenação por comparações}
+
+\subsection{Ordenação por inserção}
+
+\fi
+
+\end{document}
+
+\input ../../def
+\input def
+\lecpreamble
+\sortlstset
+\begin{document}
+
+\lecture{Ordenação por inserção ({\em sorting by insertion})}
+
+\section{\insertlecture}
+
+\frame{\title{\insertlecture}\author{\thisauthor}\maketitle}
+
+\begin{frame}{\insertlecture}
+\framesubtitle{Definição}
+
+\begin{block}{Inserção direta}
+
+  \begin{itemize}
+  \item Reagrupar os registros {\tt R$_1$,...,R$_{j-1}$}, onde $1 < j \leq N$, tal que:
+    \[K_1 \leq K_2 \leq \hdots \leq K_{j-1} \]
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{\insertlecture}
+\framesubtitle{Exemplo}
+\def\here{$_\wedge$}
+
+\only<1>{
+\begin{tabular}{lllllllllll}
+  \tabularkeystosort \\ \hline
+  \here 503 :& \alert{087} & & & & & & & & &  \\
+\end{tabular}
+}
+\only<2>{
+\begin{tabular}{lllllllllll}
+  \tabularkeystosort \\ \hline
+   087 & 503: &\here \alert{512}& & & & & & & &  \\
+\end{tabular}
+}
+
+\only<3>{
+\begin{tabular}{lllllllllll}
+  \tabularkeystosort \\ \hline
+   \here 087 & 503 & 512:& \alert{067}& & & & & & &  \\
+\end{tabular}
+}
+
+\only<4>{
+\begin{tabular}{lllllllllll}
+  \tabularkeystosort \\ \hline
+    067 & 087 & 503& 512 &\here \alert{908}& & & & & &  \\
+\end{tabular}
+}
+
+\only<5>{
+\begin{tabular}{lllllllllll}
+  \tabularkeystosort \\ \hline
+    067 & 087 &\here 503& 512 & 908: & \alert{170}& & & & &  \\
+\end{tabular}
+}
+
+
+ \only<6>{
+ \begin{tabular}{lllllllllll}
+   \tabularkeystosort \\ \hline
+     067 & 087 & 170 & 503& 512 &\here 908: & \alert{897}& & & &  \\
+ \end{tabular}
+}
+
+\only<7>{
+\begin{tabular}{lllllllllll}
+  \tabularkeystosort \\ \hline
+  \tabularkeyssorted \\
+\end{tabular}
+}
+  
+\end{frame}
+
+\begin{frame}[fragile]{\insertlecture}
+\framesubtitle{Algoritmo}
+\lstset{basicstyle=\footnotesize,frame=single}
+\lstinputlisting[firstline=4]{ins.c}
+\end{frame}
+
+\subsection{Análise e características}
+O algoritmo de ordenação por inserção é estável porque não modifica a
+ordem das entradas quando as chaves são iguais e quando a entrada for
+pequena, mesmo sendo quadrático no pior caso, é preferível utilizá-lo
+pela facilidade implementação.
+
+\begin{frame}{\insertlecture}
+  \begin{block}{Análise}
+    \begin{itemize}
+    \item Tempo:
+      \begin{itemize}
+      \item Melhor caso: $\Omega (n^2)$.
+      \item Pior caso: $O(n^2)$.
+      \end{itemize}
+    \item Espaço: $O(n)$
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Características}
+    \begin{itemize}
+    \item Simplicidade;
+    \item Estabilidade.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\end{document}
+
+
+
+\begin{frame}{Algoritmo Quicksort}{Ideia}
+%\animategraphics[scale=.865,step]{1}{fig/sortQ}{}{}
+\end{frame}
+
+\begin{frame}{Exemplo {\em quicksort}}
+\begin{tikzpicture}
+\quickarray{0/\fbox{25} 57 48 37 12 92 86 33/white/rectangle}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\quickarray{0/\fbox{25} 57 48 37 $^\leftarrow$12 92 86 33/white/rectangle}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\quickarray{0/12/green/rectangle,1/25/white/rectangle,3.5/57 48 37 12 92 86 33/red!70/rectangle}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\quickarray{0/12/white/circle,1/25/white/circle,3.5/\fbox{57} 48 37 92 86 33/white/rectangle}
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+\quickarray{0/12/white/circle,1/25/white/circle,4/\fbox{57} $^\leftarrow$48 $^\leftarrow$37 92 86 $^\leftarrow$33/white/rectangle}
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+\quickarray{0/12/white/circle,1/25/white/circle,3/48 37 33/red!40/rectangle,4.5/57/white/rectangle,5.75/92 86/red!25/rectangle}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\quickarray{0/12/white/circle,1/25/white/circle,3/\fbox{48} 37 33/white/rectangle,4.5/57/white/rectangle,5.75/92 86/red!25/rectangle}
+\end{tikzpicture}
+\end{frame}
+
+
+\fi

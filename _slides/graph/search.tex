@@ -1,0 +1,48 @@
+\title{Percurso em Grafos}
+\section{\inserttitle}
+
+\frame{\maketitle}
+
+\lecture{Percurso em profundidade}{dfs}
+\subsection{\insertlecture}
+
+\begin{frame}{\insertlecture}
+
+\begin{center}
+\begin{tikzpicture}[]
+%\luaexec{graph = creategraph() dfs(graph, 1)}
+\input{/tmp/dfs}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{\insertlecture}{Implementação}
+  \lstinputlisting[firstline=78,lastline=97]{src/grafo.c}
+\end{frame}
+
+\begin{frame}{Análise}{\insertlecture}
+  $$O(|V| + |A|)$$
+\end{frame}
+
+\lecture{Percurso em largura}{bfs}
+\subsection{\insertlecture}
+
+\begin{frame}{\insertlecture}
+
+\begin{center}
+\begin{tikzpicture}[]
+%  \directlua{local graph = creategraph()bfs(graph, 1)}
+\input{/tmp/bfs}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{\insertlecture}{Implementação}
+  \lstinputlisting[basicstyle=\tiny,firstline=122,lastline=148]{src/grafo.c}
+\end{frame}
+
+\begin{frame}{Análise}{\insertlecture}
+  $$O(|V| + |A|)$$
+\end{frame}

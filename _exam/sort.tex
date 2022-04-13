@@ -1,0 +1,169 @@
+\section*{Ordenação}
+
+\exercise [Feofiloff] No código da função {\tt insertionsort()}~(Listagem~\ref{lst:insertion}) troque
+``{\tt v[j] > x}'' por ``{\tt v[j] >= x}'', a função continua
+produzindo um ordenação crescente de {\tt x[0..N-1]}?
+
+\exercise [Feofiloff] Modifique a função {\tt
+  insertionsort()} (Listagem~\ref{lst:insertion}), de forma que os elementos do vetor fiquem em ordem
+decrescente após a ordenação.
+
+\exercise (Opcional) Modifique as funções {\tt insertionsort()} da
+Listagem~\ref{lst:insertion}, {\tt mergesort()} da
+Listagem~\ref{lst:merge} e {\tt quicksort()} da
+Listagem~\ref{lst:quick} de modo que seja possível contar e imprimir
+após a ordenação o número de comparações e trocas.
+
+\pagebreak
+
+\exercise Para o programa da Listagem~\ref{lst:insertion}, preencha o
+quadro inserindo os valores das variáveis indicadas durante a execução
+do programa. Cada linha indica o ponto em que o programa está sendo
+executado e o valor das variáveis i e j. Por exemplo, o rótulo {6.2.1}
+significa linha 6 com as variáveis i=2 e j=3. Quando o ponto indicado
+não for executado ou a variável estiver fora de escopo, indique estes
+fatos com um {\tt X} no valor.\vspace{-0.5cm}
+
+\begin{center}
+  \begin{lstlisting}[caption={Algoritmo de ordenação por inserção.},label={lst:insertion}]
+    void insertionsort(int N, int v[]) {
+      int i, j, x;
+      for (i = 1; i < N; i++) {
+        x = v[i];
+        for (j = i-1; j >=0 && v[j] > x; j--) {
+          v[j+1] = v[j];
+        }
+        v[j+1] = x;
+      }
+    }
+    int main() {
+      int v[4] = {25,57,48,37};
+
+      insertionsort(4, v);
+
+      return 0;
+    }
+  \end{lstlisting}
+\end{center}
+
+
+\begin{center}
+  \small
+  \begin{tabular}[ht]{|l|c|c|c|c|c|c|c|}\hline
+    & \tt i &\tt j&\tt x&\tt v[0]&\tt v[1] &\tt v[2] &\tt v[3] \\\hline
+    % i=1
+    3.1 &\s 1 &\s ? &\s ? &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    4.1 &\s 1 &\s ? &\s 57 &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    5.1.0 &\s 1 &\s 0 &\s 57 &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    8.1.0 &\s 1 &\s 0 &\s 57 &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    % i=2
+    3.2 &\s 2 &\s 0 &\s 57 &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    4.2 &\s 2 &\s 0 &\s 48 &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    5.2.1 &\s 2 &\s 1 &\s 48 &\s 25 &\s 57 &\s 48 &\s 37 \\\hline
+    6.2.1 &\s 2 &\s 1 &\s 48 &\s 25 &\s 57 &\s 57 &\s 37 \\\hline
+    8.2.1 &\s X &\s X &\s X &\s X &\s X &\s X &\s X  \\\hline
+    6.2.0 &\s 2 &\s 0 &\s 48 &\s 25 &\s 57 &\s 57 &\s 37 \\\hline
+    8.2.0 &\s 2 &\s 0 &\s 48 &\s 25 &\s 48 &\s 57 &\s 37 \\\hline
+    5.2.-1 &\s X&\s X&\s X&\s X&\s X&\s X&\s X \\\hline
+    % i=3
+    3.3 &\s 3 &\s 0 &\s 48 &\s 25 &\s 48 &\s 57 &\s 37 \\\hline
+    4.3 &\s 3 &\s 0 &\s 37 &\s 25 &\s 48 &\s 57 &\s 37 \\\hline
+    5.3.2 &\s 3 &\s 2 &\s 37 &\s 25 &\s 48 &\s 57 &\s 37 \\\hline
+    6.3.2 &\s 3 &\s 2 &\s 37 &\s 25 &\s 48 &\s 57 &\s 57 \\\hline
+    8.2.2 &\s X&\s X&\s X&\s X&\s X&\s X&\s X\\\hline
+    5.3.1 &\s 3 &\s 1 &\s 37 &\s 25 &\s 48 &\s 57 &\s 57 \\\hline
+    6.3.1 &\s 3 &\s 1 &\s 37 &\s 25 &\s 48 &\s 48 &\s 57 \\\hline
+    8.2.1 &\s X &\s X &\s X &\s X &\s X &\s X &\s X  \\\hline
+    5.3.0 &\s 3 &\s 0 &\s 37 &\s 25 &\s 48 &\s 48 &\s 57 \\\hline
+    8.3.0 &\s 3 &\s 0 &\s 37 &\s 25 &\s 37 &\s 48 &\s 57 \\\hline
+    5.3.-1 &\s X &\s X& \s X&\s X &\s X &\s X &\s X  \\\hline
+    % i=4
+    3.4 &\s 4 &\s 0 &\s 37 &\s 25 &\s 37 &\s 48 &\s 57 \\\hline
+    % exit
+    10 &\s 4 &\s 0 &\s 37 &\s 25 &\s 37 &\s 48 &\s 57 \\\hline
+    15 &\s X &\s X &\s X &\s 25 &\s 37 &\s 48 &\s 57 \\\hline
+  \end{tabular}
+\end{center}  
+
+\pagebreak
+
+\exercise Desenhe as chamadas de funções para {\tt merge()} e {\tt
+  mergesort()}~(Listagem~\ref{lst:merge}) para a seguinte invocação {\tt mergesort(0,5,v)}, onde
+{\tt v} é um vetor de 5 elementos.
+
+\begin{center}
+  \begin{lstlisting}[label={lst:merge},caption={Algoritmo mergesort.}]
+    void merge(int p, int q, int r, int v[]) {
+      int i, j, k, *w;
+      w = calloc(r-p, sizeof(int));
+      i=p, j=q, k=0;
+      while (i<q && j<r) {
+        if (v[i]<=v[j]) w[k++] = v[i++];
+        else w[k++] = v[j++];
+      }
+      while (i<q) w[k++] = v[i++];
+      while (j<r) w[k++] = v[j++];
+      for (i=p; i<r; i++) v[i] = w[i-p];
+      free(w);
+    }
+    void mergesort(int p, int r, int v[]) {
+      if (p<r-1) {
+        int q = (p+r) / 2;
+        mergesort(p, q, v);
+        mergesort(q, r, v);
+        merge(p, q, r, v);
+      }
+    }
+  \end{lstlisting}
+\end{center}
+
+\pagebreak
+
+\exercise Mostre passo-a-passo através do teste de mesa como a função 
+{\tt particiona()} mostrada na Listagem~\ref{lst:quick} atua 
+sobre os seguintes vetores:
+
+\begin{enumerate}[a)]
+\item {\tt v[5] = \{4, 1, 9, 2, 5\}; particiona(0, 4, v);}
+\item {\tt v[7] = \{11, 32, 26, 4, 1\}; particiona(0, 4, v);}
+\item {\tt v[10] = \{77, 37, 2, 64, 36, 10\}; particiona(0, 5, v);}
+\end{enumerate}
+
+\begin{lstlisting}[caption={Função de partionamento utilizada pelo algoritmo quicksort.},label={lst:quick}]
+  /* particiona() recebe um vetor v[inf..sup] com inf<=sup. Rearranja os
+   elementos do vetor e devolve j em inf..sup tal que 
+   v[inf..j-1] <= v[j] < v[j+1..sup]. Author: Bob Sedgewick. */
+long particiona(long inf, long sup, long v[]) {
+	long i=inf, j=sup+1;
+	long t /* temporaria */, x = v[inf]; /* seleciona pivo */
+
+	while (1) {
+		while(v[++i] < x)
+			if (i==sup)
+				break; /*i->*/
+		while(x < v[--j])
+			if (j==inf)
+				break; /*<-j*/
+             
+		if (i>=j)
+			break; 
+		t = v[j], v[j] = v[i], v[i] = t; /*i<->j*/
+	}
+	v[inf] = v[j], v[j] = x; /*inf<->j */
+
+	return j;
+}
+
+/** quicksort() seleciona um pivoh usando a funcao particiona() e
+    recursivamente aplica o mesmo procedimento nos 2 subvetores com
+    elementos maiores e menores que o pivoh cada. */
+void quicksort(long inf, long sup, long v[]) {
+	long p;
+
+	if (inf<sup) {
+		p = particiona(inf, sup, v);
+		quicksort(inf, p-1, v);
+		quicksort(p+1, sup, v);
+	}
+}
+\end{lstlisting}

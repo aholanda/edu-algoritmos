@@ -1,0 +1,227 @@
+
+\title{Ordenação por Inserção}
+
+\begin{frame}{Ordenação por inserção simples: implementação}
+
+  \only<1>{
+    \begin{itemize}
+    \item Simples de implementar;
+    \item Estável.
+    \end{itemize}
+  }
+  \pause
+  \lstinputlisting[firstline=4,lastline=14]{../sort/insertion.c}
+\end{frame}
+
+\ifnum1=2
+
+\begin{frame}{Ordenação por inserção simples: ideia}
+
+  \begin{center}
+    \begin{tikzpicture}
+      \def\shift{1cm}
+      \newcounter{y}
+      \def\incry{\addtocounter{y}{1}}
+      \def\y{\arabic{y}}
+      \tikzset{
+        every node/.style={font=\Large},
+        current/.style={minimum width=\shift, minimum height=\shift,thick},
+        j/.style={current, red, draw},
+        i/.style={current, draw}
+      }
+
+      \foreach \i/\n in {0/55,1/33,2/77,3/22,4/88,5/44,6/66} {
+        \node at (\i*\shift,0) {\n};
+      }
+
+      \node[j] at (1,0) {};
+      \node[i] at (0,0) {};
+
+
+      \incry
+
+      \foreach \i/\n in {0/55,1/{ },2/77,3/22,4/88,5/44,6/66} {
+        \node at (\i*\shift,-\y) {\n};
+      }
+      \node[j] at (1*\shift,1.5*\shift) {33};
+
+      \foreach \i/\n/\l in {0/{ }/,1/{55}/i,2/77/,3/22/,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+      % \node[i] at (0,-\y) {33};
+
+      % \node[j] at (2*\shift,-\y) {};
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{ }/,3/22/,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \node[j] at (2*\shift,1.5*\shift) {77};
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{77}/i,3/22/,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{77}/i,3/22/j,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{77}/i,3/{ }/,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \node[j] at (3*\shift,1.5*\shift) {22};
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{ }/,3/{77}/i,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{33}/i,1/{ }/,2/{55}/i,3/{77}/i,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{ }/,1/{33}/i,2/{55}/i,3/{77}/i,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/88/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/88/j,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{ }/,5/44/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \node[j] at (4*\shift,1.5*\shift) {88};
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{88}/i,5/44/j,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{88}/i,5/{}/,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      % \node[j] at (5*\shift,1.5*\shift) {44};
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{}/,5/{88}/i,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{}/,4/{77}/i,5/{88}/i,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{}/,3/{55}/i,4/{77}/i,5/{88}/i,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      % \node[j] at (2*\shift,1.5*\shift) {44};
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{88}/i,6/66/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{88}/i,6/66/j} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{88}/i,6/{}/} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      % \node[j] at (6*\shift,1.5*\shift) {66}; 
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{}/,6/{88}/i} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{}/,5/{77}/i,6/{88}/i} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+      % \node[j] at (4*\shift,1.5*\shift) {66};
+
+      \incry
+
+      \foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{66}/i,5/{77}/i,6/{88}/i} {
+        \node[\l] at (\i*\shift,-\y) {\n};
+      }
+
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\fi
+
+\begin{frame}{Ordenação por inserção simple: desempenho.}
+
+  \begin{itemize}
+  \item Tempo
+    \begin{itemize}
+    \item Pior caso: $\bigO{n^2}$ comparações, trocas;
+    \item Melhor caso: $\bigO{n}$ comparações, $\bigO{1}$ troca;
+    \item Média: $\bigO{n^2}$ comparações, trocas.
+    \end{itemize}
+  \item Espaço
+    \begin{itemize}
+    \item Pior caso: $\bigO{n}$ total, $\bigO{1}$ variável auxiliar.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\lecture{Shellsort}{shellsort}
+
+\begin{frame}{\insertlecture}
+  \begin{itemize}
+  \item Proposto por Donald Shell em 1959;
+  \item Generalização do algoritmo de ordenação por inserção simples.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ordenação por inserção simples: implementação.}
+  \lstinputlisting[firstline=2,lastline=20]{../sort/shell.c}
+\end{frame}
+

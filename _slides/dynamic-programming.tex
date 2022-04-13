@@ -1,0 +1,359 @@
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+
+
+\lecture{Programação Dinâmica}
+
+\frame{\title{\insertlecture}\maketitle}
+
+\begin{frame}{Distância de edição entre duas {\it strings\/}}
+\def\gap{0.2cm}
+\footnotesize
+
+  \begin{definition}
+    Uma {\it string} sobre o alfabeto $I, D, R, M$ que descreve uma
+    transformação de uma {\it string\/} em outra é chamada uma
+    \alert{transcrição de edição} ({\it edit transcript\/}), ou apenas
+    \alert{transcrição}, das duas {\it strings\/}.
+  \end{definition}
+
+\pause
+
+\begin{block}{Exemplo}
+  \begin{itemize}
+  \item Operações de edição (I -- inserção, D -- remoção, R --
+    substituição, M -- nenhuma operação = emparelhamento) para que a
+    palavra ``vintner'' possa ser editada e transformada na palavra ``writers''.
+  \end{itemize}
+\begin{center}
+  \begin{tikzpicture}
+    \node (R) at (0,0) {R};
+    \node (I11) [right=\gap of R] {I};
+    \node (M11) [right=\gap of I11] {M};
+    \node (D11) [right=\gap of M11] {D};
+    \node (M12) [right=\gap of D11] {M};
+    \node (D12) [right=\gap of M12] {D};
+    \node (M13) [right=\gap of D12] {M};
+    \node (M14) [right=\gap of M13] {M};
+    \node (I12) [right=\gap of M14] {I};
+
+    \node (v2) [below=\gap of R] {v};
+    \node (sp21) [below=\gap of I11] {$\sqcup$};
+    \node (i2) [below=\gap of M11] {i};
+    \node (n21) [below=\gap of D11] {n};
+    \node (t2) [below=\gap of M12] {t};
+    \node (n22) [below=\gap of D12] {n};
+    \node (e2) [below=\gap of M13] {e};
+    \node (r2) [below=\gap of M14] {r};
+    \node (sp22) [below=\gap of I12] {$\sqcup$};
+
+    \node  [below=\gap of v2] {w};
+    \node  [below=\gap of sp21] {r};
+    \node  [below=\gap of i2] {i};
+    \node  [below=\gap of n21] {$\sqcup$};
+    \node  [below=\gap of t2] {t};
+    \node  [below=\gap of n22] {$\sqcup$};
+    \node  [below=\gap of e2] {e};
+    \node  [below=\gap of r2] {r};
+    \node  [below=\gap of sp22] {s};
+
+  \end{tikzpicture}
+\end{center}
+\end{block}
+
+\pause
+
+  \begin{definition}
+    A \alert{distância de edição} ({\it edit distance\/}) entre duas
+    {\it strings\/} é definida sendo o número mínimo de operações de
+    edição -- inserções, remoções e substituições -- necessárias para
+    transformar a primeira {\it string\/} na segunda. Notar que o
+    emparelhamento não conta.
+  \end{definition}
+  
+\end{frame}
+
+
+\begin{frame}{Aplicação: alinhamento de \only<1,2>{{\it strings\/}}\only<3,4>{sequências}}
+  \def\belowdist{0.25cm}
+  \def\gap{0.2cm}
+  \begin{definition}
+    O \alert{alinhamento} de 2 \only<1,2>{{\it strings\/}}
+    \only<3,4>{sequências} $S_1$ e $S_2$ é obtido pela inserção de
+    espaços (ou traços) no meio ou nas extremidades de $S_1$ e $S_2$ e
+    colocando as duas \only<1,2>{{\it strings\/}} \only<3,4>{sequências}
+    resultantes uma em cima da outra de tal forma que um caracter ou
+    espaço em uma das \only<1,2>{{\it strings\/}} \only<3,4>{sequências} corresponda
+    a exatamente um caracter ou espaço da outra \only<1,2>{{\it
+        string\/}} \only<3,4>{sequência}.
+  \end{definition}
+
+  \begin{block}{Exemplo}
+    \only<1,2>{
+      \begin{itemize}
+      \item Alinhar as {\it strings\/} ``qacdb'' e ``qawxb''.
+    \end{itemize}
+  }
+  \only<2>{
+    \begin{tikzpicture}
+      \node (q1) at (-2, 1) {q};
+      \node (a1) [right= of q1] {a};
+      \node (c1) [right= of a1] {c};
+      \node (t1) [right= of c1] {--};
+      \node (d1) [right= of t1] {d};
+      \node (b1) [right= of d1] {b};
+      \node (d12) [right= of b1] {d};
+
+      \node (q2) [below=\belowdist of q1] {q};
+      \node (a2) [below=\belowdist of a1] {a};
+      \node (w2) [below=\belowdist of c1] {w};
+      \node (x2) [below=\belowdist of t1] {x};
+      \node (t21) [below=\belowdist of d1] {--};
+      \node (b2) [below=\belowdist of b1] {b};
+      \node (t22) [below=\belowdist of d12] {--};
+    \end{tikzpicture}
+  }
+
+\only<3,4>{
+    \begin{itemize}
+    \item Alinhar as \alert{sequências} ``GACGGATTAG'' e ``GATCGGAATAG''.
+    \end{itemize}
+  }
+   \only<4>{
+     \begin{tikzpicture}[]
+       \node (g11) at (-2, 1) {G};
+       \node (a11) [right=\gap of g11] {A};
+       \node (t1) [right=\gap of a11] {--};
+       \node (c1) [right=\gap of t1] {C};
+       \node (g12) [right=\gap of c1] {G};
+       \node (g13) [right=\gap of g12] {G};
+       \node (a12) [right=\gap of g13] {A};
+       \node (t11) [right=\gap of a12] {T};
+      \node (t12) [right=\gap of t11] {T};
+      \node (a13) [right=\gap of t12] {A};
+      \node (g14) [right=\gap of a13] {G};
+
+
+      \node  [below=\belowdist of g11] {G};
+      \node  [below=\belowdist of a11] {A};
+      \node  [below=\belowdist of t1] {T};
+      \node  [below=\belowdist of c1] {C};
+      \node  [below=\belowdist of g12] {G};
+      \node  [below=\belowdist of g13] {G};
+      \node  [below=\belowdist of a12] {A};
+      \node  [below=\belowdist of t11] {A};
+      \node  [below=\belowdist of t12] {T};
+      \node  [below=\belowdist of a13] {A};
+      \node  [below=\belowdist of g14] {G};
+     \end{tikzpicture}
+ }
+
+
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{Componentes essenciais da programação dinâmica}
+
+\begin{block}{Programação dinâmica padrão}
+  \begin{itemize}
+  \item Relação de recorrência;
+  \item Computação em tabuleiro ({\it tabular\/});
+  \item Retorno pela trilha ({\it traceback\/})
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Relação de recorrência}
+  \begin{definition}
+    Para duas {\it strings\/} $S_1$ e $S_2$, $D(i, j)$ é definida como
+    a distância de edição de $S_1[1..i]$ e $S_2[1..j]$.
+  \end{definition}
+
+\begin{block}{Recorrência}
+\[
+D(i, 0) = i
+\]
+\[
+D(0,j) = j
+\]
+\[
+D(i, j) = min[D(i-1, j)+1, D(i, j-1)+1, D(i-1, j-1) + t(i, j)]
+\]
+onde\\
+\(
+i, j \in \mathbb{N}
+\)
+
+ \(
+ t(i,j) = \left\{
+ \begin{array}[]{ll}
+   1 & \text{se}\  S_1(i) \neq S_2(j) \\
+   0 & \text{se}\  S_1(i) = S_2(j) \\
+ \end{array}
+\right.
+ \)
+\end{block}
+
+\begin{lemma}
+   O valor de D(i, j) deve ser D(i, j-1)+1, D(i-1, j)+1 ou D(i-1,
+   j-1)+t(i, j). Não há outras possibilidades.
+ \end{lemma}
+\end{frame}
+
+\begin{frame}{Computação de tabuleiro}
+
+\begin{columns}
+
+  \begin{column}{0.45\textwidth}
+      \begin{tabular}{||r|r||r|r|r|r||}\hline\hline
+    D(i, j) & & & A & G & C \\\hline
+            & &0& 1 & 2 & 3 \\\hline\hline 
+          A & 0 & &  &  &  \\\hline
+          A & 1 & &  &  &  \\\hline
+          A & 2 & &  &  &  \\\hline
+          C & 0 & &  &  &  \\\hline
+  \end{tabular}
+\end{column}
+
+$\Rightarrow$
+
+  \begin{column}{0.45\textwidth}
+      \begin{tabular}{||r|r||r|r|r|r||}\hline\hline
+    D(i, j) &   &  & A & G & C \\\hline
+            &   & 0& 1 & 2 & 3 \\\hline\hline 
+            & 0 & 0& 1 & 2 & 3 \\\hline
+          A & 1 & 1 & 1 & 2 & 3 \\\hline
+          A & 2 & 2 & 1 & 2 & 3 \\\hline
+          A & 3 & 3 & 1 & 2 & 3 \\\hline
+          C & 4 & 4 & 1 & 2 & 3 \\\hline
+  \end{tabular}
+
+  \end{column}
+
+  \end{columns}
+  
+\end{frame}
+
+\begin{frame}[fragile]{Trilha de retorno}
+
+\def\diag{$\nwarrow$}
+\def\back{$\gets$}
+\def\up{$\uparrow$}
+
+\def\gap{0.15cm}
+\def\belowdist{\gap}
+\def\tikzsty{}
+
+\only<1>{
+\begin{center}
+\begin{tabular}{||r|r||r|r|r|r||}\hline\hline
+    D(i, j) &   &  & A & G & C \\\hline
+            &   & 0& 1 & 2 & 3 \\\hline\hline 
+            & 0 & \up 0& \back 1 & \back 2 & \back 3 \\\hline
+          A & 1 & \up 1 & \diag 1 &\diag \up 2 &\back 3 \\\hline
+          A & 2 & \up 2 &\diag \up 1 & \back 2 & \back 3 \\\hline
+          A & 3 & \up 3 & \up 1 &\back 2 & \back 3 \\\hline
+          C & 4 & \up 4 &\up 2 & \diag 3 &\diag 3 \\\hline
+  \end{tabular}
+\end{center}
+}  
+
+\only<2>{
+\begin{center}
+\begin{tabular}{||r|r||r|r|r|r||}\hline\hline
+    D(i, j) &   &  & A & G & C \\\hline
+            &   & 0& 1 & 2 & 3 \\\hline\hline 
+            & 0 & \up 0& \back 1 & \back 2 & \back 3 \\\hline
+          A & 1 & \alert{\up} 1 & \diag 1 &\diag \up 2 &\back 3 \\\hline
+          A & 2 & \up 2 &\alert{\diag} \up 1 & \back 2 & \back 3 \\\hline
+          A & 3 & \up 3 & \up 1 & \alert{\back} 2 & \back 3 \\\hline
+          C & 4 & \up 4 &\up 2 & \diag 3 & \alert{\diag} 3 \\\hline
+  \end{tabular}
+ 
+     \begin{tikzpicture}[background rectangle/.style={draw=blue!50,fill=blue!20,rounded corners=1ex}, show background rectangle]
+       \node (t1)  {--};
+       \node (t2) [right=\gap of t1] {--};
+       \node (a) [right=\gap of t2] {A};
+       \node (g) [right=\gap of a] {G};
+       \node (c) [right=\gap of g] {C};
+
+      \node  [below=\belowdist of t1] {A};
+      \node  [below=\belowdist of t2] {A};
+      \node  [below=\belowdist of a] {A};
+      \node  [below=\belowdist of g] {--};
+      \node  [below=\belowdist of c] {C};
+     \end{tikzpicture}
+
+\end{center}
+}  
+
+
+\only<3>{
+\begin{center}
+\begin{tabular}{||r|r||r|r|r|r||}\hline\hline
+    D(i, j) &   &  & A & G & C \\\hline
+            &   & 0& 1 & 2 & 3 \\\hline\hline 
+            & 0 & \up 0& \back 1 & \back 2 & \back 3 \\\hline
+          A & 1 & \up 1 & \alert{\diag} 1 &\diag \up 2 &\back 3 \\\hline
+          A & 2 & \up 2 &\diag \alert{\up} 1 & \back 2 & \back 3 \\\hline
+          A & 3 & \up 3 & \up 1 & \alert{\back} 2 & \back 3 \\\hline
+          C & 4 & \up 4 &\up 2 & \diag 3 & \alert{\diag} 3 \\\hline
+  \end{tabular}
+
+     \begin{tikzpicture}[background rectangle/.style={draw=blue!50,fill=blue!20,rounded corners=1ex}, show background rectangle]
+       \node (t1)  {--};
+       \node (a) [right=\gap of t1] {A};
+       \node (t2) [right=\gap of a] {--};
+       \node (g) [right=\gap of t2] {G};
+       \node (c) [right=\gap of g] {C};
+
+      \node  [below=\belowdist of t1] {A};
+      \node  [below=\belowdist of a] {A};
+      \node  [below=\belowdist of t2] {A};
+      \node  [below=\belowdist of g] {--};
+      \node  [below=\belowdist of c] {C};
+     \end{tikzpicture}
+\end{center}
+}  
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo}
+\small
+$m$ -- comprimento da  $s$;\\
+$n$ -- comprimento da  $t$.\\
+{\bf Algoritmo}\\
+{\bf entrada: }sequências $s$ e $t$\\
+{\bf saída: }distâncias de edição
+  \begin{algorithmic}
+    \STATE {$m \leftarrow |s|$}
+    \STATE {$n \leftarrow |t|$}
+    \FOR{$i\leftarrow 0$ to m}
+    \FOR{$i\leftarrow 0$ to m}
+    \STATE {$D[i,j] \leftarrow$ min($D(i, j-1)+1, D(i-1,j)+1, D(i-1,
+      j-1) + t(i, j)$)}
+    \ENDFOR
+    \ENDFOR
+    \RETURN{D[m, n]}
+  \end{algorithmic}
+
+  \begin{theorem}
+    Usando programação dinâmica, o tabuleiro das distâncias de edição
+    é preenchido em tempo $O(mn)$.
+  \end{theorem}
+  
+\end{frame}
+
+\begin{frame}{Transcrição ótima}
+\framesubtitle{Retorno pela trilha {\it traceback\/}}
+
+\begin{teorema}
+Uma vez que o tabuleiro das distâncias esteja construído o tempo para
+achar o transcrito ótimo é $O(m+n)$.
+\end{teorema}
+
+\end{frame}
+

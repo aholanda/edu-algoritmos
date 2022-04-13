@@ -1,0 +1,68 @@
+
+\documentclass{beamer}
+\usetheme{boxes}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}
+\def\shift{1cm}
+\tikzset{
+  every node/.style={minimum width=\shift, minimum
+  height=\shift,font=\Large},
+  every path/.style={->,draw},
+  reg/.style={draw},
+  idx/.style={blue,font=\it},
+  current/.style={thick},
+  j/.style={current, red, draw},
+  i/.style={green!40!black},
+  dummy/.style={brown!50!black}
+}
+
+\foreach \i/\n in {0/22,1/33,2/44,3/55,4/66,5/77,6/88} {
+    \node[reg] (reg\i) at (\i*\shift,0) {\n};
+    \node[idx] (idx\i) [above of=reg\i] {\i};
+}
+\node<2-9,10->[reg,dummy] (regN) at (7*\shift,0) {\only<1-6>{44}\only<7->{99}};
+\node<2-9,10->[idx,dummy] (idxN) [above of=regN] {7};
+\node<2,11>[text width=2cm,dummy] [above of=idxN,yshift=.5*\shift] {\small registro fict\'icio};
+
+\node [above of=reg0,yshift=2.5*\shift] {\tt buscaT(\only<1-6>{44}\only<7->{{\color{red}99}});};
+
+\foreach \j/\f in {0/3, 1/4, 2/5} {
+         \node<\f>[i] (I\f) [above of=reg\j, yshift=1.5*\shift] {\tt i};
+         \path<\f> (idx\j) -- (I\f);
+         \node<\f>[circle,blue,draw] at (reg\j) {};
+         \node<\f> (key searched\j) [below of=reg\j, yshift=-\shift] {44};
+         \path<\f> (reg\j) -- node [right] {$<?$} (key searched\j);
+}
+
+\node<6>[red, circle, thick, draw] (found) at (2*\shift,0) {};
+\node<6>[red] (idx found) [below of=found,yshift=-\shift] {2};
+\node<6>[red,circle,dotted, thick, draw]  at (idx2) {};
+\path<6> (found) -- (idx found) node[left] {\scriptsize retorna\ \ };
+
+\foreach \j/\f in {0/7, 1/8, 2/9, 3/10, 4/11, 5/12, 6/13, N/14} {
+         \node<\f>[i] (I\f) [above of=reg\j, yshift=1.5*\shift] {\tt i};
+         \path<\f> (idx\j) -- (I\f);
+         \node<\f>[circle,blue,draw] at (reg\j) {};
+         \node<\f> (key searched\j) [below of=reg\j, yshift=-\shift] {\color{red}99};
+         \path<\f> (reg\j) -- node [right] {$<?$} (key searched\j);
+}
+
+\node<15>[red] (idx notfound) [below of=regN,yshift=-\shift] {\bf -1};
+\path<15> (regN) -- node[right] {$i=N$} (idx notfound) node[left] {\scriptsize retorna\ \
+\ } ;
+
+
+\end{tikzpicture}
+
+\end{center}
+\end{frame}
+
+
+\end{document}
+

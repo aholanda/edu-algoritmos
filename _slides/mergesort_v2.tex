@@ -1,0 +1,164 @@
+\lecture{Ordenação por Intercalação ({\em mergesort})}{mergesort}
+
+\begin{frame}{Algoritmo divida-e-conquiste}
+
+\begin{enumerate}\itemsep16pt
+\item<1->{\color<2->{gray} {\tt [Inicialização]} Dividir a entrada de
+dados em partes menores e gerenciáveis;}
+
+\item<2-> {\color<3->{gray} {\tt [Computação]}Executar operação
+desejada em cada parte;}
+
+\item<3> {\tt [Término]} Recombinar as partes formando a saída de dados.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Esquema visual do {\tt mergesort()}}
+
+\begin{center}
+animategraphics[step]{1}{img/sortM-visualscheme}{}{}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Árvore {\tt mergesort()}}
+
+animategraphics[step]{1}{img/sortM}{}{}
+
+\end{frame}
+
+\begin{frame}{Análise da fase de \alert{divisão}}
+
+\begin{teorema}
+A árvore {\tt mergesort} no final da fase de divisão de uma sequência
+de tamanho $n$ possui altura $\lceil log_2n\rceil$;
+\end{teorema}
+
+\end{frame}
+
+\begin{frame}{Análise do algoritmo}
+
+\begin{teorema}
+O {\tt mergesort} executa em $\bigO{nlog_2n}$, no pior caso, e ocupa
+espaço $\bigO{n}$. 
+\end{teorema}
+
+\end{frame}
+
+\begin{frame}{Análise visual da ordenação por intercalação}
+
+\tiny
+\begin{tikzpicture}[treenode/.style={rectangle,draw,minimum height=0.4cm},scale=0.6,treepath/.style={<-,>=latex}]
+
+\def\nw{4cm}
+\def\db{0.25cm}
+\def\dfn{0.125*\textwidth}
+
+\node[treenode,minimum width=\nw,anchor=south] (ROOT) at (0.5\textwidth,0) {\bf n};
+
+\node[treenode,minimum width=0.5*\nw] (RIGHT2) [above=\dfn of ROOT.east] {\bf n/2};
+\node[treenode,minimum width=0.5*\nw] (LEFT2) [above=\dfn of ROOT.west]
+{\bf n/2};
+\draw[treepath] (ROOT) -- (LEFT2.south);
+\draw[treepath] (ROOT) -- (RIGHT2.south);
+
+\node[treenode,minimum width=0.25*\nw] (RIGHT32) [above=\dfn of RIGHT2.east] {\bf n/4};
+\node[treenode,minimum width=0.25*\nw] (LEFT32) [above=\dfn of LEFT2.east]  {\bf n/4};
+\node[treenode,minimum width=0.25*\nw] (RIGHT33) [above=\dfn of RIGHT2.west] {\bf n/4};
+\node[treenode,minimum width=0.25*\nw] (LEFT33) [above=\dfn of LEFT2.west] {\bf n/4};
+
+\draw[treepath] (LEFT2) -- (LEFT32.south);
+\draw[treepath] (RIGHT2) -- (RIGHT32.south);
+\draw[treepath] (LEFT2) -- (LEFT33.south);
+\draw[treepath] (RIGHT2) -- (RIGHT33.south);
+
+
+\node[treenode,minimum width=0.175*\nw,anchor=north] (N1) at (\oddsidemargin+\db,\textheight) {\bf a$_1$};
+\node[treenode,minimum width=0.175*\nw] (N2) [right= of
+N1] {\bf a$_2$};
+\node[treenode,minimum width=0.175*\nw] (LDOTS) [right= of
+N2] {\bf $\hdots$};
+
+\node[treenode,minimum width=0.175*\nw, anchor=north] (N) at (\textwidth-4*\db,\textheight) {\bf a$_n$};
+\node[treenode,minimum width=0.175*\nw] (RDOTS) [left= of
+N] {\bf $\hdots$};
+
+
+\draw[red,densely dashed] (-5cm,0.75\textheight) -- +(1.8\textwidth,0);
+
+
+\node (RIGHTBASE) [right=0.1cm of ROOT.south east] {};
+\draw (RIGHTBASE) -- (1.3\textwidth,0);
+\node (RIGHTTOP) [right=0.1cm of N.north east] {};
+\draw (RIGHTTOP) -- (1.3\textwidth,\textheight);
+\node (RIGHTBASEARROW) at (\textwidth-\db,0) {};
+\node (RIGHTTOPARROW) [right=0.6666cm of RIGHTTOP] {};
+\draw[<->,>=latex] (1.2\textwidth,0) -- (1.2\textwidth,\textheight)
+node[anchor=south,midway,rotate=90]{$O(lg\ n)$};
+
+
+\node (LEFTBASE) [left=0.1cm of ROOT.west] {};
+\draw[dotted] (LEFTBASE.south west) -- (-3cm,0) node[anchor=south east]{$O(n)$};
+\draw[dotted] (LEFT2.south west) -- (-3cm,2*\dfn) node[anchor=south east]{$O(n)$};
+\draw[dotted] (LEFT33.south west) -- (-3cm,4*\dfn) node[anchor=south east]{$O(n)$};
+\draw[dotted] (N1.north west) -- (-3cm,\textheight) node[anchor=east]{$O(n)$};
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Mergesort: implementação}
+
+\lstinputlisting[
+	basicstyle=\footnotesize,
+	firstline=16
+]{src/mergesort.c}
+
+\end{frame}
+
+\begin{frame}{Uso mergesort()}
+
+\scriptsize
+A função *mergesort* é invocada fornecendo como argumentos o
+limite inferior $e$ e o limite superior $+1$ ($d+1$) do vetor a ser ordenado.
+
+Exemplo: Invocação do *mergesort* para um vetor
+$v[0..7]$ com $8$ elementos, mostrando as invocações recursivas da
+função. Na primeira invocação: d$\leftarrow$N (índice no limite
+superior + 1).
+
+\begin{tabbing}
+mergesort\=(0,8,v) \\
+            \>mergesort\=(0,4,v) \\
+                          \>\>mergesort\=(0,2,v) \\
+                                \>\>\>mergesort(0,1,v)\\
+                                \>\>\>mergesort(1,2,v)\\
+                          \>\>mergesort(2,4,v)\\
+                                \>\>\>mergesort(2,3,v)\\
+                                \>\>\>mergesort(3,4,v)\\
+             \>mergesort(4,8,v)\\
+                          \>\>mergesort(4,6,v)\\
+                                \>\>\>mergesort(4,5,v)\\
+                                \>\>\>mergesort(5,6,v)\\
+                          \>\>mergesort(6,8,v)\\
+                                \>\>\>mergesort(6,7,v)\\
+                                \>\>\>mergesort(7,8,v)\\
+\end{tabbing}
+
+\end{frame}
+
+\begin{frame}{Implementação: *intercala*() (merge)}
+
+\lstinputlisting[firstline=1,lastline=15]{src/mergesort.c}
+
+\end{frame}
+
+\begin{frame}{Exercícios}
+
+1. Mostre as invocações recursivas da função *mergesort*() para os
+vetores $v[0..4]$ e $v[0..5]$.  2. O algoritmo *mergesort* é estável?
+Se trocarmos a linha 7 da função *intercala*() de "if(v[i]<=v[j])"
+para "if(v[i]<v[j])", há alteração na estabilidade do algoritmo?
+
+\end{frame}
+

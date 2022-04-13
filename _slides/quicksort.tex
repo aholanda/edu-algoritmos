@@ -1,0 +1,192 @@
+\colorlet{pivot color}{blue!40!white}
+\colorlet{unknown color}{gray!40!white}
+\colorlet{inf color}{red!30!white}
+\colorlet{sup color}{red!50!white}
+
+\title{\it Quicksort}
+\frame{\maketitle}
+
+\begin{frame}{Quicksort: introdução}
+  \begin{itemize}
+  \item Inventado por Tony Hoare~\cite{hoare1961};
+  \item Usa o paradigma de \alert{divisão e conquista};
+  \item Desempenho: $\bigO{nlog_{2}n}$; pior caso, $\bigO{n^2}$;
+  \item Espaço: extra, $\bigO{1}$;
+  \item Não é estável.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Divisão e conquista}
+  \begin{description}
+  \item[Divisão:] Gerar partições do conjunto de dados em subconjuntos em torno de um
+    elemento $p$ (pivô), menores que $p$ à esquerda e maiores à direita;
+  \item[Conquista:] aplicar a operação anterior recursivamente nos subconjuntos.
+  \end{description}
+
+  \begin{center}
+    \alert{\large \bf Particionamento recursivo}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Especificação: inicialização}
+  \begin{center}
+    \begin{ganttchart}[
+      hgrid, 
+      vgrid, 
+      inline,
+      every node/.style={font=scriptsize}
+      ]{1}{12}
+      \gantttitle{Inicialização}{12} \\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=inf
+        color,dotted}]{inf}{1}{1}
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=sup
+        color,dotted}]{sup}{12}{12}\\
+      \ganttbar[bar/.append style={fill=pivot color}]{$x$}{1}{1}
+      \ganttbar[bar/.append style={fill=unknown
+        color,dashed}]{desconhecido}{2}{12}\\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=pivot color,dotted}]{i}{1}{1}
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=sup
+        color,dotted}]{j}{12}{12}
+    \end{ganttchart}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Especificação: computação}
+  \begin{center}
+    \begin{ganttchart}[
+      hgrid, 
+      vgrid, 
+      inline,
+      ]{1}{12}
+      \gantttitle{Computação}{12} \\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=inf
+        color,dotted}]{inf}{1}{1}
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=sup
+        color,dotted}]{sup}{12}{12}\\
+      \ganttbar[bar/.append style={fill=pivot color}]{$x$}{1}{1}
+      \ganttbar[bar/.append style={fill=inf color,dashed}]{$\leq x$}{2}{5}
+      \ganttbar[bar/.append style={fill=unknown color,dashed}]{\scriptsize desconhecido}{6}{9}
+      \ganttbar[bar/.append style={fill=sup color,dashed}]{$>x$}{10}{12}\\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=inf color,dotted}]{i}{5}{5}
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=sup
+        color,dotted}]{j}{10}{10}
+    \end{ganttchart}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Especificação: término}
+  \begin{center}
+    \begin{ganttchart}[
+      hgrid, 
+      vgrid, 
+      inline,
+      ]{1}{12}
+      \gantttitle{Término}{12} \\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=inf
+        color,dotted}]{inf}{1}{1}
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=sup
+        color,dotted}]{sup}{12}{12}\\
+      \ganttbar[bar/.append style={fill=pivot color}]{$x$}{1}{1}
+      \ganttbar[bar/.append style={fill=inf color,dashed}]{$\leq x$}{2}{7}
+      \ganttbar[bar/.append style={fill=sup color,dashed}]{$>x$}{8}{12}\\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=pivot
+        color,dotted}]{$i\geq j$}{7}{7}
+    \end{ganttchart}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Especificação: posiciona pivô}
+  \begin{center}
+    \begin{ganttchart}[
+      hgrid, 
+      vgrid, 
+      inline,
+      ]{1}{12}
+      \gantttitle{Posiciona pivô}{12} \\
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=inf
+        color,dotted}]{inf}{1}{1}
+      \ganttbar[bar/.append style={font=\tt\scriptsize,fill=sup
+        color,dotted}]{sup}{12}{12}\\
+      \ganttbar[bar/.append style={fill=inf color,dashed}]{$\leq x$}{1}{6}
+      \ganttbar[bar/.append style={fill=pivot color}]{$x$}{7}{7}
+      \ganttbar[bar/.append style={fill=sup color,dashed}]{$>x$}{8}{12}
+    \end{ganttchart}
+  \end{center}
+  Recursivamente executa o algoritmo nas partições \fbox{$\leq x$} e \fbox{$>x$}.
+\end{frame}
+
+\begin{frame}{Comparação}
+  \begin{table}[h]
+    \centering
+    \begin{tabular}[h]{llll}\hline
+      & \tt insertionsort() & \tt mergesort() & \tt quicksort() \\\hline
+      tempo & $\bigO{n^2}$ & $\bigO{nlog_2n}$ & $\bigO{nlog_2n}$ \\
+      espaço & $\bigO{1}$ & $\bigO{n}$ & $\bigO{1}$ \\\hline
+    \end{tabular}
+    \caption{Comparação entre os algoritmos {\em insertion-sort, mergesort} e {\em quicksort}.}
+    \label{tab:cmp}
+  \end{table}
+\end{frame}
+
+
+\begin{frame}[fragile]{Particionamento}{\tt particiona()}
+  \lstinputlisting[firstline=4,lastline=23]{../sort/quick.c}
+\end{frame}
+
+\begin{frame}[fragile]{Função principal}{\tt quicksort()}
+  \lstinputlisting[firstline=25]{../sort/quick.c}
+  
+  \pause
+  \begin{itemize}
+  \item Chamada principal:
+  \end{itemize}
+  \begin{lstlisting}
+    int main() {
+      long v[7] = {32, 65, 21, 44, 71, 12, 18};
+      
+      quicksort(0, 6, v);
+    }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Ajustes do algoritmo}
+  \begin{itemize}
+  \item Pior caso: entrada de dados com ordenação decrescente. Solução:
+    gerar índice aleatório para o pivô.
+  \item Grande quantidade de elementos repetitivos na entrada de
+    dados. Solução: calcular a entropia e verificar outros algoritmos que
+    sejam estáveis, caso um valor de entropia não seja atingido.
+  \item Estouro da pilha. Determinar o valor para o tamanho das
+    partições abaixo do qual o quicksort não seja utilizado, porém, outro
+    algoritmo com espaço $\bigO{1}$, por exemplo, como o {\em insertion-sort}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Referência}
+  \begin{thebibliography}{9}
+  \bibitem{feofiloff2008} Paulo Feofiloff, \\
+    {\em Algoritmos em linguagem C}.\\
+    Editora Campus, 2008-2009.\\
+    \href{http://www.ime.usp.br/~pf/algoritmos/aulas/quick.html}{Página web do mesmo autor sobre quicksort}.
+
+  \bibitem[Hoare, 1961]{hoare1961}
+    T.~Hoare.\\
+    \newblock Algorithm 64: Quicksort. 
+    \newblock {\it Comm. ACM\/} 4 (7): 321, 1961.
+    \newblock \href{http://dx.doi.org/10.1145\%2F366622.366644}{doi:10.1145/366622.366644}
+
+  \bibitem[Sedgewick \& Wayne]{sedgewick2013}
+    Robert Sedgewick \& Kevin Wayne.
+    \newblock {Algorithms (4th Edition)}. [\href{http://algs4.cs.princeton.edu/home/}{\color{blue}homepage}]
+    \newblock Addison-Wesley Professional, 2011.
+  \end{thebibliography} 
+
+\end{frame}
+
+%% 
+% Local variables:
+% TeX-master: main
+% End:
+%% \colorlet{pivot color}{green!30!white}
+

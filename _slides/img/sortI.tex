@@ -1,0 +1,146 @@
+
+\documentclass{beamer}
+\usetheme{boxes}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{frame}{}
+\begin{center}
+\begin{tikzpicture}
+\def\shift{1cm}
+\tikzset{
+  every node/.style={font=\Large},
+  current/.style={minimum width=\shift, minimum height=\shift,thick},
+  j/.style={current, red, draw},
+  i/.style={current, draw}
+}
+
+\foreach \i/\n in {0/55,1/33,2/77,3/22,4/88,5/44,6/66} {
+    \node<1,2,3> at (\i*\shift,0) {\n};
+}
+
+\node<2,3>[j] at (1,0) {};
+\node<3-4>[i] at (0,0) {};
+
+\foreach \i/\n in {0/55,1/{ },2/77,3/22,4/88,5/44,6/66} {
+    \node<4> at (\i*\shift,0) {\n};
+}
+\node<4-5>[j] at (1*\shift,1.5*\shift) {33};
+
+\foreach \i/\n/\l in {0/{ }/,1/{55}/i,2/77/,3/22/,4/88/,5/44/,6/66/} {
+    \node<5-8>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<6-8>[i] at (0,0) {33};
+
+\node<8>[j] at (2*\shift,0) {};
+
+\foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{ }/,3/22/,4/88/,5/44/,6/66/} {
+    \node<9>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<9>[j] at (2*\shift,1.5*\shift) {77};
+
+\foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{77}/i,3/22/,4/88/,5/44/,6/66/} {
+    \node<10>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{77}/i,3/22/j,4/88/,5/44/,6/66/} {
+    \node<11>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{77}/i,3/{ }/,4/88/,5/44/,6/66/} {
+    \node<12>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<12-15>[j] at (3*\shift,1.5*\shift) {22};
+
+\foreach \i/\n/\l in {0/{33}/i,1/{55}/i,2/{ }/,3/{77}/i,4/88/,5/44/,6/66/} {
+    \node<13>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{33}/i,1/{ }/,2/{55}/i,3/{77}/i,4/88/,5/44/,6/66/} {
+    \node<14>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{ }/,1/{33}/i,2/{55}/i,3/{77}/i,4/88/,5/44/,6/66/} {
+    \node<15>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/88/,5/44/,6/66/} {
+    \node<16>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/88/j,5/44/,6/66/} {
+    \node<17>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{ }/,5/44/,6/66/} {
+    \node<18>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<18>[j] at (4*\shift,1.5*\shift) {88};
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{88}/i,5/44/j,6/66/} {
+    \node<19>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{88}/i,5/{}/,6/66/} {
+    \node<20>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<20-23>[j] at (5*\shift,1.5*\shift) {44};
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{77}/i,4/{}/,5/{88}/i,6/66/} {
+    \node<21>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{55}/i,3/{}/,4/{77}/i,5/{88}/i,6/66/} {
+    \node<22>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{}/,3/{55}/i,4/{77}/i,5/{88}/i,6/66/} {
+    \node<23-24>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<24>[j] at (2*\shift,1.5*\shift) {44};
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{88}/i,6/66/} {
+    \node<25>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{88}/i,6/66/j} {
+    \node<26>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{88}/i,6/{}/} {
+    \node<27>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<27-29>[j] at (6*\shift,1.5*\shift) {66};
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{77}/i,5/{}/,6/{88}/i} {
+    \node<28>[\l] at (\i*\shift,0) {\n};
+}
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{}/,5/{77}/i,6/{88}/i} {
+    \node<29-30>[\l] at (\i*\shift,0) {\n};
+}
+
+\node<30>[j] at (4*\shift,1.5*\shift) {66};
+
+\foreach \i/\n/\l in {0/{22}/i,1/{33}/i,2/{44}/i,3/{55}/i,4/{66}/i,5/{77}/i,6/{88}/i} {
+    \node<31>[\l] at (\i*\shift,0) {\n};
+}
+
+
+\end{tikzpicture}
+
+\end{center}
+\end{frame}
+
+
+\end{document}
+

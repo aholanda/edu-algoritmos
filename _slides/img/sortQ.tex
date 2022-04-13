@@ -1,0 +1,196 @@
+
+\documentclass{beamer}
+\usetheme{boxes}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{frame}{quicksort}
+\begin{center}
+\begin{tikzpicture}
+\def\shift{1cm}
+\tikzset{
+  every node/.style={font=\Large},
+  current/.style={minimum width=\shift, minimum height=\shift,thick},
+  left/.style={current, blue!30!black, draw},
+  right/.style={current, green!40!black, draw},
+  pivot/.style={current,white,fill=red,draw},
+  done/.style={current,white,fill=black,draw}
+}
+
+\foreach \i/\n in {0/55,1/22,2/77,3/33,4/88,5/44,6/66} {
+    \node<1> at (\i*\shift,0) (a\n) {\n};
+}
+
+%1st left cmp
+\foreach \i/\n in {0/55,1/22,2/77,3/,4/88,5/44,6/66} {
+    \node<2-3> at (\i*\shift,0) (a\n) {\n};
+}
+\node<2-13>[pivot] at (3*\shift,-\shift)  {33};
+\node<2>[red] [below of=a33] {piv\^o};
+\node<3>[left] at (2*\shift,0) {77};
+
+\foreach \i/\n in {0/55,1/22,2/,3/,4/88,5/44,6/66} {
+     \node<4-5> at (\i*\shift,0) {\n};
+ }
+
+ \foreach \i/\n in {0/,1/,2/,3/,4/77,5/,6/} {
+     \node<4-5> at (\i*\shift,-\shift) {\n};
+ }
+
+%2nd left cmp
+\node<5>[left] at (1*\shift,0) {22};
+
+\foreach \i/\n in {0/55,1/,2/,3/,4/88,5/44,6/66} {
+     \node<6> at (\i*\shift,0) {\n};
+ }
+
+ \foreach \i/\n in {0/,1/,2/22,3/,4/77,5/,6/} {
+     \node<6-8> at (\i*\shift,-\shift) {\n};
+ }
+
+%3rd left cmp
+\node<7>[left] at (0*\shift,0) {55};
+
+\foreach \i/\n in {0/,1/,2/,3/,4/88,5/44,6/66} {
+     \node<7-8> at (\i*\shift,0) {\n};
+ }
+
+ \foreach \i/\n in {0/,1/,2/22,3/,4/77,5/55,6/} {
+     \node<8-9> at (\i*\shift,-\shift) {\n};
+ }
+
+%1st right cmp
+\node<9>[right] at (4*\shift,0) {88};
+
+\foreach \i/\n in {0/,1/,2/,3/,4/,5/44,6/66} {
+     \node<9-10> at (\i*\shift,0) {\n};
+ }
+
+ \foreach \i/\n in {0/,1/,2/22,3/,4/77,5/55,6/88} {
+     \node<10-11> at (\i*\shift,-\shift) {\n};
+ }
+
+%2nd right cmp
+\node<11>[right] at (5*\shift,0) {44};
+
+\foreach \i/\n in {0/,1/,2/,3/,4/,5/,6/66} {
+     \node<11-12> at (\i*\shift,0) {\n};
+ }
+
+ \foreach \i/\n in {0/,1/,2/22,3/,4/77,5/55,6/88,7/44} {
+     \node<12-13> at (\i*\shift,-\shift) {\n};
+ }
+
+%3rd right cmp
+\node<13>[right] at (6*\shift,0) {66};
+
+\foreach \i/\n in {0/,1/,2/,3/,4/,5/,6/} {
+     \node<13> at (\i*\shift,0) {\n};
+ }
+
+ \foreach \i/\n in {0/,1/,2/22,3/,4/77,5/55,6/88,7/44,8/66} {
+     \node<14> at (\i*\shift,-\shift) {\n};
+ }
+\node<14>[done] at (3*\shift,-\shift)  {33};
+\node<15->[done] at (3*\shift,0)  {33};
+
+% left partition
+\foreach \i/\n in {0/,1/,2/,3/,4/77,5/55,6/88,7/44,8/66} {
+     \node<15-16> at (\i*\shift,0) {\n};
+}
+
+\node<15>[pivot] at (2*\shift,-\shift)  {22};
+\node<16->[done] at (2*\shift,0)  {22};
+
+\node<15-26>[done] at (3*\shift,0)  {33};
+
+% RIGHT partition
+% 1st left
+\foreach \i/\n in {0/,1/,2/,3/,4/77,5/,6/,7/44,8/66} {
+     \node<17-18> at (\i*\shift,0) {\n};
+}
+\node<17>[left] at (5*\shift,0)  {55};
+
+%PIVOT
+\node<17-24>[pivot] at (6*\shift,-\shift)  {88};
+\node<18-30>[] at (5*\shift,-\shift)  {55};
+
+%2nd left
+\foreach \i/\n in {0/,1/,2/,3/,4/,5/,6/,7/44,8/66} {
+     \node<19-20> at (\i*\shift,0) {\n};
+}
+\node<19>[left] at (4*\shift,0)  {77};
+\node<20-25>[] at (4*\shift,-\shift)  {77};
+
+%1nd right
+\foreach \i/\n in {0/,1/,2/,3/,4/,5/,6/,7/,8/66} {
+     \node<21-22> at (\i*\shift,0) {\n};
+}
+\node<21>[right] at (7*\shift,0)  {44};
+\node<22-26>[] at (3*\shift,-\shift)  {44};
+
+%2nd right
+\foreach \i/\n in {0/,1/,2/,3/,4/,5/,6/,7/,8/} {
+     \node<23-24> at (\i*\shift,0) {\n};
+}
+\node<23>[right] at (8*\shift,0)  {66};
+\node<24-29>[] at (2*\shift,-\shift)  {66};
+
+% 88 DONE 
+\node<25->[done] at (8*\shift,0)  {88};
+
+% LEFT PARTITION
+\node<26-32>[pivot] at (4*\shift,-2*\shift) {77};
+
+%1st left
+\node<27>[left] at (3*\shift,-\shift)  {44};
+\node<28-37>[] at (3*\shift,-2*\shift)  {44};
+
+% 2nd left
+\node<29>[left] at (2*\shift,-\shift)  {66};
+\node<30-33>[] at (2*\shift,-2*\shift)  {66};
+
+% RIGHT PARTITION
+\node<31>[left] at (5*\shift,-\shift)  {55};
+\node<32-35>[] at (1*\shift,-2*\shift)  {55};
+
+% DONE 77
+\node<33->[done] at (7*\shift,0) {77};
+
+% LEFT PARTITION
+%1st left
+\node<34-38>[pivot] at (2*\shift,-3*\shift)  {66};
+\node<35>[left] at (1*\shift,-2*\shift)  {55};
+\node<36-39>[] at (1*\shift,-3*\shift)  {55};
+
+% RIGHT PARTITION
+% 1st right
+\node<37>[left] at (3*\shift,-2*\shift)  {44};
+\node<38-40>[] at (0*\shift,-3*\shift)  {44};
+
+% DONE 66
+\node<39->[done] at (6*\shift,0) {66};
+
+% LEFT PARTITION
+%1st left
+\node<40-42>[pivot] at (1*\shift,-4*\shift)  {55};
+\node<41>[left] at (0*\shift,-3*\shift)  {44};
+\node<42-43>[] at (0*\shift,-4*\shift)  {44};
+
+% DONE 55
+\node<43->[done] at (5*\shift,0) {55};
+
+% DONE 44
+\node<44>[pivot] at (0*\shift,-4*\shift)  {44};
+\node<45->[done] at (4*\shift,0) {44};
+
+\end{tikzpicture}
+
+\end{center}
+\end{frame}
+
+
+\end{document}
+

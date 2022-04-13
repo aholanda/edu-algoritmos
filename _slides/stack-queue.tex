@@ -1,0 +1,101 @@
+% Pilhas, Filas e Deques
+
+Listas lineares
+===============
+
+\begin{definition}
+\begin{tabbing}
+Conjunto $\{\ell[0], \ell[1],...,\ell[n-1]\} :$\= $\forall k \in
+\{0, 1,..., n-1\} \Rightarrow$\\
+ \> o nó $\ell[k]$ é precedido por $\ell[k-1]$\\
+\end{tabbing}
+\end{definition}
+
+\begin{description}[<+-| alert@+>]
+\item[Fila] é uma lista linear onde todas as inserções
+são feitos em uma das extremidades da lista; todas as remoções e
+acessos são feitos na outra extremidade;
+\item[Pilha] é uma lista linear onde todas as inserções
+e remoções e acessos são feitos em somente uma das extremidades da
+lista;
+\item[Deque] é uma lista linear onde todas as inserções,
+remoções e acessos são feitos em ambas as extremidades da lista.
+\end{description}
+
+
+Pilhas
+======
+
+Filas: Implementação usando alocação sequencial
+===============================================
+
+Uma **fila** *f* pode ser armazenada em um segmento *f[s..t-1]* de um
+arranjo *f[0..N-1]*, com a restrição
+
+$$0\leq s\leq t \leq N. $$
+
+\pause
+
+Estados
+
+\begin{description}
+\item[VAZIA] {\tt s==t};
+\item[CHEIA] {\tt t==N};
+\end{description}
+
+\pause
+
+Procedimentos
+
+\begin{description}
+\item[INSERIR] {\tt f[s++]};
+\item[REMOVER] {\tt f[t++] = y}; onde $y$ é o elemento a ser inserido.
+\end{description}
+
+
+Implementação da inserção na alocação sequencial
+================================================
+sequentialqueuehead
+
+lstinputlisting[firstnumber=5, firstline=6,lastline=12]{src/03ll_queue_array.c}
+code
+
+Fila: Implementação da remoção na alocação sequencial
+=====================================================
+
+sequentialqueuehead
+
+lstinputlisting[firstnumber=5, firstline=14,lastline=20]{src/03ll_queue_array.c}
+code
+
+Filas: Alocação Encadeada
+=========================
+
+animategraphics[scale=0.865,step]{1}{stack-linked}{}{}
+
+
+Fila: Inserção
+==============
+
+\lstinputlisting[basicstyle=\scriptsize\color{red},firstline=1,lastline=10]{src/lfila.c}
+\lstinputlisting[basicstyle=\tiny\color{gray},firstnumber=11,firstline=12,lastline=24]{src/lfila.c}
+
+Fila: Inserção
+==============
+
+ \lstinputlisting[basicstyle=\tiny\color{gray},firstline=1,lastline=10]{src/lfila.c}
+ \lstinputlisting[basicstyle=\scriptsize\color{red},firstnumber=11,firstline=12,lastline=24]{src/lfila.c}
+
+Filas: Remoção
+==============
+
+ \lstinputlisting[basicstyle=\scriptsize\color{red},firstline=1,lastline=10]{src/lfila.c}
+ \lstinputlisting[basicstyle=\tiny\color{gray},firstnumber=11,firstline=25,lastline=42]{src/lfila.c}
+
+
+Fila: Remoção
+=============
+
+\lstinputlisting[basicstyle=\tiny\color{gray},firstline=1,lastline=10]{src/lfila.c}
+\lstinputlisting[basicstyle=\scriptsize\color{red},firstnumber=11,firstline=26,lastline=42]{src/lfila.c}
+

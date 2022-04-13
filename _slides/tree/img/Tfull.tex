@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+\tikzset{T/.style={circle,draw},
+sibling angle=60}
+
+\def\shift{3cm}
+
+\node[T] (root) {} []
+      child {node[T] [xshift=-.5*\shift] {}
+                      child {node[T] [xshift=-.1*\shift] {}
+                                     child {node[T] [] {}}
+                                     child {node[T] [] {}}
+                     }
+                     child {node[T] [xshift=.1*\shift] {}
+                                    child {node[T] [] {}}
+                                    child {node[T] [] {}}
+                     }}
+      child {node[T] [xshift=.5*\shift] {}
+                     child {node[T] [xshift=-.1*\shift] {}
+                                    child {node[T][] {}}
+                                    child {node[T][] {}}
+                     }
+                     child {node[T] [xshift=.1*\shift] {}
+                                    child {node[T][] {}}
+                                    child {node[T][] {}}
+                     }
+};
+
+
+\end{tikzpicture}

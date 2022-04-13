@@ -1,0 +1,16 @@
+digraph sparse {
+nodesep=.05;
+rankdir=LR;
+node [width=.1,height=.1];
+C [ label =" {<f0>  1 | <f1> 2 | <f2> 3 | <f3> 4 } ", shape=record, style=filled];
+L [ label =" <f0> 1 | <f1> 2 | <f2> 3 | <f3> 4  ", style=filled, shape=record, height=2.5];
+A11 [ label="<n> L1C1| 1", shape=record];
+A24 [ label="<n> L2C4| 1", shape=record];
+A32 [ label="<n> L3C2| 1", shape=record];
+"C":f0 -> "A11":n;
+"L":f0 -> "A11":n;
+"C":f3 -> "A24":n;
+"L":f1 -> "A24":n;
+"C":f1 -> "A32":n;
+"L":f2 -> "A32":n;
+}

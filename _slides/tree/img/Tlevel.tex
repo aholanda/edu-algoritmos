@@ -1,0 +1,44 @@
+\begin{tikzpicture}
+\tikzset{
+        every node/.style={font=\scriptsize},
+        every path/.style={draw},
+        T/.style={circle,draw},
+        sibling angle=60,
+        L/.style={dashed} % level
+}
+
+\def\shift{3cm}
+
+\foreach \Y/\L in {2/{$n$ -- n$^{o.}$ de nós},1.5/{$l$ -- nível},1/{$h$ -- altura}} {
+         \node at (4,\Y) {\L};
+}
+
+\node at (0,2) {$n_l= 2^l = 1+ \sum_{i=0}^{l-1}2^i$};
+\node at (0,1) {$n_h= 2^{h+1}-1$};
+
+\node[T] at (0,0) (root) {} []
+      child {node[T] [xshift=-.5*\shift] {}
+                      child {node[T] [xshift=-.1*\shift] {}
+                                     child {node[T] [] {}}
+                                     child {node[T] [] {}}
+                     }
+                     child {node[T] [xshift=.1*\shift] {}
+                                    child {node[T] [] {}}
+                                    child {node[T] [] {}}
+                     }}
+      child {node[T] [xshift=.5*\shift] {}
+                     child {node[T] [xshift=-.1*\shift] {}
+                                    child {node[T][] {}}
+                                    child {node[T][] {}}
+                     }
+                     child {node[T] [xshift=.1*\shift] {}
+                                    child {node[T][] {}}
+                                    child {node[T][] {}}
+                     }
+};
+
+\foreach \j/\n/\y in {0/1/.2, 1/2/1.75, 2/4/3.25, 3/8/4.7} {
+         \path[L] (-1.75*\shift, -\y) -- (1.75*\shift, -\y)
+         node[above] {n\'ivel \j: $2^\j=\n$};
+}
+\end{tikzpicture}

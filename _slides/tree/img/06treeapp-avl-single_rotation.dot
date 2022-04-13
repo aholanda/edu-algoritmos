@@ -1,0 +1,7 @@
+digraph case1 {
+{node [ shape = record ] p};
+{node [ shape = triangle ] TD TE};
+p [ label ="<f0> | <f1> p | <f2> ", style=filled ];
+"p":f2 -> TD;
+"p":f0 -> TE;
+}

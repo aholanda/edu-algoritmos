@@ -1,0 +1,288 @@
+\title{Fila de prioridades}
+
+\frame{\maketitle}
+
+\tikzset{visit/.style={white,fill=black,draw}}
+
+\begin{frame}{Fila e árvore binária}
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Alteração de prioridade}
+  
+  66 => 98
+\only<1>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        78 -> { 98 [visit], 70 }
+      }
+    };
+  \end{tikzpicture}
+}
+\only<2>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        98 [visit] -> { 78 , 70 }
+      }
+    };
+  \end{tikzpicture}
+}
+\only<3>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      98 [visit] -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        95 -> { 78 , 70 }
+      }
+    };
+  \end{tikzpicture}
+  }
+\end{frame}
+
+\begin{frame}[fragile]{Subir}{\inserttitle}
+  \lstinputlisting[
+  firstline=12,
+  lastline=24
+  ]{../search/filaprio.c}
+\end{frame}
+
+\begin{frame}{Diminuição da prioridade de um nó}
+  
+\only<1> {
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+  \end{tikzpicture}
+}
+
+95 => 37
+\only<2> {
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      37 [visit] -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+  \end{tikzpicture}
+}
+
+\only<3> {
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      78  -> {   
+        60 -> { 
+          39 -> {33}, 
+          28 }, 
+        37 [visit] -> { 66, 70 }
+      }
+    };
+  \end{tikzpicture}
+}
+
+\only<4> {
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      78  -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        70 -> { 66, 37 [visit] }
+      }
+    };
+  \end{tikzpicture}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Descer}{\inserttitle}
+  \lstinputlisting[
+  firstline=25,
+  lastline=41
+  ]{../search/filaprio.c}
+\end{frame}
+
+\begin{frame}{Inserção de um elemento}
+
+\only<1>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          39 -> {33}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+\end{tikzpicture}
+}
+
+inserir($73$);
+
+\only<2>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          39 -> {33, 73 [visit]}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+\end{tikzpicture}
+}
+
+
+\only<2>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        60 -> { 
+          73 [visit] -> {33, 39}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+\end{tikzpicture}
+}
+
+\only<3>{
+  \begin{tikzpicture}[>=latex]
+    \graph[binary tree layout, nodes={draw,circle}]{
+      95 -> {   
+        73  [visit] -> { 
+          60 -> {33, 39}
+          , 
+          28 }, 
+        78 -> { 66, 70 }
+      }
+    };
+\end{tikzpicture}
+}
+
+  
+\end{frame}
+
+\begin{frame}[fragile]{Inserção}{\inserttitle}
+  \lstinputlisting[
+  firstline=43,
+  lastline=52
+  ]{../search/filaprio.c}
+\end{frame}
+
+\begin{frame}{Remoção de um elemento da fila}
+  
+  \only<1>{
+    \begin{tikzpicture}[>=latex]
+      \graph[binary tree layout, nodes={draw,circle}]{
+        95 [visit] -> {   
+          73  -> { 
+            60 -> {33, 39}
+            , 
+            28 }, 
+          78 -> { 66, 70 }
+        }
+      };
+    \end{tikzpicture}
+}
+
+  \only<2>{
+    \begin{tikzpicture}[>=latex]
+      \graph[binary tree layout, nodes={draw,circle}]{
+        39 [visit] -> {   
+          73  -> { 
+            60 -> {33}
+            , 
+            28 }, 
+          78 -> { 66, 70 }
+        }
+      };
+    \end{tikzpicture}
+}
+
+\only<3>{
+    \begin{tikzpicture}[>=latex]
+      \graph[binary tree layout, nodes={draw,circle}]{
+        78 -> {   
+          73  -> { 
+            60 -> {33}
+            , 
+            28 }, 
+          39 [visit] -> { 66, 70 }
+        }
+      };
+    \end{tikzpicture}
+}
+
+\only<4>{
+    \begin{tikzpicture}[>=latex]
+      \graph[binary tree layout, nodes={draw,circle}]{
+        78 -> {   
+          73  -> { 
+            60 -> {33}
+            , 
+            28 }, 
+          70 -> { 66, 39 [visit]}
+        }
+      };
+    \end{tikzpicture}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Remoção}{\inserttitle}
+  \lstinputlisting[
+  firstline=54,
+  lastline=63
+  ]{../search/filaprio.c}
+\end{frame}
+
+\begin{frame}{Eficiência}{\inserttitle}
+
+  \begin{itemize}
+  \item Seleção: $O(1)$;
+  \item Remoção: $O(log n)$;
+  \item Alteração: $O(log n)$;
+  \item Construção: $O(n)$.
+  \end{itemize}
+
+  
+\end{frame}

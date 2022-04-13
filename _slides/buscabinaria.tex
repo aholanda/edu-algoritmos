@@ -1,0 +1,137 @@
+% \title{Busca Binária}
+\title{Pesquisa Binária}
+\maketitle
+
+\begin{frame}{\inserttitle}
+
+  A busca binária é mais eficiente que a sequencial. Intuitivamente, ela
+  baseia-se no método que utilizamos para buscar uma palavra em um
+  dicionário.
+
+  \smallskip
+  \begin{block}{Problema}
+
+    Verificar se o vetor ordenado $v[0..N-1]$ contém a chave $k$
+
+    $$v[0]\leq v[1]\leq v[1] \leq \ldots\leq v[N-1]$$
+
+    quando $N=0$, $v\in\emptyset$ (vazio).
+
+    \begin{tabbing}
+      \hspace{3.75cm}\ \=\\
+      Quando $e>d \implies k\not\in v[0..N-1]$, caso contrário \\
+      \> $0\leq m\leq N-1 \land k=v[m]$.
+    \end{tabbing}
+
+    Inicialmente, a faixa é representada por $e-1$ (índice a esquerda) e
+    $d=N$ (índice a direta), e a cada iteração $m={(e+d)\over 2}$. 
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{Desafio}
+
+
+  \begin{itemize}
+  \item Descreva o algoritmo (utilizando qualquer notação), 
+  \item implemente-o usando \CEE,
+  \item análise seu desempenho (complexidade) e correção.
+  \end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Busca binária: algoritmo}
+
+
+  Dada uma tabela de registros $R_0, R1, \ldots, R_{N-1}$ cujas chaves estão
+  em ordem crescente $k_0, k_1, \ldots, k_{N-1}$, este algoritmo por um dado
+  argumento $k$.
+
+  \begin{description}
+  \item[B0. [Inicializa.]] Atribui $e\leftarrow -1$, $d\leftarrow N$.
+  \item[B1. [Calcula o ponto médio.]] Se $e>d$, o algoritmo termina
+    com \alert{falha}. Caso contrário, atribua
+    $m\leftarrow\lfloor(e+d)/2\rfloor$, o meio aproximado da área
+    relevante da tabela.
+  \item[B2. [Compara.]] Se $k<k_m$, vá para \alert{B3}; se $k>k_m$, vá
+    para \alert{B4}; e se $k=k_m$, o algoritmo termina com \alert{sucesso}.
+  \item[B3. [Ajusta $d$.]] Atribua $d\leftarrow m-1$ e retorne para \alert{B1}.
+  \item[B4. [Ajusta $e$.]] Atribua $e\leftarrow m+1$ e retorne para \alert{B1}.
+  \end{description}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Busca binária: implementação}
+
+
+  \lstinputlisting[]{../search/binaria.c}
+
+\end{frame}
+
+
+\begin{frame}{Busca binária: desempenho}
+
+
+  {\Large Número de comparações: $log_2N$}
+
+\end{frame}
+
+% \begin{frame}{Busca binária: correção}
+
+
+%   \begin{quote}
+%     \scriptsize ``A arte de programar é a arte de organizar a complexidade''. Dijkstra.
+%   \end{quote}
+
+%   \begin{block}{Enumeração}
+
+%     {\color<3->{gray}
+
+%     {\bf Invariante:}~$v[e]<x\leq v[d]$:\\
+%     \begin{enumerate}\color<3->{gray}
+%     \item Início da $1^{a.}$ iteração, a invariante é satisfeita pois
+%       $v[-1]<x\leq v[N]$ está fora da faixa dos índices;
+%     \item<2-> Última iteração, temos $e=d-1$, e a invariante se reduz a
+%       $v[d-1]<x\leq v[d]$, e $d$ é a solução do problema.
+%     \end{enumerate}
+%   }
+
+%     \onslide<3>{
+%     {\bf Término:}~início de cada iteração, o número de elementos do vetor
+%     é $d-e-1$:\\
+
+%     \begin{enumerate}
+%     \item Como $e<m<d$, tanto $d-m-1$ quanto $m-e-1$ são estritamente
+%       menores que $d-e-1$, assim o tamanho do vetor diminui a cada iteração,
+%       terminando sua execução.
+%     \end{enumerate}
+%   }
+
+%   \end{block}
+
+% \end{frame}
+
+\begin{frame}{Leitura Adicional}
+
+  \begin{thebibliography}{8}
+  \bibitem[Swarcffiter, 2010]{szwar2010}
+    Jaime Luis Szwarcfiter e Lilian Markenzon.
+    \newblock {\it Estruturas de Dados e seus Algorítmos\/}.
+    \newblock Editora LTC, 2010.
+
+  \bibitem[Feofiloff, 2010]{feofiloff2009}
+    Paulo Feofiloff.
+    \newblock {\it Algorítmos em Linguagem C\/}.
+    \newblock Editora Campus, 2009.
+
+  \bibitem[Tenenbaum, 2005]{tenenbaum2005}
+    Aaron M.\ Tenenbaum, Yedidyah Langsam e Moshe J.\ Augenstein.
+    \newblock {\it Estrutura de Dados usando C\/}.
+    \newblock Editora Pearson, 2005.
+
+  \end{thebibliography}
+
+\end{frame}

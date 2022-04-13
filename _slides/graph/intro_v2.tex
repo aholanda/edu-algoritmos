@@ -1,0 +1,295 @@
+
+\title{Grafos}
+
+\def\GG{
+	\begin{tikzpicture}[vertex/.style={circle,draw}]
+	\node[vertex] (v0) at (0,0) {$0$};
+	\node[vertex] (v1) at (-1,-1) {$1$};
+	\node[vertex] (v2) at (1,-1) {$2$};
+	\node[vertex] (v3) at (1.5,-2) {$3$};
+
+	\graph {
+       	       (v0) -- (v1) -- (v2) -- (v0);
+	       (v2) -- (v3);
+	 };
+
+	 \node [above of=v0]{Grafo não direcionado};
+	 \end{tikzpicture}
+}
+
+\def\GD {
+	\begin{tikzpicture}[vertex/.style={circle,draw}]
+	\node[vertex] (v0) at (0,0) {$0$};
+	\node[vertex] (v1) at (-1,-1) {$1$};
+	\node[vertex] (v2) at (1,-1) {$2$};
+	\node[vertex] (v3) at (1.5,-2) {$3$};
+	\path (v0) edge [loop above](v0); % self-loop
+
+	\graph {
+       	       (v0) -> (v1) -> (v2) -> (v0);
+       	       (v2) -> (v3);
+        };
+
+	\node [above of=v0]{Dígrafo};
+	\end{tikzpicture}
+}
+
+\frame{\maketitle}
+
+\section{Conceitos básicos}
+
+\begin{frame}{Grafos}{Definição}
+
+\begin{definition} Um \alert{\only<2>{dí}grafo $G$} é formado por um
+conjunto de \alert{vértices $V$} (ou nós, ou pontos) e uma coleção de
+\alert{\only<1>{arestas}\only<2>{arcos} $E$} (\only<1>{ou {\it links\/}, ou
+linhas}\only<2>{ou setas}), onde cada aresta conecta um par de vértices.
+\end{definition}
+
+\only<1>{
+\begin{center}
+\noindent Grafo \alert{não} direcionado\bigskip
+
+\begin{tikzpicture}[font=\footnotesize]
+\graph[nodes={draw,circle}] {
+       1 -- 4 -- 5;
+       0 -- {1, {2,3} -- 5};
+       
+};
+\end{tikzpicture}\bigskip
+
+
+\noindent $G = (V,E), \qquad V = \{0, 1, 2, 3, 4, 5\}$
+\noindent $E = \{\{0,1\}, \{0,2\}, \{0,3\}, \{1,4\}, \{2,5\}, \{3,5\}, \{4,5\}\}$
+\end{center}
+}
+
+\only<2>{
+\begin{center}
+\noindent Grafo direcionado (dígrafo)\bigskip
+
+\begin{tikzpicture}[font=\footnotesize, new set=mynodes,
+vertex/.style={circle,draw}]
+
+\node[set=mynodes, vertex] (v0) at (0,0) {$0$};
+\node[set=mynodes, vertex] (v1) at (-1,-1) {$1$};
+\node[set=mynodes, vertex] (v2) at (0,-1) {$2$};
+\node[set=mynodes, vertex] (v3) at (1,-.75) {$3$};
+\node[set=mynodes, vertex] (v4) at (-.5,-2) {$4$};
+\node[set=mynodes, vertex] (v5) at (0.5,-1.75) {$5$};
+
+\graph {
+       (v0) -> (v1) -> (v4) -> (v5);
+       (v5) -> (v2) -> (v0);
+       (v5) -> (v3) -> (v0);
+};
+\end{tikzpicture}
+
+
+\bigskip
+
+\noindent $G = (V,E), \qquad V = \{0, 1, 2, 3, 4, 5\}$
+\noindent $E = \{\<0,1>, \<1,4>, \<4,5>, \<5,2>, \<5,3>, \<2,0>, \<3,0>\}$
+\end{center}
+}
+
+\end{frame}
+
+%% See Algorithms by Sedgewick
+\begin{frame}{Aplicações}
+
+\begin{itemize}
+\item Mapas
+\item Internet
+\item Circuitos
+\item Redes de computadores
+\item Software
+\item Redes sociais
+\item $\ldots$
+\end{itemize}
+
+\end{frame}
+
+\section{Representação}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MATRIX
+
+\begin{frame}{Representação por matriz}{\inserttitle}
+
+\begin{columns}
+
+\begin{column}{.5\textwidth}
+
+\GG
+
+\end{column}
+
+\begin{column}{.5\textwidth}
+
+\noindent Matriz de adjascências\bigskip
+
+\def\R{\color{red}}
+\def\Z{{\color{gray}0}}
+\begin{tabular}{ccccc}
+		     &\R 0   &\R 1   &\R 2   & \R 3\\
+\color{red}	   0 &  \Z   &   1   &   1   &   \Z \\
+\color{red} 	   1 &   1   &  \Z   &   1   &   \Z \\
+\color{red} 	   2 &   1   &   1   &  \Z   &    1 \\
+\color{red} 	   3 &  \Z   &  \Z   &   1   &   \Z \\
+\end{tabular}
+
+\only<2> {
+\vskip 1cm {\tt int mat[4][4];}
+}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\section{Representação}
+
+\begin{frame}{Representação por matriz}{\inserttitle}
+
+\begin{columns}
+
+\begin{column}{.5\textwidth}
+
+\GD
+
+\end{column}
+
+\begin{column}{.5\textwidth}
+
+\noindent Matriz de adjascências\bigskip
+
+\def\R{\color{red}}
+\def\Z{{\color{gray}0}}
+\begin{tabular}{ccccc}
+		     &\R 0   &\R 1   &\R 2  &\R 3\\
+\color{red}	   0 & 	 1   &   1   &  \Z  &  \Z \\
+\color{red} 	   1 &	\Z   &  \Z   &   1  &  \Z \\
+\color{red} 	   2 & 	 1   &  \Z   &  \Z  &   1 \\
+\color{red} 	   3 &  \Z   &  \Z   &  \Z  &  \Z \\
+\end{tabular}
+
+\only<2> {
+\vskip 1cm {\tt int mat[4][4];}
+}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LINKED LISTS
+
+\def\NULL#1{
+  \node[on chain,draw,inner sep=6pt] (N#1)[right of=#1,xshift=-.75cm]{};
+  \draw (N#1.north east) -- (N#1.south west);
+  \draw (N#1.north west) -- (N#1.south east);
+  \draw[*->] let \p1 = (#1.two), \p2 = (#1.center) in (\x1,\y2) -- (N#1);
+}
+
+\def\EMPTYKEY#1{
+  \node[on chain,draw,inner sep=6pt] (E#1)[right of=#1]{};
+  \draw (E#1.north east) -- (E#1.south west);
+  \draw (E#1.north west) -- (E#1.south east);
+  \draw[*->] (#1) -- (E#1);
+}
+
+\begin{frame}{Representação por listas ligadas}
+
+\begin{columns}
+
+\begin{column}{.4\textwidth}
+
+\GG
+
+\end{column}
+
+\begin{column}{.6\textwidth}
+\begin{tikzpicture}[list/.style={rectangle split, rectangle split parts=2,
+    draw, rectangle split horizontal}, >=stealth, start chain,
+    every node/.style={xshift=.1cm}]
+
+   \foreach \i in {0,1,2,3}{
+    	     \node at (-.25,-\i) {$\i$};
+	     \draw (0,-\i) +(-.5,-.5) rectangle ++(.5,.5);
+	     \node (V\i) at (0,-\i) {};
+  }
+
+
+  \node[list,on chain] (E01) [right of=V0]{$1$};
+  \node[list,on chain] (E02) [right of=E01,xshift=-.75cm]{$2$};
+  \node[list,on chain] (E10) [right of=V1,xshift=-.75cm]{$0$};
+  \node[list,on chain] (E12) [right of=E10,xshift=-.75cm]{$2$};
+  \node[list,on chain] (E20) [right of=V2,xshift=-.75cm]{$0$};
+  \node[list,on chain] (E21) [right of=E20,xshift=-.75cm]{$1$};
+  \node[list,on chain] (E23) [right of=E21,xshift=-.75cm]{$3$};
+
+  \draw[*->] (V0) -- (E01);
+  \draw[*->] let \p1 = (E01.two), \p2 = (E01.center) in (\x1,\y2) -- (E02);
+  \NULL{E02}
+
+  \draw[*->] (V1) -- (E10);
+ \draw[*->] let \p1 = (E10.two), \p2 = (E10.center) in (\x1,\y2) -- (E12);
+  \NULL{E12}
+
+  \draw[*->] (V2) -- (E20);
+  \draw[*->] let \p1 = (E20.two), \p2 = (E20.center) in (\x1,\y2) -- (E21);
+  \draw[*->] let \p1 = (E21.two), \p2 = (E21.center) in (\x1,\y2) -- (E23);
+  \NULL{E23}
+
+  \EMPTYKEY{V3}
+
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Representação por listas ligadas}
+
+\begin{columns}
+
+\begin{column}{.4\textwidth}
+\GD
+\end{column}
+
+\begin{column}{.6\textwidth}
+\begin{tikzpicture}[list/.style={rectangle split, rectangle split parts=2,
+    draw, rectangle split horizontal}, >=stealth, start chain,
+    every node/.style={xshift=.1cm}]
+
+   \foreach \i in {0,1,2,3}{
+    	     \node at (-.25,-\i) {$\i$};
+	     \draw (0,-\i) +(-.5,-.5) rectangle ++(.5,.5);
+	     \node (V\i) at (0,-\i) {};
+  }
+
+
+  \node[list,on chain] (E00) [right of=V0]{$0$};
+  \node[list,on chain] (E01) [right of=E00,xshift=-.75cm]{$1$};
+  \node[list,on chain] (E12) [right of=V1,xshift=-.75cm]{$2$};
+  \node[list,on chain] (E20) [right of=V2,xshift=-.75cm]{$0$};
+  \node[list,on chain] (E23) [right of=E20,xshift=-.75cm]{$3$};
+
+  \draw[*->] (V0) -- (E00);
+  \draw[*->] let \p1 = (E00.two), \p2 = (E00.center) in (\x1,\y2) -- (E01);
+  \NULL{E01}
+
+  \draw[*->] (V1) -- (E12);
+  \NULL{E12}
+
+  \draw[*->] (V2) -- (E20);
+  \draw[*->] let \p1 = (E20.two), \p2 = (E20.center) in (\x1,\y2) -- (E23);
+  \NULL{E23}
+
+  \EMPTYKEY{V3}
+
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\end{frame}

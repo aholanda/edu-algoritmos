@@ -1,0 +1,143 @@
+
+\noindent Lista a ser entregue no dia {\bf 12 de abril de 2016} antes da prova.
+
+\section*{Busca sequencial}
+
+
+\exercise~Modifique a função {\tt BuscaSequencial()}, trocando o laço
+{\tt for} pelo laço {\tt while}:
+
+\begin{lstlisting}
+  int BuscaSequencial(int k, int N, int v[])
+  {
+    int i;
+    for (i = 0; i < N; i++) { 
+      if (v[i] == k) 
+      return i;       /* SUCESSO */  
+    }                                
+    return -1;              /* FALHA */
+  }  
+\end{lstlisting}
+
+
+\section*{Busca binária}
+
+\exercise Faça um programa que execute o algoritmo da busca binária
+recursivamente. Qual a complexidade do algoritmo de busca binária
+recursiva? Justifique sua resposta.
+
+\exercise~Faça uma tabela de valores $\lfloor log_2n \rfloor$ para
+$n=10, 10^2, 10^3, 10^4, 10^5$.
+
+\exercise~Se t unidades de tempo são necessárias para fazer uma busca
+binária em um vetor com $n$ elementos, quantas unidades de tempo são
+necessárias para fazer uma busca em $n^2$ segundos.
+
+\exercise~[Feofiloff] {\sc Overflow Aritmético.}~Se o número de
+elementos do vetor $v[0..n-1]$ estiver próximo de {\tt INT\_MAX}, o
+código da função {\tt BuscaBinaria} pode não funcionar corretamente
+ao calcular o valor da expressão $(e+d)/2$, em virtude de um {\it
+  overflow\/} aritmético. Como evitar esta possibilidade de
+inconsistência?
+
+\begin{lstlisting}
+  int BuscaBinaria(int k, int N, int v[])
+  {
+    int e, m, d;            /* esquerda, meio, direita */
+    e = -1;
+    d = N;
+    while (e <= d) {
+      m = (e + d) / 2;
+      if (k > v[m]) e = m + 1;
+      else if (k < v[m]) d = m - 1;
+      else return m;
+    }
+    return -1;
+  }
+\end{lstlisting}
+
+\pagebreak
+\exercise~[Feofiloff] Mostre que a seguinte variante de função {\tt
+  busca\_binariaB} funciona corretamente.
+
+\begin{lstlisting}
+  e = 0; d = n;
+  while (e < d) { /* $v[e-1] < k \leq v[d]$ */
+    m = (e + d)/2;
+    if (v[m] < k) e = m + 1;
+    else d = m;
+  } /* $e==d$ */
+  return d;
+\end{lstlisting}
+
+\noindent O que acontece se trocarmos ``{\tt while(e < d)}'' por
+``{\tt while(e <= d)}''? E se trocarmos ``{\tt (e+d)/2}'' por
+``{\tt (e-1+d)/2}''.
+
+\exercise~[Feofiloff] Mostre que a seguinte versão da função {\tt
+  busca\_binariaB} funciona corretamente. Ela é um pouco menos
+elegante que as anteriores.
+
+\begin{lstlisting}
+  e = 0; d = n - 1;
+  while (e <= d) { /* $v[e-1] < k \leq v[d+1]$ */
+    m = (e + d)/2;
+    if (v[m] < k) e = m + 1;
+    else d = m - 1;
+  } /* $e==d+1$ */
+  return d+1;
+\end{lstlisting}
+
+\exercise~[Feofiloff] A seguinte alternativa para a função {\tt
+  busca\_binariaB} funciona corretamente? O que acontece se trocarmos
+``{\tt (e+d)/2}'' por ``(e+d+1)/2''?
+
+\begin{lstlisting}
+  e = -1; d = n - 1;
+  while (e < d) { 
+    m = (e + d)/2;
+    if (v[m] < k) e = m;
+    else d = m - 1;
+  }
+  return d+1;
+\end{lstlisting}
+
+\end{document}
+
+\exercise~Troque a estrutura de dados utilizada para armazenar as
+chaves. Ao invés de utilizar vetor, utilize uma lista encadeada da
+forma
+
+\medskip
+\begin{lstlisting}
+  struct no {
+    /* identificador usado na  comparacao */
+    int chave;
+    /* aponta para o proximo elemento da lista */
+    struct no *prox;
+  };
+\end{lstlisting}
+\bigskip
+
+\noindent e implemente as funções:
+
+\begin{enumerate}
+\item {\tt busca\_sequencialS()};
+\item {\tt busca\_sequencialQ()};
+\item {\tt busca\_sequencialT()}.
+\end{enumerate}
+
+\noindent Analise as vantagens e desvantagens da utilização de cada
+estrutura (vetor e lista encadeada), bem como seu desempenho (complexidade).
+
+
+\exercise~A busca binária resolve o problema da busca em um vetor
+ordenado, mantendo a faixa em que a chave $k$ pode estar dentro do
+vetor. Inicialmente, a faixa é todo vetor, que vai sendo reduzida pela
+comparação da chave com o elemento do meio, e pelo descarte da metade
+em que a chave não se encontra. O processo continua até que a chave
+seja encontrada no vetor, ou até que a faixa esteja vazia, indicando
+que a chave não se encontra. Em uma tabela com $N$ elementos, a busca
+pode levar até $log_2N$ comparações. 
+Converta a descrição da busca binária em um programa usando qualquer
+linguagem de programação ou pseudo-código.\par

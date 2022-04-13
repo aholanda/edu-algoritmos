@@ -1,0 +1,43 @@
+\documentclass{beamer}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,trees}
+
+\usepackage[active,floats,tightpage]{preview} 
+\PreviewEnvironment{tikzpicture} 
+\setlength\PreviewBorder{5pt}% 
+
+\begin{document}
+
+\begin{tikzpicture}
+  
+  \def\shift{2cm}
+  
+  \colorlet{visit}{red}
+  \colorlet{visited}{gray}
+  
+  \tikzset{T/.style={circle,draw},sibling angle=60}
+  
+  \node[T] (root) {\color<2,7>{visit}\color<8->{visited}$55$} []
+  child {node[T] [xshift=-.5*\shift] {\color<3>{visit}\color<5>{visit}\color<6->{visited}$33$}
+    child {node[T] [xshift=-.25*\shift] {\color<4>{visit}\color<5->{visited}$22$}}
+    child {node[T] [xshift=.25*\shift] {\color<6>{visit}\color<7->{visited}$44$}}}
+  child {node[T] [xshift=.5*\shift] {\color<8,10>{visit}\color<11->{visited}$77$}
+    child {node[T] [xshift=-.25*\shift] {\color<9>{visit}\color<10->{visited}$66$}}
+    child {node[T] [xshift=.25*\shift] {\color<11>{visit}\color<12->{visited}$88$}}
+  };
+  
+  \node<1-3> [yshift=-2*\shift] {$\langle\emptyset\rangle$};
+  \node<4>  [yshift=-2*\shift] {$\langle{\color<4>{visit}22}\rangle$};
+  \node<5>  [yshift=-2*\shift] {$\langle 22, {\color<5>{visit}33}\rangle$};
+  \node<6>  [yshift=-2*\shift] {$\langle 22, 33, {\color<6>{visit}44}\rangle$};
+  \node<7>  [yshift=-2*\shift] {$\langle 22, 22, 33, {\color<7>{visit}55}\rangle$};
+  \node<8>  [yshift=-2*\shift] {$\langle 22, 22, 33, 55 \rangle$};
+  \node<9>  [yshift=-2*\shift] {$\langle 22, 22, 33, 55, {\color<7>{visit}66}\rangle$};
+  \node<10>  [yshift=-2*\shift] {$\langle 22, 22, 33, 44, 55, 66, {\color<10>{visit}77} \rangle$};
+  \node<11>  [yshift=-2*\shift] {$\langle 22, 22, 33, 44, 55, 66, 77, {\color<10>{visit}88} \rangle$};
+  \node<11>  [yshift=-2*\shift] {$\langle 22, 22, 33, 44, 55, 66, 77, 88 \rangle$};
+  
+\end{tikzpicture}
+ 
+\end{document}

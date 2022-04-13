@@ -1,0 +1,285 @@
+% Run
+% xelatex "\def\ishandout{1} \input{main.tex}"
+% to disable transitions
+
+\ifdefined\ishandout
+  \documentclass[handout]{beamer}
+\else
+  \documentclass[]{beamer}
+\fi
+
+\setbeamercovered{highly dynamic}
+\newcounter{saveenumi}% save counter on enumerate across frames
+\newcommand{\seti}{\setcounter{saveenumi}{\value{enumi}}}
+\newcommand{\conti}{\setcounter{enumi}{\value{saveenumi}}}
+\resetcounteronoverlays{saveenumi}
+
+% Dependencies
+\usepackage{fontspec} % use XeLaTeX
+\usepackage[]{polyglossia}
+\setdefaultlanguage{brazil}
+% \usepackage{lcg} % Generate random numbers
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,urlcolor=blue}
+\usepackage{pgf,tikz} % Draw figures
+\usetikzlibrary{arrows,automata,calc,chains,circuits,graphs,positioning,shapes.gates.logic.US,shapes,trees}
+\usepackage{circuitikz}
+%\usepackage{pgfgantt}
+  % \usepackage{pgfplots}
+  % \usegdlibrary{trees}
+  \usepackage{listings}
+  \lstset{language=C,inputencoding=utf8,basicstyle=\footnotesize, 
+    flexiblecolumns=true, numbers=left, numberstyle=\tiny\color{gray}, 
+    commentstyle=\scriptsize\color{black!50},mathescape}
+  \usepackage{pdftexcmds} % \pdf@strcmp \pdf@filemoddate
+  \usepackage{ifthen} % \ifthenelse
+  \usepackage{animate}
+
+  % FONTS
+  \font\fiverm=cmr5
+  \font\ninerm=cmr9
+
+  % Definitions
+  \author{Adriano J. Holanda}%\\{\scriptsize \url{http://holanda.xyz}}}
+  \def\array{vetor}
+  \def\bigO#1{\mathcal{O}(#1)}
+  \def\bug#1{{\it bug#1\/}}
+  % C letter
+  \font\ninerm=cmr9
+  \let\mc=\ninerm
+  \def\CEE{{\mc C\spacefactor1000}}
+
+  \def\boxset{
+    \tikzset{box/.style={rectangle,minimum width=.5cm,draw},
+      index/.style={minimum width=.5cm}}
+  }
+
+  % only title frames
+  \def\onlytitleframe#1{\author{}\date{}\title{#1}\maketitle}
+
+  % THEOREM
+  % \newtheorem{teorema}[theorem]{Teorema}
+
+  \newcommand{\executeiffilenewer}[3]{%
+    \ifnum\pdf@strcmp{\pdf@filemoddate{#1}}%
+    {\pdf@filemoddate{#2}}>0%
+    {\immediate\write18{#3}}\fi%
+  }
+  % includesvg[includegraphics args]{file} command (linux-version)
+  \newcommand{\includesvg}[2][]{%
+    \executeiffilenewer{#2.svg}{#2.pdf}{%
+      /usr/bin/inkscape -z -C --file="#2.svg" --export-pdf="#2.pdf" > /tmp/#2.log}%
+    \ifthenelse{\equal{#1}{}}{%
+      \includegraphics{#2}}{%
+      \includegraphics[#1]{#2}}%
+  }
+
+\def\lecturetitle#1#2{\title{{\large\bf#1}\\{\small [#2]}}}
+
+\def\transitionslide#1{\frame{\author{}\title{\LARGE#1}\date{}\maketitle}}
+
+  \def\shcmd#1{
+    \begingroup
+    \bigskip\color{gray}
+    {\tt \$~#1}
+    \bigskip
+    \endgroup
+  }
+
+
+  \def\fonte#1{\begingroup\tiny\tt\color{gray} Fonte:~#1\endgroup}
+
+\title{Grafos: terminologia e representação}
+
+\begin{document}
+
+\begin{frame}{Por que grafos?}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\only<1>{\includegraphics[scale=0.45]{img/southam_map_nocolor}}
+\only<2>{\includegraphics[scale=0.35]{img/southam_map_color}}
+\end{column}
+\begin{column}{0.55\textwidth}
+\only<1>{\includegraphics[scale=0.2]{img/southam_nocolor.png}}
+\only<2>{\includegraphics[scale=0.2]{img/southam_color.png}}
+\begin{center}
+{\footnotesize 1 -- Brasil, 11 -- Argentina}
+\end{center}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Grafo: Definição}
+
+\begin{block}{Informal}
+Grafo G é formado:
+\begin{itemize}
+\item Conjunto finito de vértices $V$;
+\item Relação simétrica $R$ em $V$ entre os pares de vértices;
+\item O conjunto de pares simétricos $R$ é denotado por $E$.
+\end{itemize}
+\end{block}
+
+\begin{block}{Formal}
+$G = (V, E)$ \\
+$\{v \in V : v \notin \emptyset\}$ \\
+$\{ \{(u, v), (v, u)\} \in R : (u, v) \in E \land \{u, v\} \in V\}$ \\
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Representação simbólica: Exemplo}
+
+$G = (V, E)$
+
+$V = \{v_1, v_2, v_3, v_4, v_5\}$
+
+$R = \{(v_1, v_2), (v_1, v_4), (v_2, v_1), (v_2, v_3), (v_2, v_4),
+(v_3, v_2), (v_4, v_1), (v_4, v_2)\}$
+
+$$ E = \{\{(v_1, v_2), (v_2, v_1)\}, \{(v_1, v_4), (v_4, v_1)\}, \{(v_2, v_3),$$  
+$$(v_3, v_2)\}, \{(v_2, v_4), (v_4, v_2)\}\} $$
+
+\end{frame}
+
+
+\begin{frame}{Representação pictórica}
+
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\input{img/agraph}
+\end{column}
+
+\begin{column}{0.35\textwidth}
+\scriptsize
+\underline{\it Rótulos\/}\\
+$v_1$ -- Brasil\\
+$v_2$ -- Argentina\\
+$v_3$ -- Chile \\
+$v_4$ -- Paraguai \\
+$v_5$ -- Equador
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Matriz de adjacências}
+
+\begin{columns}
+\begin{column}{0.6\textwidth}
+	\input{img/agraph}
+\end{column}
+\begin{column}{0.4\textwidth}
+	$v_1  v_2  v_3  v_4  v_5$ \\
+ 	0  1  0  1  0 \\
+ 	1  0  1  1  0 \\
+ 	0  1  0  0  0 \\
+ 	1  1  0  0  0 \\
+ 	0  0  0  0  0
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Representação de grafos usando lista ligada}
+
+\begin{columns}
+\begin{column}{0.375\textwidth}
+	\input{img/agraph}
+\end{column}
+\begin{column}{0.6\textwidth}
+	\includegraphics[scale=0.275]{img/graph.png}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Grafos direcionados ou dígrafos: Definição}
+
+\begin{block}{Informal}
+Grafo direcionado ou dígrafo $G^\rightarrow$ é formado:
+\begin{itemize}
+\item Conjunto finito de vértices $V$;
+\item Relação $R$ em $V$ entre os pares ordenados de arcos;
+\item O conjunto de pares ordenados de arcos em $R$ é denotado por $E$.
+\end{itemize}
+\end{block}
+
+\begin{block}{Formal}
+$G^\rightarrow = (V, E)$ \\
+$\{v \in V : v \notin \emptyset\}$ \\
+$\{ (u, v) \in R : (u, v) \in E \land \{u, v\} \in V\}$ \\
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Dígrafo: exemplo}
+
+\begin{block}{Representação simbólica}
+\scriptsize
+$G = (V, E)$
+
+$V = \{v_1, v_2, v_3, v_4, v_5\}$
+$R = \{(v_1, v_2), (v_2, v_3), (v_2, v_4), (v_4, v_1)\}$
+$E  = \{(v_1, v_2), (v_4, v_1), (v_2, v_3), (v_2, v_4)\}$
+     
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Dígrafo: Representação pictórica}
+
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\input{img/adigraph}
+\end{column}
+
+\begin{column}{0.35\textwidth}
+\scriptsize
+\underline{\it Rótulos\/}\\
+TODO
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Representação usando matriz de adjacências}
+
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\input{img/adigraph}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+$ v_1  v_2  v_3  v_4  v_5$ \\
+ 0  1  0  0  0 \\
+ 0  0  0  0  0 \\
+ 0  1  0  0  0 \\
+ 1  1  0  0  0 \\
+ 0  0  0  0  0 \\
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Representação usando lista ligada}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+\input{img/adigraph}
+\end{column}
+\begin{column}{0.6\textwidth}
+ \includegraphics[scale=0.35]{img/digraph.png}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\end{document}

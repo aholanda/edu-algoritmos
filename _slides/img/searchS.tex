@@ -1,0 +1,68 @@
+
+\documentclass{beamer}
+\usetheme{boxes}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{frame}
+\begin{center}
+\begin{tikzpicture}
+\def\shift{1cm}
+\tikzset{
+  every node/.style={minimum width=\shift, minimum
+  height=\shift,font=\Large},
+  every path/.style={->,draw},
+  reg/.style={draw},
+  idx/.style={blue,font=\it},
+  current/.style={thick},
+  j/.style={current, red, draw},
+  i/.style={green!40!black}
+}
+
+\foreach \i/\n in {0/55,1/33,2/77,3/22,4/88,5/44,6/66} {
+    \node[reg] (reg\i) at (\i*\shift,0) {\n};
+    \node[idx] (idx\i) [above of=reg\i] {\i};
+}
+
+\node [above of=reg0,yshift=2.5*\shift] {\tt buscaS(\only<1-8>{44}\only<9->{{\color{red}99}});};
+
+\foreach \j/\f in {0/2, 1/3, 2/4, 3/5, 4/6, 5/7} {
+         \node<\f>[i] (I\f) [above of=reg\j, yshift=1.5*\shift] {\tt i};
+         \path<\f> (idx\j) -- (I\f);
+         \node<\f>[circle,blue,draw] at (reg\j) {};
+         \node<\f> (key searched\j) [below of=reg\j, yshift=-\shift] {44};
+         \path<\f> (reg\j) -- node [right] {$=?$} (key searched\j);
+}
+
+\node<8>[red, circle, thick, draw] (found) at (5*\shift,0) {};
+\node<8>[red] (idx found) [below of=found,yshift=-\shift] {5};
+\node<8>[red,circle,dotted, thick, draw]  at (idx5) {};
+\path<8> (found) -- (idx found) node[left] {\scriptsize retorna\ \ };
+
+\foreach \j/\f in {0/10, 1/11, 2/12, 3/13, 4/14, 5/15, 6/16} {
+         \node<\f>[i] (I\f) [above of=reg\j, yshift=1.5*\shift] {\tt i};
+         \path<\f> (idx\j) -- (I\f);
+         \node<\f>[circle,blue,draw] at (reg\j) {};
+         \node<\f> (key searched\j) [below of=reg\j, yshift=-\shift] {\color{red}99};
+         \path<\f> (reg\j) -- node [right] {$=?$} (key searched\j);
+}
+
+\node<17->[idx] (end of file) [right of=idx6] {7};
+\node<17->[i,red] (I EOF) [above of=end of file,yshift=\shift] {i};
+\path<17-> (end of file) -- (I EOF);
+
+\node<18>[red] (idx notfound) [below of=end of file,yshift=-\shift] {\bf -1};
+\path<18> (end of file) -- (idx notfound) node[left] {\scriptsize retorna\ \
+\ } ;
+
+
+\end{tikzpicture}
+
+\end{center}
+\end{frame}
+
+
+\end{document}
+

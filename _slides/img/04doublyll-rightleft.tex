@@ -1,0 +1,53 @@
+\documentclass{standalone}
+ 
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes,chains,arrows,positioning}
+
+\begin{document}
+
+\begin{tikzpicture}[
+        list/.style={
+            very thick, rectangle split,
+            rectangle split parts=3, draw,
+            rectangle split horizontal, minimum size=18pt,
+            inner sep=5pt, text=black,
+            rectangle split part fill={blue!20, red!20, blue!20}
+        },
+        ->, start chain, very thick
+      ]
+
+\tikzset{
+    squarecross/.style={
+        draw, rectangle,minimum size=18pt, fill=orange!80,
+        inner sep=0pt, text=black,
+        path picture = {
+            \draw[black]
+            (path picture bounding box.north west) --
+            (path picture bounding box.south east)
+            (path picture bounding box.south west) --
+            (path picture bounding box.north east);
+        }
+    }
+}
+
+  \node[list,on chain] (A) {\nodepart{second} };
+  \node[list,on chain] (B) {\nodepart{second} };
+  \node[list,on chain] (C) {\nodepart{second} };
+  \node[list,on chain] (D) {\nodepart{second} };
+
+  \node[] (E) [right=of D] {direita};
+  \node[] (F) [left= of A] {esquerda};
+
+  \path[*->] let \p1 = (A.three), \p2 = (A.center) in (\x1,\y2) edge [bend left] ($(B.one)+(0,0.2)$);
+  \path[*->] let \p1 = (B.three), \p2 = (B.center) in (\x1,\y2) edge [bend left] ($(C.one)+(0,0.2)$);
+  \path[*->] let \p1 = (C.three), \p2 = (C.center) in (\x1,\y2) edge [bend left] ($(D.one)+(0,0.2)$);
+  \draw[->] let \p1 = (D.three), \p2 = (D.center) in (E) -- (D);
+
+  \draw[->] (F)  -- (A);
+  \path[*->] ($(B.one)+(0.1,0.1)$) edge [bend left] ($(A.three)+(0,-0.05)$);
+  \path[*->] ($(C.one)+(0.1,0.1)$) edge [bend left] ($(B.three)+(0,-0.05)$);
+  \path[*->] ($(D.one)+(0.1,0.1)$) edge [bend left] ($(C.three)+(0,-0.05)$);
+\end{tikzpicture}
+
+\end{document}
+

@@ -1,0 +1,206 @@
+\title{Árvores Binárias}
+
+\frame{\maketitle}
+
+\begin{frame}{Árvores binárias}
+
+Uma *árvore binária T* é um conjunto finito de elementos
+denominados nós ou vértices, tal que:
+
+- $T\in\emptyset$ e a árvore é dita vazia;
+- Existe um nós especial $r$, chamado {\it raiz\/} de $T$, e os
+restantes podem ser divididos em dois subconjuntos disjuntos, $T^E_r$
+e $T^D_r$, a {\it subárvore esquerda\/} e a {\it direita} de $r$, as
+quais são também árvores binárias.
+
+\end{frame}
+
+\begin{frame}{Árvore estritamente binária}
+
+\begin{columns}
+\begin{column}{.5\textwidth}
+\footnotesize
+Uma árvore {\bf estritamente binária} é
+uma árvore binária em que cada nó possui
+$0$ ou $2$ filhos.
+\end{column}
+
+\begin{column}{.5\textwidth}
+    \input{img/Tstrict}                     
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Árvore binária completa}
+
+\begin{columns}
+\begin{column}{.5\textwidth}
+\scriptsize
+Uma {\bf árvore binária completa} apresenta
+as seguintes propriedades:
+se $v$ é um nó tal que alguma subárvore de $v$ \ é
+vazia, então $v$ localiza-se no último (maior) \ ou penúltimo nível da
+árvore.
+\end{column}
+
+\begin{column}{.5\textwidth}
+   \input{img/Tcomplete}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Árvore binária cheia}
+
+\scriptsize Um {\bf árvore binária cheia} apresenta as seguintes
+propriedades: 
+se $v$ é um nó tal que alguma subárvore de $v$ \
+é vazia, então $v$ localiza-se no último \
+ nível da árvore.
+
+\begin{center}
+        \input{img/Tfull}
+   \end{center}
+
+\end{frame}
+
+\begin{frame}{Árvore binária: propriedades}
+
+\begin{center}
+        \input{img/Tlevel}
+   \end{center}
+
+ \end{frame}
+ 
+\begin{frame}{Definição do tipo abstrato de dados}
+
+\begin{columns}
+\begin{column}{.65\textwidth}
+  \lstinputlisting[firstline=4,lastline=14]{src/tree.h}
+\end{column}
+\begin{column}{.35\textwidth}
+
+\begin{tikzpicture}
+\tikzset{every node/.style={minimum width=2.15cm, draw}}
+
+\node[white, fill=black] (K) {chave};
+\node[rectangle split,rectangle split horizontal, rectangle split
+parts=2, draw] [below of=K,yshift=.45cm] {\nodepart{one} \tt\color{green!40!black} *esq \nodepart{two} \tt\color{blue} *dir};
+\end{tikzpicture}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Percursos em Árvores Binárias: pré-ordem}
+       %animategraphics[step]{1}{img/Tpre}{}{}
+\begin{center}
+ \begin{tikzpicture}
+  \input{/tmp/pre}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+     
+\begin{frame}{Percurso em pré-ordem}
+\lstinputlisting[firstline=5,lastline=8]{src/tree.c}
+\lstinputlisting[mathescape,firstline=9,lastline=18]{src/tree.c}
+\end{frame}
+
+\begin{frame}{Percurso em ordem simétrica}
+ %animategraphics[step]{1}{img/Tin}{}{}
+
+\begin{center}
+ \begin{tikzpicture}
+  % \directlua{treepost()}
+  \input{/tmp/in}
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Percurso em ordem simétrica ({\it in-order\/})}
+
+\lstinputlisting[firstline=5,lastline=8]{src/tree.c}
+ \lstinputlisting[firstline=18,lastline=28]{src/tree.c}
+
+\end{frame}
+
+\begin{frame}{Percurso em pós-ordem}
+
+%animategraphics[step]{1}{img/Tpos}{}{}
+\begin{center}
+  \begin{tikzpicture}
+    \input{/tmp/post}
+  \end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Percurso em pós-ordem}
+
+\lstinputlisting[firstline=5,lastline=8]{src/tree.c}
+ \lstinputlisting[firstline=30,lastline=38]{src/tree.c}
+
+\end{frame}
+
+\begin{frame}{Árvore binária de busca}
+  
+  \begin{tikzpicture}[scale=1,no/.style={circle,draw}]
+    \node (n1) at (0,2) [no] {1};
+    \node (n2) at (1,1) [no] {2};
+    \node (n3) at (2,4) [no] {3};
+    \node (n4) at (3,0) [no] {4};
+    \node (n5) at (4,1) [no] {5};
+    \node (n6) at (5,0) [no] {6};
+    \node (n7) at (6,2) [no] {7};
+    \draw (n3) -- (n1) -- (n2);
+    \draw (n3) -- (n7) -- (n5) -- (n4);
+    \draw (n5) -- (n6);
+    
+    \def\start{-1}
+    \def\ending{8}
+    \newcounter{level}
+    \setcounter{level}{4}
+    \foreach \i in {0,...,4}{
+      \draw[dotted] (\start,\i-1) -- (\ending,\i-1);
+      \draw (\start,\i-0.8) node{\tiny $h=\i$};
+      \draw (\ending,\i-0.8) node{\tiny $\ell=\arabic{level}$};
+      \addtocounter{level}{-1}
+    }
+    \draw (\start,5) node{\scriptsize altura};
+    \draw (\ending,5) node{\scriptsize nível};
+    
+    \draw[draw=gray,->,>=latex] (\start-0.5,-1) -- (\ending+0.5,-1);
+
+    \foreach \i in {1,...,7} {
+      \draw[draw=gray,dotted] (n\i) -- (\i-1,-1) node[below]{\tiny \i};
+    }
+  \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Busca: implementação em C}
+  
+ \lstinputlisting[firstline=58,lastline=67]{src/tree.c}
+
+\end{frame}
+
+\begin{frame}{Leitura Adicional}
+
+\begin{thebibliography}{4}
+\bibitem{szwarcfiter}[Szwarcfiter, 1994]
+Jayme Luiz Szwarcfiter e Lilian Markezon
+\newblock Estrutura de Dados e seus Algoritmos
+\newblock Editora LTC, 1994.
+
+\bibitem{taocp3}[Knuth3, 1998]
+Donald Erwin Knuth
+\newblock The Art of Computer Programming, v. 3, 2$^a$ ed.
+\newblock Addison-Wesley, 1998.
+\end{thebibliography}
+
+\end{frame}

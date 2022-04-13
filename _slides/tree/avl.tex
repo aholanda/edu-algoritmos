@@ -1,0 +1,178 @@
+% Árvores AVL
+
+Árvores AVL
+===========
+    
+- Solução para a manutenção de árvore de busca equilibrada
+    proposta por dois matemáticos russos, G.\ M.\ Adelson-Velsky e E.\
+    M.\ Landis, em 1962.
+
+- Árvore binária de busca.
+    
+- Restrição para a diferença entre as alturas das árvores
+    direita e esquerda de cada nó.
+
+
+Restrição
+=========
+
+  $|h_E(n_i)-h_D(n_i)|<1$
+
+
+Equilíbrio
+==========
+
+  \begin{theorem}
+    (Adelson-Velsky e Landis). A altura de uma árvore balanceada (AVL) com N nós internos varia
+    sempre entre $lg(N+1)$ e $1.4405lg(N+2)-0.3277$.
+  \end{theorem}
+
+
+
+Inclusão: Caso 1, $h_E(p) > h_D(p)$
+==================================
+
+includegraphics{img/06treeapp-avl-single_rotation}
+
+Inclusão: Caso 1.1, $h_E(p) > h_D(p) \land h_E(u) > h_D(u)$
+===========================================================
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+ includegraphics[scale=0.5]{img/06treeapp-avl-single-rotation-right-before}
+\end{column}
+\begin{column}{0.5\textwidth}
+includegraphics[scale=0.5]{img/06treeapp-avl-single-rotation-right-after}
+\end{column}
+\end{columns}
+
+Inclusão: Caso 1.2, $h_E(p) > h_D(p) \land h_D(u) > h_E(u)$
+===========================================================
+
+\begin{columns}
+\begin{column}{0.35\textwidth}
+includegraphics[scale=0.375]{img/06treeapp-avl-double-rotation-right-before}
+\end{column}
+\begin{column}{0.65\textwidth}
+$\Rightarrow$fig
+includegraphics[scale=0.37]{img/06treeapp-avl-double-rotation-right-after}
+\end{column}
+\end{columns}
+
+Inclusão: Caso 2, $h_D(p) > h_E(p)$
+===================================
+
+includegraphics{img/06treeapp-avl-single_rotation}
+
+Inclusão: Caso 2.1, $h_D(p) > h_E(p) \land h_D(z) > h_E(z)$
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+includegraphics[scale=0.5]{img/06treeapp-avl-single-rotation-left-before}
+\end{column}
+\begin{column}{0.5\textwidth}
+includegraphics[scale=0.5]{img/06treeapp-avl-single-rotation-left-after}
+\end{column}
+\end{columns}
+
+Inclusão: Caso 2.2, $h_D(p) > h_E(p) \land h_E(z) > h_D(u)$
+==========================================================
+
+\begin{columns}
+\begin{column}{0.35\textwidth}
+includegraphics[scale=0.375]{img/06treeapp-avl-double-rotation-left-before}
+\end{column}
+\begin{column}{0.65\textwidth}
+$\Rightarrow$ includegraphics[scale=0.37]{img/06treeapp-avl-double-rotation-left-after}
+\end{column}
+\end{columns}
+
+Algoritmo para o caso 1
+=======================
+
+\small
+\begin{block}{Caso 1}
+\begin{lstlisting}[basicstyle=\color<2>{gray}]]
+procedimento caso1(pt,h)
+  ptu := pt^.dir
+  se ptu^.bal = 1 then
+         pt^.dir := ptu^.esq;   ptu^.esq := pt
+         pt^.bal := 0;          pt := ptu
+\end{lstlisting}
+\pause
+\begin{lstlisting}[firstnumber=6,basicstyle=\color<1>{gray}\color<2>{black}]
+  else ptv := ptu^.esq
+         ptu^.esq := ptv^.dir;  ptv^.dir := ptu
+         pt^.dir := ptv^.esq;   ptv^.esq := pt
+         se ptv^.bal = 1 then pt^.bal := -1 
+         else pt^.bal := 0
+         se ptv^.bal = -1 then ptu^.bal := 1 
+         else ptu^.bal := 0
+         pt := ptv
+  pt^.bal := 0; h := F   
+\end{lstlisting}
+\end{block}
+
+
+Algoritmo para o caso 2
+=======================
+
+\small
+\begin{block}{Caso 2}
+\begin{lstlisting}[basicstyle=\color<1>{black}\color<2>{gray}]
+procedimento caso2(pt,h)
+  ptu := pt^.esq
+  se ptu^.bal = -1 then
+         pt^.esq := ptu^.dir;   ptu^.dir := pt
+         pt^.bal := 0;          pt := ptu
+\end{lstlisting}
+\pause
+\begin{lstlisting}[basicstyle=\color{black},firstnumber=6]
+  else ptv := ptu^.dir
+         ptu^.dir := ptv^.esq;  ptv^.esq := ptu
+         pt^.esq := ptv^.dir;   ptv^.dir := pt
+         se ptv^.bal = -1 then pt^.bal := 1 
+         else pt^.bal := 0
+         se ptv^.bal = 1 then ptu^.bal := -1 
+         else ptu^.bal := 0
+         pt := ptv
+  pt^.bal := 0; h := F     
+\end{lstlisting}
+
+\end{block}
+
+Algoritmo de inclusão
+======================
+
+\scriptsize
+\begin{block}{Inclusão}
+\onslide<1>{\lstset{basicstyle=\color{black}}}
+\onslide<2>{\lstset{basicstyle=\color{gray}}}
+\onslide<3>{\lstset{basicstyle=\color{gray}}}
+\begin{lstlisting}[basicstyle=\color<1>{black}\color<2>{gray}\color<3>{gray}]
+procedimento ins-AVL(x,pt,h)
+  se pt = null
+     inicio-no(pt)
+     h := V
+\end{lstlisting}
+\pause
+\begin{lstlisting}[firstnumber=5,basicstyle=\color<2>{black}\color<3>{gray}]
+  else se x = pt^.chave then pare
+       se x < pt^.chave then
+          ins-AVL(x,pt^.esq,h)
+          se h then
+             caso pt^.bal seja
+             1:   pt^.bal := 0
+             0:   pt^.bal := -1;   h := F
+             -1:  caso1(pt,h)     % rebalanceamento
+\end{lstlisting}
+\pause
+\begin{lstlisting}[firstnumber=13,basicstyle=\color{black}]
+             else ins-AVL(x,pt^.dir,h)
+            se h then
+            caso pt^.bal seja
+            -1:  pt^.bal := 0;  h := F
+            0:   pt^.bal := 1
+            1:   caso2(pt,h)    % rebalanceamento             
+\end{lstlisting}
+\end{block}

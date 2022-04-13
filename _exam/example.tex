@@ -1,0 +1,308 @@
+\documentclass[10pt]{article}
+
+\usepackage{lcg}
+
+\begin{document}
+
+
+
+1. Dado o algoritmo a seguir:
+
+\begin{lstlisting}
+  Algoritmo
+  declare A,B,C,I,J,K numérico
+  A := 36
+  C := 2
+  I := 5
+  B := SQRT(A)
+  J := C * 3/4
+  se B > J
+  então K := 8 * I / (POW(6, 2)/C)
+  senão K := A + I/A - I
+  fim se
+  ESCREVA(B, J, K)
+  fim Algoritmo
+\end{lstlisting}
+
+\noindent quais valores serão escritos?
+
+2. Faça um algoritmo que leia três notas de um aluno e
+escreva se ele foi aprovado ou reprovado. Para ser aprovado a média
+das notas deve ser maior ou igual a cinco.
+
+3. Escreva um algoritmo que leia $20$ valores numéricos do
+usuário em um vetor chamado {\tt VET[20]} e imprima-os em ordem
+inversa.
+
+\end{document}
+
+%%% PILHA
+4. Mostre o cálculo, passo a passo, da expressão na
+notação posfixa a seguir, usando pilha e vetores:
+$353-*2*$
+
+%%%%%%%%%%%%%%%% FILA
+5. Utilize o código {\tt fila\_vetor.c} da lista~3 e faça
+uma tabela contendo o valor das variáveis {\tt p->ini}, {\tt p->n} e
+dos elementos do vetor {\tt p->v[TAM\_VETOR]} em cada linha de execução
+do código a seguir:
+
+\reinitrand[first=1,last=199]
+\begin{center}
+  \begin{lstlisting}
+    int main() {
+      Fila *p = fila_cria();
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_retira(p);
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_retira(p);
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_retira(p);
+      fila_retira(p);
+      fila_insere(p, (*\rand\arabic{rand}*));
+      fila_retira(p);
+      fila_retira(p);
+      fila_libera(p);
+    }
+  \end{lstlisting}
+\end{center}
+
+\begin{center}
+  \small
+  \begin{tabular}[ht]{|l|c|c|c|c|c|c|}\hline
+    & \tt p->ini &\tt p->n &\tt v[0]&\tt v[1] &\tt v[2] &\tt v[3] \\\hline
+    1 & & & & &  & \\\hline
+    2 & & & & &  & \\\hline
+    3 & & & & &  & \\\hline
+    4 & & & & &  & \\\hline
+    5 & & & & &  & \\\hline
+    6 & & & & &  & \\\hline
+    7 & & & & &  & \\\hline
+    8 & & & & &  & \\\hline
+    9 & & & & &  & \\\hline
+    10 & & & & &  & \\\hline
+    11 & & & & &  & \\\hline
+    12 & & & & &  & \\\hline
+    13 & & & & &  & \\\hline
+    14 & & & & &  & \\\hline
+    15 & & & & &  & \\\hline
+    16 & & & & &  & \\\hline
+    17 & & & & &  & \\\hline
+  \end{tabular}
+\end{center}
+
+\pagebreak
+
+6. Complete o quadro a seguir sobre a ordem de complexidade no tempo e espaço 
+do algoritmo {\it quicksort}:
+
+\begin{center}
+  \begin{tabular}[ht]{|l|c|}\hline
+    tempo & $O(\qquad)$\\\hline
+    espaço & $O(\qquad)$\\\hline
+  \end{tabular}
+\end{center}
+
+
+7. Mostre passo-a-passo através do teste de mesa como a função 
+{\tt particiona()} mostrada na Listagem~\ref{lst:quick} atua 
+sobre o vetor {\tt v[]} da função {\tt main()}:
+
+\reinitrand[first=1,last=48,counter=quick]
+
+\begin{center}
+\begin{lstlisting}[caption={Função de partionamento utilizada pelo algoritmo quicksort.},label={lst:quick}]
+  /* particiona() recebe um vetor v[inf..sup] com inf<=sup. Rearranja os
+   elementos do vetor e devolve j em inf..sup tal que 
+   v[inf..j-1] <= v[j] < v[j+1..sup]. Author: Bob Sedgewick. */
+long particiona(long inf, long sup, long v[]) {
+	long i=inf, j=sup+1;
+	long t /* temporaria */, x = v[inf]; /* seleciona pivo */
+
+	while (1) {
+		while(v[++i] < x)
+			if (i==sup)
+				break; /*i->*/
+		while(x < v[--j])
+			if (j==inf)
+				break; /*<-j*/
+             
+		if (i>=j)
+			break; 
+		t = v[j], v[j] = v[i], v[i] = t; /*i<->j*/
+	}
+	v[inf] = v[j], v[j] = x; /*inf<->j */
+
+	return j;
+}
+
+int main() {
+  long v[5] = {(*\rand\arabic{quick},\rand\arabic{quick},\rand\arabic{quick},\rand\arabic{quick},\rand\arabic{quick}*)}; 
+  particiona(0, 4, v);
+
+  return 0;
+}
+\end{lstlisting}
+\end{center}
+
+\end{document}
+
+
+8. Faça um algoritmo que gere uma tabela com $N$ termos da
+sequência de Fibonacci em um vetor chamado {\tt FIBO[N]}. O valor de
+$N$ deve ser entrado pelo usuário. Cada termo da sequência de
+Fibonacci é a soma dos dois anteriores conforme mostrado a seguir:
+
+$$1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots$$
+
+\question{5,0} Escreva um algoritmo que armazene o triângulo de Pascal em
+uma matriz $N\times N$, onde N é fornecido pelo usuário. Por exemplo, 
+para $N=7$, o triângulo de Pascal gerado seria
+
+\begin{center}
+\begin{tabular}[h]{c|ccccccc}
+  & \bf 0 & \bf 1 & \bf 2 & \bf 3 &\bf 4 &\bf 5&\bf 6\\\hline
+\bf 0 & 1&  &   &   &  &  & \\
+\bf 1 & 1& 1&   &   &  &  & \\
+\bf 2 & 1& 2&  1&   &  &  & \\
+\bf 3&  1& 3&  3&  1&  &  & \\
+\bf 4& 1&  4&  6&  4&  1&  & \\
+\bf 5& 1&  5& 10& 10&  5&  1& \\
+\bf 6& 1&  6& 15& 20&  15&  6& 1\\
+\end{tabular}
+\end{center}
+
+
+%%%%%%%%%%%%%%%% SORT
+9. Para o programa da Listagem~\ref{lst:insertion}, responda 
+à seguintes questões:
+\begin{enumerate}[a)]
+\item[{\tt[1]}] Se trocarmos {\tt v[j] > x} por {\tt v[j] >= x}, o algoritmo
+  continua estável? Explique!
+\item[{\tt[0,5]}] Qual a ordem de complexidade de tempo e espaço do algoritmo 
+  em {\tt insertionsort()}?
+\end{enumerate}
+
+\begin{center}
+  \begin{lstlisting}[caption={Ordenação por inserção.},label={lst:insertion}]
+    void insertionsort(int N, int v[]) {
+      int i, j, x;
+      for (i = 1; i < N; i++) {
+        x = v[i];
+        for (j = i-1; j >=0 && v[j] > x; j--) {
+          v[j+1] = v[j];
+        }
+        v[j+1] = x;
+      }
+    }
+  \end{lstlisting}
+\end{center}
+
+\reinitrand[first=4,last=6,counter=die]
+10. Desenhe as chamadas de funções para {\tt merge()} e {\tt
+  mergesort()}~(Listagem~\ref{lst:merge}) para a seguinte invocação {\tt mergesort(0,\rand\arabic{die},v)}, onde
+{\tt v} é um vetor de elementos.
+
+\begin{center}
+  \begin{lstlisting}[label={lst:merge},caption={Algoritmo mergesort.}]
+    void merge(int p, int q, int r, int v[]) {
+      int i, j, k, *w;
+      w = calloc(r-p, sizeof(int));
+      i=p, j=q, k=0;
+      while (i<q && j<r) {
+        if (v[i]<=v[j]) w[k++] = v[i++];
+        else w[k++] = v[j++];
+      }
+      while (i<q) w[k++] = v[i++];
+      while (j<r) w[k++] = v[j++];
+      for (i=p; i<r; i++) v[i] = w[i-p];
+      free(w);
+    }
+    void mergesort(int p, int r, int v[]) {
+      if (p<r-1) {
+        int q = (p+r) / 2;
+        mergesort(p, q, v);
+        mergesort(q, r, v);
+        merge(p, q, r, v);
+      }
+    }
+  \end{lstlisting}
+\end{center}
+
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%% Big-O
+11. Converta os polinômios a seguir para a notação 
+assintótica (grande $O$):
+
+\begin{enumerate}[a)]
+\item ${1/4}n^4 + 5n^3 + 500n^2 + 1000n $
+\item $3n^3 + {1\over 2}n^2 + n$
+\item $n + log_2n$
+\end{enumerate} 
+
+\question{2} Supondo que {\tt l} e {\tt x} são ponteiros para nós de
+uma lista encadeada e {\tt l} não é o último nó da lista. Explique o
+que acontece, separadamente para cada item, após a execução dos
+seguintes fragmentos de código em C?
+
+\begin{enumerate}
+\item {\tt l->next = l->next->next}
+\item {\tt t->next = t->next;}\\
+  {\tt l->next = t;}
+\end{enumerate}
+
+12. Mostre a conversão, passo a passo, da expressão a seguir
+para a notação posfixa usando pilha e vetores:
+$(((A+B)*C)+D)$
+
+13. O enésimo termo da sequência de Fibonacci 
+
+$$1,1,2,3,5,8,13,21,\ldots$$
+
+\noindent pode ser calculado usando a seguinte função recursiva:
+
+\begin{center}
+\begin{lstlisting}[language=C,basicstyle=\footnotesize]
+int fibonacci(int n) {
+   if ( n == 1 )
+      return 1;
+   else if ( n == 2 )
+      return 1;
+   else
+      return ( fibonacci(n-1) + fibonacci(n-2) );
+} 
+\end{lstlisting}
+\end{center}
+
+\noindent Desenhe as chamadas recursivas para a execução de {\tt
+  fibonacci(4);}
+
+14. Em quantos passos, número de {\it loops}, o algoritmo
+de busca binária encontra o valor buscado pela chamada {\tt
+  busca\_binaria(27, 9, v)} para o
+vetor a seguir:\\
+
+\hfil {\tt v[] = \{12, 22, 27, 33, 41, 54, 67, 88, 97\};}\\
+
+\noindent escreva os valores de {\tt e, m} e {\tt d} em cada passada.
+
+\end{document}
+
+15 Faça um algoritmo que leia 3 valores inteiros distintos e
+imprima o valor intermediário.
+
+16. Faça um algoritmo que imprima o resultado do seguinte
+somatório:
+
+$$S = {1\over 1} + {1\over 2} + {1\over 3} + \ldots + {1\over 50}$$ 
+
+17. Faça um algoritmo que leia 100 valores de altura e peso
+de funcionários de uma empresa, e imprima a média de altura e peso, o
+maior peso e a menor altura.
+

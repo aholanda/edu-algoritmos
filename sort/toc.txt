@@ -1,0 +1,13 @@
+Algoritmos de ordenação:
+- Ordenação por troca
+  {bubblesort, quicksort}
+- Ordenação por inserção
+  {insertion-sort, shellsort}
+- Ordenação por seleção
+  {seleção direta, árvore binária - heapsort}
+- Ordenação por intercalação
+  {mergesort}
+- Ordenação sem comparação
+  {counting-sort, radix-sort}
+
+

@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+\def\shift{2cm}
+
+\colorlet{visit}{red}
+\colorlet{visited}{gray}
+
+\tikzset{T/.style={circle,draw},
+sibling angle=60}
+
+\node[T] (root) {\color<2>{visit}\color<3->{visited}$55$} []
+      child {node[T] [xshift=-.5*\shift] {\color<3>{visit}\color<4->{visited}$33$}
+                  child {node[T] [xshift=-.25*\shift] {\color<4>{visit}\color<5->{visited}$22$}}
+                  child {node[T] [xshift=.25*\shift] {\color<5>{visit}\color<6->{visited}$44$}}}
+      child {node[T] [xshift=.5*\shift] {\color<6>{visit}\color<7->{visited}$77$}
+             child {node[T] [xshift=-.25*\shift] {\color<7>{visit}\color<8->{visited}$66$}}
+             child {node[T] [xshift=.25*\shift] {\color<8>{visit}\color<9 ->{visited}$88$}}
+};
+
+ \node<1> [yshift=-2*\shift] {$\langle\emptyset\rangle$};
+  \node<2>  [yshift=-2*\shift] {$\langle{\color<2>{visit}55}\rangle$};
+  \node<3>  [yshift=-2*\shift] {$\langle 55, {\color<3>{visit}33}\rangle$};
+  \node<4>  [yshift=-2*\shift] {$\langle 55, 33, {\color<4>{visit}22}\rangle$};
+  \node<5>  [yshift=-2*\shift] {$\langle 55, 22, 33, {\color<5>{visit}44}\rangle$};
+  \node<6>  [yshift=-2*\shift] {$\langle 55, 22, 33, 44, {\color<6>{visit}77}\rangle$};
+  \node<7>  [yshift=-2*\shift] {$\langle 55, 22, 33, 44, 77, {\color<7>{visit}66}\rangle$};
+  \node<8>  [yshift=-2*\shift] {$\langle 55, 22, 33, 44, 77, 66, {\color<8>{visit}88} \rangle$};
+  \node<9>  [yshift=-2*\shift] {$\langle 55, 22, 33, 44, 77, 66, 88 \rangle$};
+
+\end{tikzpicture}
+
+\end{frame}

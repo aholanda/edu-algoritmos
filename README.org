@@ -1,0 +1,28 @@
+* Algoritmos e Estruturas de Dados
+
+Os diretórios possuem a seguinte estrutura:
+
+- [[_exam/][exercícios]]: exercícios baseados nos algoritmos contidos nos /[[_slides/][slides]]/;
+- /[[_slides][slides]]/: /slides/ tendo como tema algoritmos de busca, ordenação e grafos;
+- [[_spec][especificação]]: arquivos contendo a especificação dos principais algoritmos 
+  usando a linguagem formal [[https://lamport.azurewebsites.net/tla/tla.html][TLA+]];
+- [[complexidade/][complexidade]]: programas relacionadas à demonstração da complexidade de algoritmos;
+- [[fila/][fila]]: programas para aprender a estrutura de dados *fila*;
+- [[grafo/][grafo]]:programas para aprender a estrutura de dados *grafo*;
+- [[lista/][lista]]:programas para aprender a estrutura de dados *lista*;
+- [[recursion/][recursion]]: programas para verificar o mecanismo de *recursão*;
+- [[sort/][busca]]: implementação dos algoritmos de *busca*;
+- [[sort/][ordenação]]: implementação dos algoritmos de *ordenação*.
+
+** Execução dos programas
+
+Os arquivos com extensão ~.mms~ podem ser executados usando um
+[[http://mmix.cs.hm.edu/][simulator para o código de montagem MMIX]]. Os arquivos com extensão
+~.s~ são do código de montagem do processador MIPS e podem ser
+simulados com os programas [[http://courses.missouristate.edu/KenVollmar/mars/][MARS]] ou [[http://spimsimulator.sourceforge.net/][SPIM]]. As outras extensões, 
+como ~.c~ e ~.py~, são bem conhecidas, bem como seus ambientes 
+de execução.
+
+
+
+

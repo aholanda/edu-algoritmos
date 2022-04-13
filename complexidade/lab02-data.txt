@@ -1,0 +1,71 @@
+# Tabela com valores separados por ponto e virgula para
+# cada algoritmo. A primeira coluna é o valor de N, a
+# segunda o algoritmo da soma, a terceira da soma de matrizes.
+N;soma;somat;mult
+32;2;9;219
+64;1;31;1670
+128;2;118;8828
+256;2;238;59342
+512;2;999;571568
+1024;4;3906;11721833
+
+# Saída da Análise de Regressão Linear para
+# o algoritmo da soma.
+# Quanto maior o R², mais próximo de uma reta.
+
+Regressão
+
+Modelo de regressão	Linear
+R²	0,957778293820853
+Erro padrão	0,421524629771392
+
+Inclinação	0,002365405117271
+Interceptação	1,24378109452736
+
+N	#VALOR!
+64	1,39516702203269
+128	1,54655294953802
+256	1,84932480454869
+512	2,45486851457001
+1024	3,66595593461265
+2048	6,08813077469794
+
+# Saída da Regressão Geométrica para
+# o algoritmo da soma de matrizes.
+# A Inclinação indica o expoente da Regressão.
+
+Regressão
+
+Modelo de regressão	Potência
+R²	0,991839345731687
+Erro padrão	0,234973377395928
+
+Inclinação	1,78674405714832
+Interceptação	0,016595714819335
+
+64	28,0012421925179
+128	96,6141758908275
+256	333,353031943631
+512	1150,18570392382
+1024	3968,54693595361
+2048	13692,8886606209
+
+# Saída da Regressão Geométrica para
+# o algoritmo da MULTIPLICAÇÃO de matrizes.
+# A Inclinação indica o expoente da Regressão.
+
+Regressão
+
+Modelo de regressão	Potência
+R²	0,991016963683954
+Erro padrão	0,449188513480904
+
+Inclinação	3,25419159414944
+Interceptação	0,001368406845461
+
+64	1032,45451291352
+128	9850,99749002491
+256	93991,6968105752
+512	896806,549618636
+1024	8556734,4215494
+2048	81642695,3974231

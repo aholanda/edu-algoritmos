@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+\usepackage{fontspec}
+
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,automata,shapes}
+
+\begin{document}
+
+\title{Caminhos em grafos}
+\author{Adriano J. Holanda}
+\date{\today}
+
+\paragraph{Exercício 1.}
+Suponha que o algoritmo de Dijkstra seja executado sobre o seguinte
+grafo, começando pelo vértice {\tt a} e terminando pelo vértice {\tt
+  h}. (Adaptado de~\cite{dasgupta2009}, pág. 120) \bigskip
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=blue!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[scale=1.8, auto,swap]
+  \centering
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(-3,0)/a},{(-1,0)/b},{(1,0)/c},{(3,0)/d},
+                            {(-3,-2)/e}, {(-1,-2)/f}, {(1,-2)/g}, {(3,-2)/h}}
+        \node[vertex] (\name) at \pos {$\name$};
+    % Connect vertices with edges and draw weights
+        \foreach \source/ \dest /\weight in {
+          a/b/1, a/e/4,a/f/8,
+          b/c/2,b/f/6,b/g/6,
+          c/d/1,c/g/2,
+          d/g/1,d/h/4,
+          e/f/5,
+          g/f/1,g/h/1}
+        \path[edge] (\source) -- node[weight] {$\weight$} (\dest);
+    % Start animating the vertex and edge selection.
+    \foreach \vertex / \fr in {d/1,a/2,f/3,b/4,e/5,c/6,g/7}
+    \path node[selected vertex] at (\vertex) {$\vertex$};
+  \label{fig:dijk0}
+\end{tikzpicture}
+
+\begin{enumerate}
+\item Desenhe uma tabela mostrando os valores intermediários de
+  distância para rodos os vértices em cada iteração do algoritmo. Faça
+  a tabela usando a implementação do algoritmo com matriz de
+  adjacências e lista de adjacências.
+\item Mostra a árvore final de caminho mínimo.
+\end{enumerate}
+
+\paragraph{Exercício 2.} Utilizando o grafo a seguir:~\cite{boaventura2009}
+
+\begin{enumerate}[a)]
+\item Aplique o algoritmo de Dijkstra para achar a menor distância do vértice
+  {\tt a} aos outros vértices.
+\item Construa a arborescência de distância a partir de {\tt a}.
+\end{enumerate}\bigskip
+
+\begin{tikzpicture}[scale=1.8, auto,swap]
+  \centering
+    % Draw a 7,11 network
+    % First we draw the vertices
+  \foreach \pos/\name in {{(-3,0)/a},{(-1,1)/b},{(-1,0)/c},{(-1,-1)/d},
+  {(1,1)/e},{(1,0)/f},{(1,-1)/g},{(1.5,-2)/h},{(2.5,0)/i},{(3.5,0)/j}}
+        \node[vertex] (\name) at \pos {$\name$};
+    % Connect vertices with edges and draw weights
+        \foreach \source/ \dest /\weight in {
+          a/b/4,a/c/1,a/d/3,
+          b/c/1,b/e/3,
+          c/d/1,c/e/7,c/f/6,
+          d/f/2,d/g/3,d/h/2,
+          e/f/1,e/i/2,
+          f/i/4,
+          g/f/1,g/h/1,g/i/4,
+          h/j/2,
+          i/j/1}
+        \path[edge] (\source) -- node[weight] {$\weight$} (\dest);
+    % Start animating the vertex and edge selection.
+    \foreach \vertex / \fr in {d/1,a/2,f/3,b/4,e/5,c/6,g/7}
+    \path node[selected vertex] at (\vertex) {$\vertex$};
+  \label{fig:dijk0}
+\end{tikzpicture}
+
+\paragraph{Exercício 3.}
+
+\begin{center}
+  \begin{tabular}[hf]{ccccccccc}
+     & 1 & 2  & 3  & 4  & 5  & 6  & 7  & 8  \\
+    1 & 0 & 18 & 45 & 27 & 81 & 54 & 36 & 90 \\
+    2 & 42 & 0 & 21 & 49 & 35 & 28 & 14 & 56 \\
+     3 & 15 & 35 & 0 & 50 & 20 & 25 & 55 & 30 \\
+    4 & 32 & 64 & 40 & 0 & 16 & 56 & 24 & 48 \\
+     5 & 30 & 42 & 54 & 18 & 0 & 24 & 48 & 36 \\
+     6 & 24 & 44 & 36 & 48 & 32 & 0 & 56 & 28 \\
+     7 & 21 & 36 & 48 & 27 & 42 & 57 & 0 & 24 \\
+     8 & 98 & 48 & 88 & 72 & 40 & 80 & 64 & 0 \\
+  \end{tabular}
+\end{center}
+
+\begin{thebibliography}{9}
+\bibitem{dasgupta2009}
+    {Sanjoy Dasgupta, Christos Papadimitriou, Umesh Vazirani}.
+    \emph{Algoritmos}.
+    McGraw-Hill,
+    2009.
+
+\bibitem{boaventura2009}
+  {Paulo Oswaldo Boaventura Netto, Samuel Jurkiewicz}.
+  \emph{Grafos: Introdução e Prática}.
+  Editora Blucher, 1ª edição, 2009.
+
+\end{thebibliography}
+
+\end{document}

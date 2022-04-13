@@ -1,0 +1,71 @@
+% Árvores e Àrvores Binárias
+% Adriano J. Holanda
+%
+
+Árvores
+=======
+
+- Representação hieráquica;
+- Generalização de listas lineares.
+
+Definições
+=========
+
+Uma \alert{árvore enraizada $T$}, ou simplesmente \alert{árvore}, 
+é um conjunto finito de elementos denominados \alert{nós} ou
+\alert{vértices} tais que:
+
+- $T=\emptyset$, e a árvore é dita vazia, ou
+ existe um nó especial, $r$, chamando \alert{raiz} de $T$; os
+restantes constituem um único conjunto vazio ou são divididos em
+$m\geq 1$ conjuntos distintos não vazios, as \alert{subárvores} de
+$r$, ou simplesmente \alert{subárvores}, cada qual por sua vez uma
+árvore.
+- Uma \alert{floresta} é um conjunto de árvores~\cite{szwarcfiter}.
+
+
+Definições
+============
+
+- \alert{Nós internos} possuem filhos;
+- \alert{Nós externos} ou \alert{folhas} não possuem.
+
+
+\begin{tikzpicture}
+\def\shift{2cm}
+\tikzset{
+        every node/.style={font=\scriptsize},
+        every path/.style={draw},
+        T/.style={circle,draw},
+        sibling angle=60,
+        L/.style={dashed} % level
+}
+
+\node[T,white,fill=black] at (0,0) (root) {raiz} []
+      child {node[T,fill=brown] [xshift=-.25*\shift] {nó int.}
+                      child {node[T,fill=green] [xshift=-.1*\shift] {folha}}}
+      child {node[T,fill=green] (intnode2) [xshift=.25*\shift] {folha}
+};
+
+\node [right of=intnode2,xshift=\shift] {int. = interno};
+
+\end{tikzpicture}
+
+
+Representações
+=============
+
+\begin{columns}
+\begin{column}{.5\textwidth}
+hierárquica\\
+\bigskip
+\input{img/T}
+\end{column}
+\begin{column}{.5\textwidth}
+parênteses aninhados\\
+
+\begin{center}
+(A(B)(C(D(G)(H))(E)(F(I)))
+\end{center}
+\end{column}
+\end{columns}

@@ -1,0 +1,164 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{listings}
+
+\def\algorithm#1{{\noindent\bf Algorithm #1.~}}
+% some listings definitions for MMIX language
+\def\lstmmix{
+  \lstset{
+    frame=single,
+    numbers=left, 
+    numberstyle=\tiny,
+    numbersep=5pt,
+    tabsize=4,
+    sensitive=true,
+    columns=fixed,
+    morekeywords={ADD,ADDU,BN,BNN,BNP,BNZ,BYTE,BZ,CMP,GETA,GREG,
+      IS,JMP,LDO,LDOU,LOC,
+      NEG,OCTA,PBN,PBNZ,PBZ,POP,SET,SL,STO,STOU,TRAP},%added
+                                %on demand
+    morecomment=[l]{*},
+    columns=flexible,
+    commentstyle=\scriptsize,
+    escapechar={\%,\#}}}
+% some listings definitions for MIPS language
+\def\lstmips{
+  \lstset{numbers=left, 
+    numberstyle=\tiny,
+    numbersep=5pt,
+    tabsize=5,
+    morekeywords={add,addi,beq,bne,jal,jr,la,lb,li,lw,move,sll,slt,sw,syscall},
+    columns=flexible,
+    morecomment=[l]{\#},
+    commentstyle=\scriptsize
+  }}
+
+\begin{document}
+
+\section*{\hfil Preface}
+
+\bigskip
+
+Some algorithms of sorting and seaching are studied. Most of them are
+based on that showed in Don Knuth's ``The Art of Computer
+Programming'' volume 3. The algorithms are implemented in MMIX
+assembly language as a straight translation of MIX version.
+
+Some algorithms are implemented in MIPS assembly language to study how
+differents characteristics of different processors can affect the
+algorithm. In the MIPS implementations the algorithms are implemented
+as subroutines to facilitates the tests calling them on other pieces
+of code. Another difference when compared to MMIX implementation is
+that the array index starts at zero, fitting better with the
+instructions provided by the language.
+
+Some algorithms are specified using TLA+ language to study the formal
+relations between the elements of them.
+
+\section{Searching}
+
+\subsection{Sequential searching}
+
+The sequential search is the most straightfoward method of search, and
+for this reason its complexity time when compared to other search
+algorithms is expensive.
+
+The MMIX implementation follows almost exactly the steps stated by
+Prof. Donald Knuth in the ``Art of Computer Programming'' volume 3,
+page 396. The only modification and this modification will be carried
+throughout this manuscript is that algorithm is implemented as a
+function. 
+
+In the S algorithm {\tt \$0} is the return value, and is the index of
+the array to search for key, if the key is found, otherwise is
+-1. Unsing the index the information can be retrieved from {\tt
+  INFO[i]}. The rest of the registers are {\tt K[i]} $\leftarrow$ {\tt
+\$1}, {\tt N} $\leftarrow$ {\tt \$2}, and the temporary registers {\tt
+K[i]} $\leftarrow$ {\tt \$254} and {\tt t} $\leftarrow$ {\tt \$255}.
+
+
+\algorithm{S}
+
+\lstmmix
+\lstset{
+  caption={MMIX implementation of algorithm S.},
+  label={mmix:s}
+}
+\lstinputlisting{search/sequencial.mms} % Program S
+
+The analysis depends on two things,
+\begin{center}
+  C = the number of comparisons;\\
+  S = 1 if successful, 0 if unsuccessful.
+\end{center}
+
+The way program S was implement, it takes $6C-S+3$ units of time. When
+the search is successful, $C=i$, $S=1$ and runing time is $(6i+2)u$,
+when the search fails, $C=N$, $S=0$ and running time is $(6N+3)u$.
+
+
+In the MIPS implementation of algorithm S (Listing~\ref{mips:s}), the
+argument register {\tt \$a0} contains the base address of $K_i$, and
+{\tt \$a1} the number $N$ of array elements and {\tt \$a2} contains
+the value of $K$. The function {\tt S(K[i], N, K)} returns {\tt -1} if
+the key is not found and the index {\tt i} of the key to the caller
+get {\tt INFO[i]}, the corresponding to the information associated
+with the key.
+
+\lstmips
+\lstset{
+  caption={MIPS implementation of algorithm S.},
+  label={mips:s}
+}
+\lstinputlisting{search/sequencial.s} % Program S
+
+\algorithm{Q}
+The idea of algorithm $Q$ is similar to $S$, the only and important
+difference is that a key is added at $N+1$ containing the value of $K$
+associated. This trick frees the need to verify if the array has
+reached the end inside the loop. This condition is verified after
+using the fake new element at the end of array.
+
+\lstmmix
+\lstset{
+  caption={MMIX implementation of algorithm Q.},
+  label={mmix:q}
+}
+\lstinputlisting{search/quicksequential.mms} % Program Q
+
+The running time of program $Q$ has decreased to $(5C+6)u$. When the
+search is unsuccesfull the program $Q$ becomes faster than $S$ when
+$N>3$.
+
+\lstmips
+\lstset{
+  caption={MIPS implementation of algorithm Q.},
+  label={mips:q}
+}
+\lstinputlisting{search/quicksequential.s} % Program Q
+
+
+\def\curralgor{T}
+\algorithm{\curralgor}
+\lstmmix
+\lstset{
+  caption={MMIX implementation of algorithm \curralgor.},
+  label={mmix:\curralgor}
+}
+\lstinputlisting{search/tree.mms} % Program T
+
+The running time for searching phase (up to line 31) is
+$(6C+C1-2S+2)$, where
+C = number of comparisons made;\\
+C1 = numer of times $K\leq KEY(P)$;\\
+C2 = number of times $K>KEY(P)$;\\
+S = [search is successful].
+
+\def\lang{mips}
+\lstmmix
+\lstset{
+  caption={\uppercase{\lang}\ implementation of algorithm \curralgor.},
+  label={\lang :\curralgor}
+}
+\lstinputlisting{search/tree.s} % Program T
+
+\end{document}

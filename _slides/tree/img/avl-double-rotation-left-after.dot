@@ -1,0 +1,13 @@
+digraph srr {
+{node [ shape = record ] p y z};
+{node [ shape = triangle ] T1 T2 T3 T4};
+p [ label ="<f0> | <f1> p | <f2> ", style=filled ];
+y [ label ="<f0> | <f1> y | <f2> "];
+z [ label ="<f0> | <f1> z | <f2> "];
+"p":f0 -> T1;
+"p":f2 -> T2;
+"z":f0 -> T3;
+"z":f2 -> T4;
+"y":f0 -> "p":f1;
+"y":f2 -> "z":f1;
+}

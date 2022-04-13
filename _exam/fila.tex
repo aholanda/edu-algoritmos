@@ -1,0 +1,64 @@
+\lstset{basicstyle=\scriptsize,frame=single}
+
+\exercise Utilize o código {\tt fila\_vetor.c}
+(Listagem~\ref{lst:FilaVetorC}) e faça uma tabela contendo o valor
+das variáveis {\tt p->ini}, {\tt p->n} e dos elementos do vetor{\tt
+  p->v[TAM\_VETOR]} em cada passo da execução do código a seguir:
+
+\begin{center}
+  \begin{lstlisting}
+    int main() {
+      Fila *p = fila_cria();
+      fila_insere(p, 5);
+      fila_insere(p, 11);
+      fila_insere(p, 8);
+      fila_retira(p);
+      fila_insere(p, 9);
+      fila_insere(p, 4);
+      fila_retira(p);
+      fila_insere(p, 101);
+      fila_retira(p);
+      fila_retira(p);
+      fila_insere(p, 22);
+      fila_retira(p);
+      fila_retira(p);
+      fila_libera(p);
+    }
+  \end{lstlisting}
+\end{center}
+
+\exercise Execute a função {\tt main()} do exercício anterior usando o
+código {\tt fila\_lista.c} (Listagem~\ref{lst:FilaListaC}) e faça um
+desenho dos ponteiros {\tt p->ini} e {\tt p->fim}, bem como das listas
+contendo as chaves após cada execução de cada instrução de {\tt main()}.
+
+\exercise~Qual a ordem de complexidade (desempenho) em {\tt
+  fila\_vetor.c} e {\tt fila\_lista.c} das funções:
+
+\begin{enumerate}[a)]
+\item {\tt fila\_cria()}
+\item {\tt fila\_insere()}
+\item {\tt fila\_retira()}
+\item {\tt fila\_libera()}
+\end{enumerate}
+
+\exercise Faça um programa que simule um fila de atendimento com
+senhas de 1 a 100. O programa deve exibir um menu ao controlador com
+as seguinte opções:
+
+\begin{enumerate}
+\item Atribuir senha ao cliente que chega;
+\item Atender o próximo da fila;
+\item Sair do programa.
+\end{enumerate}
+
+\noindent Na opção 1, deverá ser atribuída uma senha de 1 a 100,
+respeitando uma sequência de contagem, ao cliente e colocado na
+fila. Na opção~2, o próximo senha a ser atendida deverá ser retirada
+da fila.
+
+\pagebreak\section*{Anexo}
+
+\lstinputlisting[caption={Listagem do arquivo de cabeçalho para o tipo de dados fila.},label={lst:FilaH}]{fila.h}
+\lstinputlisting[caption={Listagem do código que implementa o tipo de dados fila usando vetor.},label={lst:FilaVetorC}]{fila_vetor.c}
+\lstinputlisting[caption={Listagem do código que implementa o tipo de dados fila usando lista encadeada},label={lst:FilaListaC}]{fila_lista.c}

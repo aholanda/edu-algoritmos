@@ -1,0 +1,6 @@
+digraph srr {
+{node [ shape = record ] A1 B3};
+A1 [ label ="<f0> /\\ | <f1> /\\ | <f2> A | <f3>  | <f4> /\\", style=filled ];
+B3 [ label ="<f0>  /\\ | <f1>  | <f2> B | <f3>  | <f4> ", style=filled ];
+"A1":f3 -> B3;
+}
